@@ -11,5 +11,6 @@ private:
     friend class GameManager;
 public:
     void ErrorLog(const std::wstring& s) const;
+
 };
 
