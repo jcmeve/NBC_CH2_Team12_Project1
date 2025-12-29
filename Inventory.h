@@ -12,5 +12,10 @@ public:
 	void removeItem(Item* item);
 
 	void addItem(Item* item);
+
+	Item* randomItem();
+
+	
+
 };
 
