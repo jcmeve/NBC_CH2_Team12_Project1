@@ -2,66 +2,56 @@
 #include "GameManager.h"
 #include<iostream>
 #include<Windows.h>
-std::string aaaa = R"(                                                                                                                        
-                                        ▒                                                                               
-                               ▒▒▒░    ░░░                              ░░                              ░  ░   ░        
-                             ▓▓▒▒       ░░ ░            ░       ░▒░░░             ░                █░                   
-                        ▓▒▒▒▒             ▒ ░   ░░                                ░            ░                        
-                     ▒▒▒▒▒               ░░  ▒ ▒                    ░  ░  ░▒       ░         ░                          
-                  ▓▓▒▒▒                    ░   ░            ░░░  ░░ ░         ░█          ░░              ░             
-              ▓▒▒▒▒▒                      ▒░      ░   ░░░░░░░▒▒░░░░ ░░                ▒       ░░░  ░░░                  
-            ▒▒▒█                            ░░░░ ░░░░░░▒▒▒▒░▒▒░░  ░░░▒     ░░            ░░                             
-           ▒▒                             ░░░░ ░░░░▒▒░▒▒░░░      ░░░░░              ░░░                                 
-          ▓▒                               ░░█    ░     ░░  ░                  ▒                                        
-          ▓▒              ░                ░▓       ░              ▒░    ▒                                              
-          ▓▒             ░░░░   ░▒ ░        ▓▓▒▓░             ░░▒░        ░                                             
-           ░░▒           ░░░░░   ░░                  ░░░░▒▒░     ░░        ░                                            
-             ░   ░░░░        ░░  ░             ░░░                ▒         ░                                           
-           ░░░░░▒░░░            ░            ░ ░░░░░ ░░            ░         ▒                                          
-                  ▒░   ░▓▓▒▒▓▓▒░ ░░         ░ ▒       ░           █▒░         ░                                         
-                      ▒▒▓▓░░░   ░             ▒░  ░░  ░         ▒░░░░░     ░░░▒                                         
-                      ▒░▒░     ░             ▒░░  ░░░░░      █▒▒░░░░░░░░░░░░░░░                                         
-                       ░░░                   ▒░░  ░░  ░  ▒░░▒▒░░░░░░░░░░░   ░░░                                         
-                       ░░░      ░░▒▒▒           ░     ░░░░░░░░░░░░░░░░░░░▒                                              
-                       ░         ░░░▒▒▓▓▓ ▓▓▒▒░░░░   ░░░░░░░░░░░░░░░░░░                                                 
-                       ░░░░░░░░    ░░▒▓▓▒▒▒▒▒▒░░▒▒░░░░░░░▒░░░░░░░░  ░                                                   
-                       ▒░░░░░░     ░░░▒▒▒▒▒▒░░░░░░░░░░░░░░▒▓▒▒░░░  ░                                                    
-                        ▒░░░      ░░░░░▒▒▒▒▒▒░░░░░░░░░░▒░░░▒▓▒░░░ ░                                                     
-                          ░░░░░░░▒░░░░░░▒▓▒░░░░ ░░▒▒▒░░▒▓▒▒░░░░  ░                                                      
-                                       ▒▒▓▒▒░░░  ░░░▒▓▒▒▒▒▒░ ░░░ ▒                                                      
-                                         ▓▓▒░░░  ░░░░▒▓▒▒░░░  ░░░                                                       
-                                           ▒▒░░░  ░░░░░▒▒░    ░░░                                                       
-                                            ▒░░░    ░░░░░░░░  ░░░░                                                      
-                                            ▒▒░░░    ░░░░░░░  ░░░░░                                                     
-                                            ▒░░░   ░░░░░░░░░░  ░░░░░                                                    
-                                            ▒░░░░  ░░░░░░░░░    ░░ ░                                                    
-                                            ▒░░░░  ░░░░░░░░ ░                                                           
-                                             ░░░░░░                 ░                                                   
-                                             ░░  ░░                  ░                                                  
-                                             ▒░░░░   ░░░░░░░       ░  ░                                                 
-                                            ▓▒░░░░░░░░░░░░░░░░   ░░░░  ░                                                
-                                            ▒░░░░░░░░░░░░░░░░░░░░░░░░░                                                  
-                                           ▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░   ░                                             
-                                         ▓▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░   ░                                            
-                                        ▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   ░                                           
-                                       ▒▒░░░░░░░░░░░░░░░░░░░  ░░░░░░░░░░░                                               
-                                       ▒░░░░░░░░░░░░    ░░░░░░░░░░░░░░░░░                                               
-                                     ░▒▒░░░░░░░░░░░░█          ▒▒░░░░░░░░                                               
-                                     ▒▒▒░░░░░   ░░░              █▒▒░░░░      ░                                         
-                                       ░░░░░   ░                    ▒░         ░                                        
-                                       ░░░░  ░░                    ▒░░        ░                                         
-                                       ▒░░                         ▒░░        ░                                         
-                                     ░░                             █░░       ░                                         
-                                   ░░     ░                            ░      ▒                                         
-                                  ▒░    ░                              ▒░     ░                                         
-                                   █▒░▒█                                ░░   ░                                          
-                                                                         ░░  ░                                          
-                                                                         ▒░ ░▒░░                                        
-                                                                        ░░    ░░ ░█                                     
-                                                                          ▒▒░  ░░   ░░                                  
-                                                                             ░░░  ░▒░ ░                                 
-                                                                                █▒░▒░░░                                 
-                                                                                                                        
+std::wstring aaaa = LR"(                                                                                                    
+                            +====*+                            :...-                     :...       
+                        @**+-:.:::.::           ::....   -..        :               :..  .:..       
+                     *****=       :..:   ::....             .        =          -.                  
+                  *++*+           =:..:=.    ... ... .........:...   .       -..           -        
+              =**++=                ...-...  ....:::::::--.  ....:         -.   . ......:           
+          *+++++                  =.. ...:::.-----===---::       .. ....... ..:=:.:-                
+         *++*                      :--:-::-=:=+++=--:..----. ..     .....::                         
+        +**                        -::::-::-........  .      ....::::=                              
+        **           .:..........   -*+    .         ..:-....-                                      
+        **+          -:-...::...   ..+*-.    ......:::::......-                                     
+        @-:::--     =-::-:.:.   .....   ...:::::--    -........-                                    
+         --:::::..   .  .:.::..........:-----          -........-                                   
+          --===-:.:-*+-==--.:.........=:.::. :          -........-                                  
+                  +=%#-::..: .:.....: +-..::.:       +-:::.....::-                                  
+                  =-+:....-          @=:.:-::-     +=--::::::::::-                                  
+                   :-:... .  @        =-..:..:=---==--::::::::.::=                                  
+                   :::... .:-=+*#*@@**=--:. .::::::---::::::                                        
+                   -::::::..::-***++==---=-:---==::---:::::                                         
+                   +=--:::.::::=+*+===-:-==--=--+*+=-::.::                                          
+                    +-:::..::::-=*+===-:-===-=+=-=*+-:::                                            
+                     ---::----::-+*+==-::==+=-+**-::::::                                            
+                                 +#*==-:.-==**+=+=:::::                                             
+                                   #+=-:.:---++=:..::::                                             
+                                    *=--:..:::::::.::--+                                            
+                                     +--:...:----::.:-:-:                                           
+                                     =::..:------::.:::::                                           
+                                     =--:.:----:::........                                          
+                                     =-:::::::::..........                                          
+                                     =:..::..............:.                                         
+                                     *=::::::::::::.....:.:.                                        
+                                     +=:::::---:::::::::::..-                                       
+                                    +=-::::::::::::::::::::..:                                      
+                                  **+--:::::::::::::::::::::..:                                     
+                                 *+=-::::::::::::::::::::::::...                                    
+                                *=-:::::::::::::::::::::::::::..:                                   
+                                +=-:::::::::..::----=-::::::::..:                                   
+                               ++=-::::::::          +++-::::::..:                                  
+                               *+-::::.::              @+-:::::...-                                 
+                                -::::.:                 =-:.......                                  
+                                --:...                  =-:......:                                  
+                              -:......                   -::.....-                                  
+                            =::....:                       -:....=                                  
+                            ==-:::.                        -:....=                                  
+                                                             -:.:                                   
+                                                             -.:=--                                 
+                                                            =:...--::::                             
+                                                               -::..:-::-                           
+                                                                 --::----                           
+                                                                                                    
 )";
 
 
@@ -91,8 +81,14 @@ DisplayManager::DisplayManager(size_t _width, size_t _height):width(_width),heig
         height = clamp(height, 50, 100);
     }
 
+    borderline = height - textAreaHeight;
 
     //fullscreen
+    keybd_event(VK_MENU, 0x38, 0, 0);
+    keybd_event(VK_RETURN, 0x1c, 0, 0);
+    keybd_event(VK_RETURN, 0x1c, KEYEVENTF_KEYUP, 0);
+    keybd_event(VK_MENU, 0x38, KEYEVENTF_KEYUP, 0);
+
 
     //hide cursor
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -109,16 +105,88 @@ DisplayManager::DisplayManager(size_t _width, size_t _height):width(_width),heig
 
 void DisplayManager::DrawSectors() {
     for (int x = 0; x < width; ++x) {
-        drawBuffer[currBufferIdx][(width+1) * (height - textAreaHeight) + x] = L'-';
+        drawBuffer[currBufferIdx][(width+1) * (borderline) + x] = L'-';
     }
-    Render();
+
+    
+}
+
+void DisplayManager::DrawTester() {
+
+    DrawSectors();
+    size_t x_target = 50;
+    size_t y_target = 5;
+    if (x_target > width || y_target > borderline)
+        WriteString(L"Draw Actor Fail!");
+    size_t curr_pos = 0;
+    size_t current_y_offset = 0;
+    while (curr_pos < aaaa.size()) {
+        //calculate current line length
+        size_t next_newline = aaaa.find(L'\n', curr_pos);
+
+        size_t line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
+        size_t line_length = line_end - curr_pos;
+
+        //if edge of the display stop draw
+        if (y_target + current_y_offset >= height) break;
+        if (x_target + line_length > width) {
+            line_length = width - x_target;
+        }
+
+        if (line_length > 0) {
+            std::copy(aaaa.begin() + curr_pos,
+                aaaa.begin() + curr_pos + line_length,
+                drawBuffer[currBufferIdx].begin() + (y_target + current_y_offset) * (width + 1) + x_target);
+        }
+
+        if (next_newline == std::wstring::npos) break;
+        curr_pos = next_newline + 1;
+        current_y_offset++;
+    }
+    
+
 }
 
 void DisplayManager::DrawLobby() {
 }
 
-void DisplayManager::DrawBattle(const Character& player, const Monster& monster) {
+void DisplayManager::DrawBattle(const Actor& player, const Actor& monster) {
+
+
+    Render();
+
 }
+void DisplayManager::DrawActor(const Actor& actor, size_t x_target, size_t y_target) {
+    if (x_target > width || y_target > borderline)
+        WriteString(L"Draw Actor Fail!");
+    size_t curr_pos = 0;
+    size_t current_y_offset = 0;
+    while (curr_pos < aaaa.size()) {
+        //calculate current line length
+        size_t next_newline = aaaa.find(L'\n', curr_pos);
+
+        size_t line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
+        size_t line_length = line_end - curr_pos;
+
+        //if edge of the display stop draw
+        if (y_target + current_y_offset >= height) break;
+        if (x_target + line_length > width) {
+            line_length =  width - x_target;
+        }
+
+        if (line_length > 0) {
+            std::copy(aaaa.begin() + curr_pos,
+                aaaa.begin() + curr_pos + line_length,
+                drawBuffer[currBufferIdx].begin() + (y_target + current_y_offset) * (width + 1) + x_target);
+        }
+
+        if (next_newline == std::wstring::npos) break;
+        curr_pos = next_newline + 1; 
+        current_y_offset++;
+    }
+
+}
+
 
 void DisplayManager::DrawShop(const Character& player, const Shop& shop) {
 }
@@ -137,7 +205,7 @@ void DisplayManager::WriteString(std::wstring s) {
         exit(-1);
     }
     for (int i = 0; i < s.size(); ++i) {
-        drawBuffer[currBufferIdx][(height-textAreaHeight+2) * (width)+1 + i] = s[i];
+        drawBuffer[currBufferIdx][(borderline + 2) * (width)+1 + i] = s[i];
     }
     Render();
 }

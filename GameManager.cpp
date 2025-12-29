@@ -2,7 +2,7 @@
 #include "Logger.h"
 #include "DisplayManager.h"
 
-GameManager::GameManager():display(200, 80),logger(){
+GameManager::GameManager():display(200, 70),logger(){
     system("cls");
 }
 Logger& GameManager::GetLogger() {

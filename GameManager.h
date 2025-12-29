@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Logger.h";
 #include "DisplayManager.h";
-typedef GameManager GM;
+
 class GameManager {
     DisplayManager display;
     Logger logger;
@@ -17,5 +17,5 @@ public:
     static DisplayManager& GetDisplay();
     static GameManager& GetInstance();
     
-};
+}typedef GM;
 
