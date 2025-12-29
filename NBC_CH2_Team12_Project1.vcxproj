@@ -123,11 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AchievementManager.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="BattleManager.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="GameLoop.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Logger.h" />
@@ -137,11 +139,13 @@
     <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AchievementManager.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BattleManager.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="GameLoop.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Logger.cpp" />
