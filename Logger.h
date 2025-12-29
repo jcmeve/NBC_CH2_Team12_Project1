@@ -1,4 +1,6 @@
 ﻿#pragma once
-class Logger {
+class Logger 
+{
+
 };
 
