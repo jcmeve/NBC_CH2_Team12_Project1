@@ -1,5 +1,12 @@
 ﻿#pragma once
 #include "Actor.h"
-class Monster : public Actor {
-};
+#include <string>
 
+class Monster : public Actor
+{
+public:
+	Monster(int playerLevel);
+	virtual ~Monster();
+
+	void takeDamage(int damage) override;
+};
