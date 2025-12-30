@@ -4,6 +4,7 @@
 #include "GameManager.h"
 #include "Character.h"
 #include "Monster.h"
+#include "TextRPG.h"
 #include <chrono>
 
 using namespace std;
@@ -22,7 +23,7 @@ int main() {
     */
 
     GameManager& gm = GM::GetInstance();
-    //gm.CreateActor()
+    gm.CreateActor<TextRPG>();
     auto prev = std::chrono::high_resolution_clock::now();
     while (!gm.IsEnd()) {
         auto curr = std::chrono::high_resolution_clock::now();
@@ -31,8 +32,8 @@ int main() {
         float deltaTIme = elapsed.count();
         gm.Tick(deltaTIme);
 
-        gm.GetDisplay().Render();
-        Sleep(33);
+        gm.GetDisplay().Render(deltaTIme);
+        Sleep(16);
     }
     return 0;
 }
