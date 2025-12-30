@@ -1,7 +1,7 @@
 ﻿#include "Actor.h"
 //HP system, attack, stats
 
-Actor::Actor(std::string name, int health, int attack) : name(name), health(health), attack(attack), isDead(false)
+Actor::Actor(std::string name, int health, int dmg) : name(name), health(health), dmg(dmg), isDead(false)
 {
 }
 
@@ -21,7 +21,12 @@ int Actor::getHealth() const
 
 int Actor::getAttack() const
 {
-	return attack;
+	return dmg;
+}
+
+void Actor::Attack(Actor& target)
+{
+
 }
 
 bool Actor::IsDead() const

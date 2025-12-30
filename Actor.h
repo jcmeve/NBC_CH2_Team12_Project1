@@ -9,7 +9,7 @@ protected:
 	int dmg;
 	std::wstring ascii;
 	bool isDead;
-	
+
 public:
 	//이름, 초기 체력, 공격력
 	Actor(std::string name, int health, int dmg);
@@ -17,9 +17,9 @@ public:
 
 	const std::string& getName() const;
 	int getHealth() const;
-	int gettAttack() const;
+	int getAttack() const;
 	void Attack(Actor& target);
-	bool isDead() const;
+	bool IsDead() const;
 
 	virtual void takeDamage(int damage);
 };
