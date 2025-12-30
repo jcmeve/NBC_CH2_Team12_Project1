@@ -42,3 +42,13 @@ Inventory* Character::getInventory() const
 {
 	return inventory.get();
 }
+
+void Character::heal(int amount)
+{
+	health += amount;
+}
+
+void Character::IncreasePotion(int amount)
+{
+	dmg += amount;
+}

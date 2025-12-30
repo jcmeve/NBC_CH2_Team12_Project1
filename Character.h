@@ -25,4 +25,6 @@ public:
 
 	Inventory* getInventory() const;
 
+	void heal(int amount);
+	void IncreasePotion(int amount);
 };
