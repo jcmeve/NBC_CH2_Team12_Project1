@@ -48,7 +48,7 @@ void Character::heal(int amount)
 	health += amount;
 }
 
-void Character::IncreasePotion(int amount)
+void Character::IncreaseDamagePotion(int amount)
 {
 	dmg += amount;
 }
