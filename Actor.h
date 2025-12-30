@@ -7,15 +7,17 @@ protected:
 	std::string name;
 	int health;
 	int attack;
+	bool isDead;
 
 public:
+	//이름, 초기 체력, 공격력
 	Actor(std::string name, int health, int attack);
 	virtual ~Actor();
 
-	std::string getName() const;
+	const std::string& getName() const;
 	int getHealth() const;
-	int gettAttack() const;
+	int getAttack() const;
+	bool IsDead() const;
 
 	virtual void takeDamage(int damage);
 };
-

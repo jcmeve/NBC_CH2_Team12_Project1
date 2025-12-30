@@ -1,33 +1,28 @@
 ﻿#pragma once
 #include "Actor.h"
-
 #include <string>
-#include <vector>
-class Item;
+#include <memory>
+
+class Inventory;
 
 class Character : public Actor
 {
 private:
-	static Character* instance;
-
 	int level;
 	int maxHealth;
 	int experience;
 	int gold;
-	std::vector<Item*> inventory;
-
-	Character(std::string name);
+	std::unique_ptr<Inventory> inventory;
 
 public:
-	Character(const Character&) = delete;
-	Character& operator=(const Character&) = delete;
-
-	static Character* getInstance(std::string name = "");
+	Character(std::string name);
+	~Character();
 
 	void takeDamage(int damage) override;
 	void displayStatus();
 	void levelUp();
 	void useItem(int index);
 
-};
+	Inventory* getInventory() const;
 
+};

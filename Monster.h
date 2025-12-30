@@ -5,7 +5,8 @@
 class Monster : public Actor
 {
 public:
-	Monster(int playerLevel);
+	//몬스터 스탯 계산
+	Monster(std::string name, int playerLevel);
 	virtual ~Monster();
 
 	void takeDamage(int damage) override;
