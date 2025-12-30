@@ -1,20 +1,12 @@
 ﻿#pragma once
 class Character;
 class Monster;
-class Actor;
-class BattleManager {
+#include"Actor.h"
+class BattleManager : public Actor{
     //spawn monster, drop item when player win
     bool Enter(Character& player);
-    bool Loop(Actor& player, Actor& monster);
-        
-
-private:
+    // Actor을(를) 통해 상속됨
+    void Tick(float deltaTime) override;
     BattleManager();
-    BattleManager& operator=(const BattleManager& other) = delete;
-    BattleManager(const BattleManager& other) = delete;
-    BattleManager& operator=(const BattleManager&& other) = delete;
-    BattleManager(const BattleManager&& other) = delete;
-    friend class GameManager;
-
 };
 

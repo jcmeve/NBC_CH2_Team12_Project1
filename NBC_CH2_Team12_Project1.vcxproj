@@ -135,9 +135,11 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="Pawn.h" />
     <ClInclude Include="SaveManager.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="TextRPG.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AchievementManager.cpp" />
@@ -152,9 +154,11 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="TextRPG.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

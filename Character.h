@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "Actor.h"
+#include "Pawn.h"
 #include <string>
 #include <memory>
 
 class Inventory;
 
-class Character : public Actor
+class Character : public Pawn
 {
 private:
 	int level;
@@ -24,5 +24,9 @@ public:
 	void useItem(int index);
 
 	Inventory* getInventory() const;
+
+
+	// Actor을(를) 통해 상속됨
+	void Tick(float deltaTime) override;
 
 };

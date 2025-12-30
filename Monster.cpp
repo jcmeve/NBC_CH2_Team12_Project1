@@ -9,7 +9,10 @@ int Monster::GenerateRandomStat(int min, int max)
 	return dis(gen);
 }
 
-Monster::Monster(std::string name, int playerLevel) : Actor(name, 0, 0)
+void Monster::Tick(float deltaTime) {
+}
+
+Monster::Monster(std::string name, int playerLevel) : Pawn(name, 0, 0)
 {
 	int minHP = playerLevel * 20;
 	int maxHP = playerLevel * 30;

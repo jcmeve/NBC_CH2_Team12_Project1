@@ -18,7 +18,6 @@ private:
     GameManager& operator=(const GameManager&& other) = delete;
     GameManager(const GameManager&& other) = delete;
     static void RemoveActor(Actor* actor);
-    static void Tick(float deltaTime);
 public:
     static Logger& GetLogger();
     static DisplayManager& GetDisplay();
@@ -26,14 +25,14 @@ public:
     static GameManager& GetInstance();
     static bool IsEnd();
     static bool ShutDown();
-    template<typename T>
+    template<typename T, typename = typename std::enable_if<std::is_base_of<Actor, T>::value>::type>
     static T* CreateActor() {
         T* temp = new T();
-        GetInstance().actors.push_back(T);
+        GetInstance().actors.push_back(temp);
         return temp;
     }
     static void DestroyActor(Actor* actor);
-    static void Loop() ;
+    static void Tick(float deltaTime) ;
 
 }typedef GM;
 

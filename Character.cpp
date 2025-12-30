@@ -4,7 +4,7 @@
 #include <iostream>
 
 Character::Character(std::string name) :
-	Actor(name, 200, 30), level(1), maxHealth(200), experience(0), gold(0)
+	Pawn(name, 200, 30), level(1), maxHealth(200), experience(0), gold(0)
 {
 	inventory = std::make_unique<Inventory>();
 }
@@ -41,4 +41,7 @@ void Character::useItem(int index)
 Inventory* Character::getInventory() const
 {
 	return inventory.get();
+}
+
+void Character::Tick(float deltaTime) {
 }
