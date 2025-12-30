@@ -1,7 +1,7 @@
 ﻿#include "Monster.h"
 #include <random>
 
-int Monster::generateRandomStat(int min, int max)
+int Monster::GenerateRandomStat(int min, int max)
 {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
@@ -25,6 +25,6 @@ Monster::~Monster()
 
 }
 
-void Monster::takeDamage(int damage)
+void Monster::TakeDamage(int damage)
 {
 }

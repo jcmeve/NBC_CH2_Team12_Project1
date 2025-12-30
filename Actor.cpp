@@ -9,23 +9,24 @@ Actor::~Actor()
 {
 }
 
-const std::string& Actor::getName() const
+const std::string& Actor::GetName() const
 {
 	return name;
 }
 
-int Actor::getHealth() const
+int Actor::GetHealth() const
 {
 	return health;
 }
 
-int Actor::getAttack() const
+int Actor::GetDamage() const
 {
 	return dmg;
 }
 
 void Actor::Attack(Actor& target)
 {
+
 
 }
 
@@ -34,7 +35,7 @@ bool Actor::IsDead() const
 	return isDead;
 }
 
-void Actor::takeDamage(int damage)
+void Actor::TakeDamage(int damage)
 {
 	if (isDead)
 	{

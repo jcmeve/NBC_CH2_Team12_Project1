@@ -8,8 +8,8 @@ public:
 	Monster(std::string name, int playerLevel);
 	virtual ~Monster();
 
-	void takeDamage(int damage) override;
+void TakeDamage(int damage) override;
 
 private:
-	int generateRandomStat(int min, int max);
+	int GenerateRandomStat(int min, int max);
 };

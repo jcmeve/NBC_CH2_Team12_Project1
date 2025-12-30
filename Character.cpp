@@ -13,7 +13,7 @@ Character::~Character()
 {
 }
 
-void Character::takeDamage(int damage)
+void Character::TakeDamage(int damage)
 {
 }
 

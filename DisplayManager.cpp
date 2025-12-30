@@ -61,21 +61,23 @@ int clamp(int val, int lo, int hi) {
     return val;
 }
 
+//Render Main display exclude textarea
 void DisplayManager::Render() {
 
-    HANDLE ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    SetConsoleCursorPosition(ConsoleHandle, { 0,0 });
+    SetConsoleCursorPosition(handle, { 0,0 });
   
     DWORD Written;
-    WriteConsoleW(ConsoleHandle, drawBuffer[currBufferIdx].c_str(), (DWORD)drawBuffer[currBufferIdx].size(), &Written, nullptr);
-    
+//  WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)drawBuffer[currBufferIdx].size(), &Written, nullptr);
+    WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)(width+1)*(borderline+1), &Written, nullptr);
+
     currBufferIdx = (currBufferIdx + 1) % nr_buffer;
     ClearBuffer(currBufferIdx);
 
 }
 
-DisplayManager::DisplayManager(size_t _width, size_t _height):width(_width),height(_height),currBufferIdx(1) {
+DisplayManager::DisplayManager(short _width, short _height):width(_width),height(_height),currBufferIdx(1) {
     if (width < 50 || width>200 || height < 50 || height>100){
         width = clamp(width, 50, 200);
         height = clamp(height, 50, 100);
@@ -114,18 +116,18 @@ void DisplayManager::DrawSectors() {
 void DisplayManager::DrawTester() {
 
     DrawSectors();
-    size_t x_target = 50;
-    size_t y_target = 5;
+    short x_target = 50;
+    short y_target = 5;
     if (x_target > width || y_target > borderline)
         WriteString(L"Draw Actor Fail!");
-    size_t curr_pos = 0;
-    size_t current_y_offset = 0;
+    short curr_pos = 0;
+    short current_y_offset = 0;
     while (curr_pos < aaaa.size()) {
         //calculate current line length
-        size_t next_newline = aaaa.find(L'\n', curr_pos);
+        short next_newline = aaaa.find(L'\n', curr_pos);
 
-        size_t line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
-        size_t line_length = line_end - curr_pos;
+        short line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
+        short line_length = line_end - curr_pos;
 
         //if edge of the display stop draw
         if (y_target + current_y_offset >= height) break;
@@ -144,7 +146,7 @@ void DisplayManager::DrawTester() {
         current_y_offset++;
     }
 
-    WriteString(L"TETETSTSTSTSETESTET\nRERSERRER");
+    WriteString(L"ABCDEFGHIGKLMNOPQRSTUVWXTZ\n123456789");
     
 
 }
@@ -160,17 +162,17 @@ void DisplayManager::DrawBattle(const Actor& player, const Actor& monster) {
     Render();
 
 }
-void DisplayManager::DrawActor(const Actor& actor, size_t x_target, size_t y_target) {
+void DisplayManager::DrawActor(const Actor& actor, short x_target, short y_target) {
     if (x_target > width || y_target > borderline)
         WriteString(L"Draw Actor Fail!");
-    size_t curr_pos = 0;
-    size_t current_y_offset = 0;
+    short curr_pos = 0;
+    short current_y_offset = 0;
     while (curr_pos < aaaa.size()) {
         //calculate current line length
-        size_t next_newline = aaaa.find(L'\n', curr_pos);
+        short next_newline = aaaa.find(L'\n', curr_pos);
 
-        size_t line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
-        size_t line_length = line_end - curr_pos;
+        short line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
+        short line_length = line_end - curr_pos;
 
         //if edge of the display stop draw
         if (y_target + current_y_offset >= height) break;
@@ -211,9 +213,34 @@ void DisplayManager::WriteString(std::wstring s) {
     if (drawBuffer[currBufferIdx].empty()) {
         exit(-1);
     }
+    /*
     for (int i = 0; i < s.size(); ++i) {
-        drawBuffer[currBufferIdx][(borderline + 2) * (width)+1 + i] = s[i];
+        drawBuffer[currBufferIdx][(borderline + 2) * (width+1) + i] = s[i];
     }
-    Render();
+    */
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    
+    //PCONSOLE_SCREEN_BUFFER_INFO ret;
+    //GetConsoleScreenBufferInfo(handle, ret);
+    //COORD cursorPosition = ret->dwCursorPosition;
+
+    short cursorY = borderline + 2;
+    SetConsoleCursorPosition(handle, { 0,cursorY });
+    for (int i = 0; i < s.size(); ++i) {
+        
+        if (s[i] == L'\n') {
+            SetConsoleCursorPosition(handle, { 0,++cursorY });
+            continue;
+        }
+        //putwchar(s[i]);
+
+        DWORD Written;
+        //WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)drawBuffer[currBufferIdx].size(), &Written, nullptr);
+        //WriteConsoleW(handle, s.c_str(), (DWORD)s.size(), &Written, nullptr);
+        WriteConsoleW(handle, &s[i], (DWORD)1, &Written, nullptr);
+
+    }
+
+
 }
 

@@ -130,6 +130,7 @@
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Logger.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Logger.cpp" />

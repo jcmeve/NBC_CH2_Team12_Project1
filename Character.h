@@ -18,7 +18,7 @@ public:
 	Character(std::string name);
 	~Character();
 
-	void takeDamage(int damage) override;
+	void TakeDamage(int damage) override;
 	void displayStatus();
 	void levelUp();
 	void useItem(int index);

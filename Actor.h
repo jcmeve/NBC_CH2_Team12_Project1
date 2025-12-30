@@ -15,11 +15,12 @@ public:
 	Actor(std::string name, int health, int dmg);
 	virtual ~Actor();
 
-	const std::string& getName() const;
-	int getHealth() const;
-	int getAttack() const;
+
+	const std::string& GetName() const;
+	int GetHealth() const;
+	int GetDamage() const;
 	void Attack(Actor& target);
 	bool IsDead() const;
 
-	virtual void takeDamage(int damage);
+	virtual void TakeDamage(int damage);
 };

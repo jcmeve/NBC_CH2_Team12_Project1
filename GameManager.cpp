@@ -2,7 +2,7 @@
 #include "Logger.h"
 #include "DisplayManager.h"
 
-GameManager::GameManager():display(200, 70),logger(){
+GameManager::GameManager():display(200, 70),logger(),input(),isEngineEnd(false){
     system("cls");
 }
 Logger& GameManager::GetLogger() {
@@ -13,8 +13,21 @@ DisplayManager& GameManager::GetDisplay() {
     return GetInstance().display;
 }
 
+InputManager& GameManager::GetInput() {
+    return GetInstance().input;
+}
+
 GameManager& GameManager::GetInstance() {
     static GameManager instance;
     return instance;
-    // TODO: 여기에 return 문을 삽입합니다.
+}
+
+bool GameManager::IsEnd() {
+    return GetInstance().isEngineEnd;
+}
+
+bool GameManager::ShutDown() {
+    GetInstance().isEngineEnd = true;
+
+    return true;
 }
