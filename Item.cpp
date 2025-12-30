@@ -1,4 +1,5 @@
 ﻿#include "Item.h"
+#include "Character.h"
 Item::Item() {
 }
 
@@ -12,14 +13,28 @@ std::wstring Item::GetName() {
     return std::wstring();
 }
 
-HealingPotion::HealingPotion(int _amount) {
+HealingPotion::HealingPotion(int _amount) 
+{
+    amount = _amount;
 }
 
-void HealingPotion::Use(Actor& actor) {
+void HealingPotion::Use(Actor& actor) 
+{
+    Character* character = dynamic_cast <Character*>(&actor);
+        if (character) {
+            character->heal(amount);
+        }
 }
 
-DamageIncreasePotion::DamageIncreasePotion(int _amount) {
+DamageIncreasePotion::DamageIncreasePotion(int _amount) 
+{
+    amount = _amount;
 }
 
-void DamageIncreasePotion::Use(Actor& actor) {
+void DamageIncreasePotion::Use(Actor& actor) 
+{
+    Character* character = dynamic_cast <Character*>(&actor);
+    if (character) {
+        character->IncreaseDamagePotion(amount);
+    }
 }
