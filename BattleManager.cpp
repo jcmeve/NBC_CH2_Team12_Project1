@@ -29,7 +29,7 @@ bool BattleManager::Loop(Actor& player, Actor& monster) {
 			return false;
 	}
 	return false;
-
+}
 
 BattleManager::BattleManager() {
 }

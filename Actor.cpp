@@ -1,4 +1,5 @@
 ﻿#include "Actor.h"
+#include "GameManager.h"
 //HP system, attack, stats
 
 Actor::Actor(std::string name, int health, int dmg) : name(name), health(health), dmg(dmg), isDead(false)
@@ -7,6 +8,7 @@ Actor::Actor(std::string name, int health, int dmg) : name(name), health(health)
 
 Actor::~Actor()
 {
+	GM::DestroyActor(this);
 }
 
 const std::string& Actor::GetName() const
@@ -34,6 +36,8 @@ bool Actor::IsDead() const
 {
 	return isDead;
 }
+
+
 
 void Actor::TakeDamage(int damage)
 {

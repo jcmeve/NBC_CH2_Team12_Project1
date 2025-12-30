@@ -13,11 +13,11 @@ Monster::Monster(std::string name, int playerLevel) : Actor(name, 0, 0)
 {
 	int minHP = playerLevel * 20;
 	int maxHP = playerLevel * 30;
-	health = generateRandomStat(minHP, maxHP);
+	health = GenerateRandomStat(minHP, maxHP);
 
 	int minDmg = playerLevel * 5;
 	int maxDmg = playerLevel * 10;
-	dmg = generateRandomStat(minDmg, maxDmg);
+	dmg = GenerateRandomStat(minDmg, maxDmg);
 }
 
 Monster::~Monster()
