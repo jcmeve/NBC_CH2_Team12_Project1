@@ -143,11 +143,15 @@ void DisplayManager::DrawTester() {
         curr_pos = next_newline + 1;
         current_y_offset++;
     }
+
+    WriteString(L"TETETSTSTSTSETESTET\nRERSERRER");
     
 
 }
 
 void DisplayManager::DrawLobby() {
+    DrawSectors();
+
 }
 
 void DisplayManager::DrawBattle(const Actor& player, const Actor& monster) {
@@ -189,6 +193,9 @@ void DisplayManager::DrawActor(const Actor& actor, size_t x_target, size_t y_tar
 
 
 void DisplayManager::DrawShop(const Character& player, const Shop& shop) {
+}
+
+void DisplayManager::DrawShoplist(const Character& player, const Shop& shop) {
 }
 
 void DisplayManager::ClearBuffer(unsigned char bufferIdx) {

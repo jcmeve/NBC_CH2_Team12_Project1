@@ -23,6 +23,7 @@ public:
     void DrawBattle(const Actor& l_actor, const Actor& r_actor);
     void DrawActor(const Actor& actor, size_t x_target, size_t y_target);
     void DrawShop(const Character& player, const Shop& shop) ;
+    void DrawShoplist(const Character& player, const Shop& shop);
     void ClearBuffer(unsigned char bufferIdx);
     void WriteString(std::wstring s);
 };

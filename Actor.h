@@ -7,7 +7,7 @@ protected:
 	std::string name;
 	int health;
 	int attack;
-
+	std::wstring ascii;
 public:
 	Actor(std::string name, int health, int attack);
 	virtual ~Actor();
@@ -15,6 +15,8 @@ public:
 	std::string getName() const;
 	int getHealth() const;
 	int gettAttack() const;
+	void Attack(Actor& target);
+	bool isDead() const;
 
 	virtual void takeDamage(int damage);
 };
