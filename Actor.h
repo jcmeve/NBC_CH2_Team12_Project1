@@ -6,13 +6,16 @@ class Actor
 protected:
 	std::string name;
 	int health;
-	int attack;
+	int dmg;
 	std::wstring ascii;
+	bool isDead;
+	
 public:
-	Actor(std::string name, int health, int attack);
+	//이름, 초기 체력, 공격력
+	Actor(std::string name, int health, int dmg);
 	virtual ~Actor();
 
-	std::string getName() const;
+	const std::string& getName() const;
 	int getHealth() const;
 	int gettAttack() const;
 	void Attack(Actor& target);
@@ -20,4 +23,3 @@ public:
 
 	virtual void takeDamage(int damage);
 };
-

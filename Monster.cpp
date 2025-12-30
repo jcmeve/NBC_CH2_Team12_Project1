@@ -1,10 +1,16 @@
 ﻿#include "Monster.h"
 
-Monster::Monster(int playerLevel) :Actor("TestMonster, 100,10") {
+Monster::Monster(std::string name, int playerLevel) : Actor(name, 0, 0)
+{
+
 }
 
-Monster::~Monster() {
+Monster::~Monster()
+{
+
 }
 
-void Monster::takeDamage(int damage) {
+void Monster::takeDamage(int damage)
+{
+
 }
