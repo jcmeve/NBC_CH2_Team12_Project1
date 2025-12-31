@@ -10,6 +10,9 @@ protected:
 public:
 	Pawn(std::string name, int health, int dmg);
 	~Pawn();
+
+	virtual void Init() override;
+
 	int GetHealth() const;
 	int GetDamage() const;
 	void Attack(Pawn& pawn);

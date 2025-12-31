@@ -1,16 +1,32 @@
 ﻿#include "Character.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "GameManager.h"
 #include <iostream>
 
 Character::Character(std::string name) :
-	Pawn(name, 200, 30), level(1), maxHealth(200), experience(0), gold(0)
+	Pawn(name, 0, 0), level(1), maxHealth(200), experience(0), gold(0)
 {
-	inventory = std::make_unique<Inventory>();
 }
 
 Character::~Character()
 {
+}
+
+void Character::Init()
+{
+	Actor::Init();
+
+	this->level = 1;
+	this->maxHealth = 200;
+	this->health = maxHealth;
+	this->dmg = 30;
+	this->experience = 0;
+	this->gold = 0;
+
+	this->inventory = std::make_unique<Inventory>();
+
+	GM::GetLogger().Log(L"플레이어 초기화 완료!");
 }
 
 void Character::TakeDamage(int damage)
@@ -19,16 +35,32 @@ void Character::TakeDamage(int damage)
 
 void Character::displayStatus()
 {
-	std::cout << "============= Player's Status =============" << std::endl;
-	std::cout << "이름: " << name << std::endl;
-	std::cout << "레벨: " << level << ", 현재 경험치: " << experience << "/100" << std::endl;
-	std::cout << "소지 골드: " << gold << std::endl;
-	std::cout << "HP: " << health << "/" << maxHealth << std::endl;
+	std::wstring wName(name.begin(), name.end());
+
+	Logger& logger = GM::GetLogger();
+	logger.Log(L"=============== Player's Status ===============");
+	logger.Log(L"이름: " + wName);
+
+	std::wstring levelStr = L"레벨: " + std::to_wstring(level) + L"경험치: " + std::to_wstring(experience) + L"/100";
+	logger.Log(levelStr);
+
+	std::wstring hpStr = L"현재 체력: " + std::to_wstring(health) + L"/" + std::to_wstring(maxHealth);
+	logger.Log(hpStr);
+
+	std::wstring goldStr = L"소지 골드: " + std::to_wstring(gold);
+	logger.Log(goldStr);
+
 }
 
 void Character::levelUp()
 {
-	level++;
+	if (level < 10)
+	{
+		level++;
+		maxHealth += level * 20;
+		dmg += level * 5;
+		health = maxHealth;
+	}
 }
 
 void Character::useItem(int index)

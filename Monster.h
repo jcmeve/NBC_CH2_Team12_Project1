@@ -8,6 +8,9 @@ public:
 	Monster(std::string name, int playerLevel);
 	virtual ~Monster();
 
+	virtual void Init() override;
+	virtual void Init(int playerLevel);
+
 	void TakeDamage(int damage) override;
 
 private:

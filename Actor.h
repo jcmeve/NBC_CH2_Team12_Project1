@@ -7,10 +7,11 @@ class Actor
 protected:
 	std::string name;
 
-	//이름, 초기 체력, 공격력
 public:
 	Actor(std::string name);
 	virtual ~Actor();
+
+	virtual void Init() {}
 
 public:
 	const std::string& GetName() const;

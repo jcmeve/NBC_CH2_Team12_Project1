@@ -6,7 +6,12 @@ Pawn::~Pawn() {
 
 }
 
+void Pawn::Init()
+{
+	Actor::Init();
 
+	isDead = false;
+}
 
 int Pawn::GetHealth() const {
 	return health;
