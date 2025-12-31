@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include <algorithm>
 #include <atomic>
-GameManager::GameManager():display(200, 70),logger(),input(),isEngineEnd(false){
+GameManager::GameManager():display(250, 70),logger(),input(),isEngineEnd(false){
     system("cls");
 }
 void GameManager::RemoveActor(Actor* actor) {
@@ -73,6 +73,5 @@ void GameManager::Tick(float deltaTime) {
     }
     garbageActors.clear();
         
- 
     --cnt;
 }

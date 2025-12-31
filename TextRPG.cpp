@@ -4,11 +4,13 @@
 #include "Character.h"
 #include "Monster.h"
 #include<string>
+#include "Widget.h"
 void TextRPG::Tick(float deltaTime) {
-    
+    Widget* widget = GM::CreateActor<Widget>(L"한글쓰지말자");
+    widget->Init(40, 30, 40, 10);
+
     Character* player = GM::CreateActor<Character>(L"플레이어");
     Pawn* monster = GM::CreateActor<Monster>(L"트롤");
-
     static float attackSpeed = 1;
     static float timer = 0;
     timer += deltaTime;
@@ -53,7 +55,7 @@ void TextRPG::TickTest(float deltaTime) {
     x = x > 120 ? 120 : x;
     y = y > 55 ? 55 : y;
     GM::GetDisplay().DrawSectors();
-    GM::GetDisplay().DrawWcharAtPosition(x, y);
+   // GM::GetDisplay().DrawWcharAtPosition(x, y);
     static float timer = 0.0f;
     timer += deltaTime;
     if (timer > 0.6) {

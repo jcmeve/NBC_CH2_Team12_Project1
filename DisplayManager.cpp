@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include<iostream>
 #include<Windows.h>
+
 std::wstring aaaa = LR"(                                                                                                    
                             +====*+                            :...-                     :...       
                         @**+-:.:::.::           ::....   -..        :               :..  .:..       
@@ -61,6 +62,10 @@ int clamp(int val, int lo, int hi) {
     return val;
 }
 
+short DisplayManager::CoordToIdx(short x, short y) {
+    return y * width + x;
+}
+
 //Render Main display exclude textarea
 void DisplayManager::Render(float deltaTime) {
 
@@ -70,18 +75,24 @@ void DisplayManager::Render(float deltaTime) {
     DWORD Written;
     //when clear display + textarea
     if (clearFullScreen) {
-        WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)(width + 1) * (height), &Written, nullptr);
+        COORD bufferSize = { (SHORT)width, (SHORT)height };
+        COORD bufferCoord = { 0, 0 };
+        SMALL_RECT writeRegion = { 0, 0, (SHORT)(width - 1), (SHORT)(height - 1) };
+        WriteConsoleOutputW(handle, &NNNNdrawBuffer[currBufferIdx][0], bufferSize, bufferCoord, &writeRegion);
         clearFullScreen = false;
         cursorX = 0;
         cursorY = borderline+1;
         
     }//just clear display
     else {
-        WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)(width + 1) * (borderline + 1), &Written, nullptr);
+        COORD bufferSize = { (SHORT)width, (SHORT)height };
+        COORD bufferCoord = { 0, 0 };
+        SMALL_RECT writeRegion = { 0, 0, (SHORT)(width - 1), (SHORT)(borderline - 1) };
+        WriteConsoleOutputW(handle, &NNNNdrawBuffer[currBufferIdx][0], bufferSize, bufferCoord, &writeRegion);
     }
     currBufferIdx = (currBufferIdx + 1) % nr_buffer;
     ClearBuffer(currBufferIdx);
-
+    //CHAR_INFO와 나중에 통합해야 할 수도 있음
     if (!stringSlowWrite.empty()) {
         ///for slow writing
         currTimeSlowWrite += deltaTime;
@@ -118,6 +129,7 @@ void DisplayManager::Render(float deltaTime) {
         WriteString(pendedString);
         pendedString.clear();
     }
+
 }
 
 DisplayManager::DisplayManager(short _width, short _height):width(_width),height(_height),currBufferIdx(1) {
@@ -142,6 +154,7 @@ DisplayManager::DisplayManager(short _width, short _height):width(_width),height
     cursorInfo.bVisible = FALSE;
     SetConsoleCursorInfo(handle, &cursorInfo);
 
+
     for (int i = 0; i < nr_buffer; ++i) {
         ClearBuffer(i);
     }
@@ -151,11 +164,16 @@ DisplayManager::DisplayManager(short _width, short _height):width(_width),height
 }
 
 void DisplayManager::DrawSectors() {
-    for (int x = 0; x < width; ++x) {
-        drawBuffer[currBufferIdx][(width+1) * (borderline) + x] = L'-';
-    }
+  for (int x = 0; x < width; x += 2) {
 
-    
+        
+    NNNNdrawBuffer[currBufferIdx][width * borderline+x].Char.UnicodeChar = L'─';
+    NNNNdrawBuffer[currBufferIdx][width * borderline + x].Attributes = FOREGROUND_WHITE | COMMON_LVB_LEADING_BYTE;
+    if (x + 1 < width) {
+        NNNNdrawBuffer[currBufferIdx][width * borderline + x + 1].Char.UnicodeChar = L' ';
+        NNNNdrawBuffer[currBufferIdx][width * borderline + x + 1].Attributes = FOREGROUND_WHITE | COMMON_LVB_TRAILING_BYTE;
+    }
+    }
 }
 
 void DisplayManager::DrawTester() {
@@ -180,10 +198,10 @@ void DisplayManager::DrawTester() {
             line_length = width - x_target;
         }
 
-        if (line_length > 0) {
-            std::copy(aaaa.begin() + curr_pos,
-                aaaa.begin() + curr_pos + line_length,
-                drawBuffer[currBufferIdx].begin() + (y_target + current_y_offset) * (width + 1) + x_target);
+        for (int i = 0; i < line_length; ++i) {
+            int bufferIdx = (y_target + current_y_offset) * width + (x_target + i);
+            NNNNdrawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = aaaa[curr_pos + i];
+            NNNNdrawBuffer[currBufferIdx][bufferIdx].Attributes = FOREGROUND_WHITE;
         }
 
         if (next_newline == std::wstring::npos) break;
@@ -196,21 +214,31 @@ void DisplayManager::DrawTester() {
 
 }
 
-void DisplayManager::DrawWcharAtPosition(short x, short y) {
-    if (drawBuffer[currBufferIdx].empty()) {
+void DisplayManager::DrawWcharAtPosition(short x, short y, wchar_t c, WORD color) {
+    if (NNNNdrawBuffer[currBufferIdx].empty()) {
         exit(-1);
     }
-
-    //Write Ac Display
-    SetConsoleCursorPosition(handle, { x,y });
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            drawBuffer[currBufferIdx][(y+i) * (width + 1) + (x+j)] = L'ㅁ';
+    if (x < 0 || x >= width || y < 0 || y >= height) return;
+    short idx = CoordToIdx(x, y);
+    if (NNNNdrawBuffer[currBufferIdx][idx].Attributes & COMMON_LVB_TRAILING_BYTE) {//앞이 전각인 경우 뒤에 새로 그리려면 앞 문자까지 지워야함
+        if (x > 0) {
+            NNNNdrawBuffer[currBufferIdx][idx-1].Char.UnicodeChar = L' ';
+            NNNNdrawBuffer[currBufferIdx][idx-1].Attributes = color;
         }
     }
-    
+    if (!(c >= 0x2500 && c <= 0x257F) && c > 0x7F) { // 전각검사
+        if (x + 1 < width) {//2칸씀
+            NNNNdrawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
+            NNNNdrawBuffer[currBufferIdx][idx].Attributes = color | COMMON_LVB_LEADING_BYTE;
 
-
+            NNNNdrawBuffer[currBufferIdx][idx + 1].Char.UnicodeChar = L' ';
+            NNNNdrawBuffer[currBufferIdx][idx + 1].Attributes = color | COMMON_LVB_TRAILING_BYTE;
+        }
+    }
+    else {
+        NNNNdrawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
+        NNNNdrawBuffer[currBufferIdx][idx].Attributes = color;
+    }
 }
 
 void DisplayManager::DrawLobby() {
@@ -238,17 +266,16 @@ void DisplayManager::DrawActor(const Actor& actor, short x_target, short y_targe
             line_length =  width - x_target;
         }
 
-        if (line_length > 0) {
-            std::copy(aaaa.begin() + curr_pos,
-                aaaa.begin() + curr_pos + line_length,
-                drawBuffer[currBufferIdx].begin() + (y_target + current_y_offset) * (width + 1) + x_target);
+        for (int i = 0; i < line_length; ++i) {
+            int bufferIdx = (y_target + current_y_offset) * width + (x_target + i);
+            NNNNdrawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = aaaa[curr_pos + i];
+            NNNNdrawBuffer[currBufferIdx][bufferIdx].Attributes = 0x0007; 
         }
 
         if (next_newline == std::wstring::npos) break;
         curr_pos = next_newline + 1; 
         current_y_offset++;
     }
-
 }
 
 
@@ -264,19 +291,14 @@ void DisplayManager::ClearTextArea() {
 }
 
 void DisplayManager::ClearBuffer(unsigned char bufferIdx) {
-
-    drawBuffer[bufferIdx].assign((width + 1) * height, L' ');
-    for (int y = 0; y < height; ++y) {
-        drawBuffer[bufferIdx][y * (width + 1) + width] = L'\n';
-    }
-    
+    NNNNdrawBuffer[bufferIdx].assign(width * height, { L' ' , });
 }
 
 
 
 //천천히 출력중에 WriteString 무시함
 void DisplayManager::WriteString(std::wstring s) {
-    if (drawBuffer[currBufferIdx].empty()) {
+    if (NNNNdrawBuffer[currBufferIdx].empty()) {
         exit(-1);
     }
     if (!stringSlowWrite.empty())
@@ -318,4 +340,84 @@ void DisplayManager::WriteStringSlow(std::wstring s, float time) {
     SetConsoleCursorPosition(handle, { 0,cursorY });
 
 }
+
+void DisplayManager::DrawBox(short posX, short posY, short _width, short _height, WORD color) {
+
+     if (posX > width || posY > borderline) {
+        WriteString(L"Draw Box Fail!");
+        return;
+    }
+
+    for (short y = 0; y < _height; ++y) {
+        if (posY + y >= borderline) break;
+        DrawWcharAtPosition(posX, posY + y, L'│', color);
+        DrawWcharAtPosition(posX + _width, posY + y, L'│', color);
+    }
+
+    for (short i = 1; i < _width; ++i) {
+        short targetX = posX + i;
+        DrawWcharAtPosition(targetX, posY, L'─', color);
+        DrawWcharAtPosition(targetX, posY + _height, L'─', color);
+    }
+    DrawWcharAtPosition(posX, posY, L'┌', color);
+    DrawWcharAtPosition(posX + _width, posY, L'┐', color);
+    DrawWcharAtPosition(posX, posY + _height, L'└', color);
+    DrawWcharAtPosition(posX + _width, posY + _height, L'┘', color);
+}
+
+void DisplayManager::DrawWidget(short posX, short posY, short _width, short _height, const std::wstring& title, const std::wstring& text, WORD  titleColor, WORD textColor, WORD borderColor ) {
+    DrawBox(posX, posY, _width, _height, borderColor);
+
+
+    if (posX > width || posY > borderline) {
+        WriteString(L"Draw Widget Fail!");
+        return;
+    }
+    //on the top line of widget
+    if (!title.empty()) {
+        short titleX = posX + 2;
+        for (wchar_t c : title) {
+            DrawWcharAtPosition(titleX, posY, c, titleColor | FOREGROUND_INTENSITY);
+            titleX += (c > 0x7F) ? 2 : 1; //끔찍한 전각처리
+        }
+    }
+
+    short x_offset = 1; 
+    short y_offset = 1;
+
+    for (int i = 0; i < text.size(); ++i) {
+
+        if (y_offset >= _height) break;
+
+        if (text[i] == L'\n') {
+            ++y_offset;
+            x_offset = 1;
+            continue;
+        }
+        if (text[i] > 0x7F && x_offset == _width-1) { //오른쪽 테두리 직전에 전각문자를 넣으면 덮어버리므로 예외처리
+            x_offset = 1;
+            ++y_offset;
+            continue;
+        }
+
+        if (x_offset >= _width) {
+            x_offset = 1;
+            ++y_offset;
+        }
+
+        DrawWcharAtPosition(posX + x_offset, posY + y_offset, text[i], textColor);
+
+        // 다음 칸 위치 계산
+        short charWidth = (text[i] > 0x7F) ? 2 : 1;
+        x_offset += charWidth;
+
+        // 박스 너비를 넘어가면 자동 줄바꿈 (테두리 1칸 전까지)
+        if (x_offset >= _width) {
+            x_offset = 1;
+            ++y_offset;
+        }
+    }
+
+}
+
 

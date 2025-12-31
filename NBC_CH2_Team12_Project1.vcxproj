@@ -140,6 +140,7 @@
     <ClInclude Include="Shop.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TextRPG.h" />
+    <ClInclude Include="Widget.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AchievementManager.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TextRPG.cpp" />
+    <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
