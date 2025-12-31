@@ -30,6 +30,7 @@ void Character::Init()
 
 void Character::TakeDamage(int damage)
 {
+	Pawn::TakeDamage(damage);
 }
 
 void Character::displayStatus()

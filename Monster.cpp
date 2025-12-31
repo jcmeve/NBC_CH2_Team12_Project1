@@ -45,4 +45,5 @@ void Monster::Init(int playerLevel)
 
 void Monster::TakeDamage(int damage)
 {
+	Pawn::TakeDamage(damage);
 }
