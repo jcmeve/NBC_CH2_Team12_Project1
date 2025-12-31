@@ -11,7 +11,7 @@ public:
 	Pawn(std::wstring name, int health, int dmg);
 	~Pawn();
 
-	virtual void Init() override;
+	void Init();
 
 	int GetHealth() const;
 	int GetDamage() const;

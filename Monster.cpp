@@ -19,14 +19,6 @@ Monster::Monster(std::wstring name) : Pawn(name, 0, 0)
 
 }
 
-void Monster::Init(int playerLevel) {
-	int minHP = playerLevel * 20;
-	int maxHP = playerLevel * 30;
-	health = GenerateRandomStat(minHP, maxHP);
-
-	int minDmg = playerLevel * 5;
-	int maxDmg = playerLevel * 10;
-	dmg = GenerateRandomStat(minDmg, maxDmg);
 
 
 Monster::~Monster()
@@ -34,10 +26,7 @@ Monster::~Monster()
 
 }
 
-void Monster::Init()
-{
-	Pawn::Init();
-}
+
 
 void Monster::Init(int playerLevel)
 {

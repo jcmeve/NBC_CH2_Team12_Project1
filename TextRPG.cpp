@@ -5,7 +5,7 @@
 #include "Monster.h"
 #include<string>
 void TextRPG::Tick(float deltaTime) {
-    /*
+    
     Character* player = GM::CreateActor<Character>(L"플레이어");
     Pawn* monster = GM::CreateActor<Monster>(L"트롤");
 
@@ -25,8 +25,8 @@ void TextRPG::Tick(float deltaTime) {
 
         turn = (turn + 1) % 2;
     }
-    */
-    TickTest(deltaTime);
+    
+//    TickTest(deltaTime);
 }
 
 void TextRPG::TickTest(float deltaTime) {

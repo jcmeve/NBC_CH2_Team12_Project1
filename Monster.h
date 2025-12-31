@@ -6,11 +6,9 @@ class Monster : public Pawn
 {
 public:
 	Monster(std::wstring name);
-	void Init(int playerLevel);
 	virtual ~Monster();
 
-	virtual void Init() override;
-	virtual void Init(int playerLevel);
+	void Init(int playerLevel);
 
 	void TakeDamage(int damage) override;
 

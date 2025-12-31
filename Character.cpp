@@ -4,7 +4,7 @@
 #include "GameManager.h"
 #include <iostream>
 
-Character::Character(std::string name) :
+Character::Character(std::wstring name) :
 	Pawn(name, 0, 0), level(1), maxHealth(200), experience(0), gold(0)
 {
 }
@@ -15,7 +15,6 @@ Character::~Character()
 
 void Character::Init()
 {
-	Actor::Init();
 
 	this->level = 1;
 	this->maxHealth = 200;

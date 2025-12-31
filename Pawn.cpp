@@ -9,8 +9,6 @@ Pawn::~Pawn() {
 
 void Pawn::Init()
 {
-	Actor::Init();
-
 	isDead = false;
 }
 

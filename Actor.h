@@ -11,7 +11,6 @@ public:
 	Actor(std::wstring name);
 	virtual ~Actor();
 
-	virtual void Init() {}
 
 public:
 	const std::wstring& GetName() const;

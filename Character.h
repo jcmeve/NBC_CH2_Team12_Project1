@@ -17,8 +17,7 @@ private:
 public:
 	Character(std::wstring name);
 	~Character();
-
-	void Init() override;
+	void Init();
 
 	void TakeDamage(int damage) override;
 	void displayStatus();
