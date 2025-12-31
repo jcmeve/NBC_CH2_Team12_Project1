@@ -60,6 +60,7 @@ void GameManager::Tick(float deltaTime) {
     ++cnt;
     _ASSERT(cnt == 1);
 
+
     GameManager& gm = GetInstance();
     std::vector<Actor*>& garbageActors = gm.garbageActors;
     std::vector<Actor*>& actors = gm.actors;
