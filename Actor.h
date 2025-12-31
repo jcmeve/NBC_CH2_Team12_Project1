@@ -5,15 +5,15 @@
 class Actor
 {
 protected:
-	std::string name;
+	std::wstring name;
 
 	//이름, 초기 체력, 공격력
 public:
-	Actor(std::string name);
+	Actor(std::wstring name);
 	virtual ~Actor();
 
 public:
-	const std::string& GetName() const;
+	const std::wstring& GetName() const;
 	virtual void Tick(float deltaTime) = 0;
 
 };

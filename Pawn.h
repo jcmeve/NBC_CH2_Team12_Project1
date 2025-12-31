@@ -8,11 +8,11 @@ protected:
 	std::wstring ascii;
 	bool isDead;
 public:
-	Pawn(std::string name, int health, int dmg);
+	Pawn(std::wstring name, int health, int dmg);
 	~Pawn();
 	int GetHealth() const;
 	int GetDamage() const;
-	void Attack(Pawn& pawn);
+	virtual void Attack(Pawn& pawn) ;
 	bool IsDead() const;
 	virtual void TakeDamage(int damage);
 };

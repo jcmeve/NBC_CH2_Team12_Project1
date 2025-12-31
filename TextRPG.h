@@ -4,6 +4,7 @@ class TextRPG : public Actor {
 public:
     // Actor을(를) 통해 상속됨
     void Tick(float deltaTime) override;
-    TextRPG();
+    void TickTest(float deltaTime);
+    TextRPG(std::wstring name);
 };
 

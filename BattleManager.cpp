@@ -13,4 +13,4 @@ void BattleManager::Tick(float deltaTime) {
 }
 
 
-BattleManager::BattleManager():Actor("BattlleManager") {}
+BattleManager::BattleManager():Actor(L"BattlleManager") {}

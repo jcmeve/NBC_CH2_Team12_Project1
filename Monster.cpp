@@ -1,6 +1,6 @@
 ﻿#include "Monster.h"
 #include <random>
-
+#include "GameManager.h"
 int Monster::GenerateRandomStat(int min, int max)
 {
 	static std::random_device rd;
@@ -12,8 +12,12 @@ int Monster::GenerateRandomStat(int min, int max)
 void Monster::Tick(float deltaTime) {
 }
 
-Monster::Monster(std::string name, int playerLevel) : Pawn(name, 0, 0)
+Monster::Monster(std::wstring name) : Pawn(name, 0, 0)
 {
+
+}
+
+void Monster::Init(int playerLevel) {
 	int minHP = playerLevel * 20;
 	int maxHP = playerLevel * 30;
 	health = GenerateRandomStat(minHP, maxHP);

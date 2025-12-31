@@ -25,12 +25,19 @@ public:
     static GameManager& GetInstance();
     static bool IsEnd();
     static bool ShutDown();
+    
     template<typename T, typename = typename std::enable_if<std::is_base_of<Actor, T>::value>::type>
-    static T* CreateActor() {
-        T* temp = new T();
+    static T* CreateActor(const std::wstring& name) {
+        T* temp = new T(name);
         GetInstance().actors.push_back(temp);
         return temp;
     }
+
+    template<typename T, typename = typename std::enable_if<std::is_base_of<Actor, T>::value>::type>
+    static T* CreateActor() {
+        return CreateActor<T>(std::wstring(L"NONAME"));
+    }
+
     static void DestroyActor(Actor* actor);
     static void Tick(float deltaTime) ;
 

@@ -22,6 +22,10 @@ private:
     std::wstring stringSlowWrite;
     size_t idxSlowWrite = 0;
     void* handle = nullptr;
+
+    std::wstring pendedString;
+
+    //for TextArea
     short cursorY ;
     short cursorX;
 
@@ -39,7 +43,7 @@ public:
     void DrawActor(const Actor& actor, short x_target, short y_target);
     void DrawShop(const Character& player, const Shop& shop) ;
     void DrawShoplist(const Character& player, const Shop& shop);
-    void ClearFullScreen();
+    void ClearTextArea();
     void ClearBuffer(unsigned char bufferIdx);
     void WriteString(std::wstring s);
     void WriteStringSlow(std::wstring s, float time);

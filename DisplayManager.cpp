@@ -66,12 +66,15 @@ void DisplayManager::Render(float deltaTime) {
 
 
     SetConsoleCursorPosition(handle, { 0,0 });
-  
+    DrawSectors();
     DWORD Written;
     //when clear display + textarea
     if (clearFullScreen) {
         WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)(width + 1) * (height), &Written, nullptr);
         clearFullScreen = false;
+        cursorX = 0;
+        cursorY = borderline+1;
+        
     }//just clear display
     else {
         WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)(width + 1) * (borderline + 1), &Written, nullptr);
@@ -79,36 +82,42 @@ void DisplayManager::Render(float deltaTime) {
     currBufferIdx = (currBufferIdx + 1) % nr_buffer;
     ClearBuffer(currBufferIdx);
 
-    ///for slow writing
-    currTimeSlowWrite += deltaTime;
-    size_t targetIdx = min(currTimeSlowWrite / totalTimeSlowWrite * stringSlowWrite.size(),stringSlowWrite.size());
-    
-    SetConsoleCursorPosition(handle, { cursorX,cursorY });
-    for (int i = idxSlowWrite; i < targetIdx; ++i) {
+    if (!stringSlowWrite.empty()) {
+        ///for slow writing
+        currTimeSlowWrite += deltaTime;
+        size_t targetIdx = min(currTimeSlowWrite / totalTimeSlowWrite * stringSlowWrite.size(), stringSlowWrite.size());
+
         SetConsoleCursorPosition(handle, { cursorX,cursorY });
+        for (int i = idxSlowWrite; i < targetIdx; ++i) {
+            SetConsoleCursorPosition(handle, { cursorX,cursorY });
 
-        if (stringSlowWrite[i] == L'\n') {
-            cursorX = 0;
-            SetConsoleCursorPosition(handle, { cursorX,++cursorY });
-            continue;
+            if (stringSlowWrite[i] == L'\n') {
+                cursorX = 0;
+                SetConsoleCursorPosition(handle, { cursorX,++cursorY });
+                continue;
+            }
+            if (stringSlowWrite[i] > 0x7F) {
+                cursorX += 2; //multibyte char use 2
+            }
+            else {
+                cursorX += 1; //
+            }
+            DWORD Written;
+            WriteConsoleW(handle, &stringSlowWrite[i], (DWORD)1, &Written, nullptr);
         }
-        if (stringSlowWrite[i] > 0x7F) {
-            cursorX += 2; //multibyte char use 2
+        idxSlowWrite = targetIdx;
+        if (idxSlowWrite == stringSlowWrite.size()) {
+            ++cursorY;
+            stringSlowWrite = L"";
+            idxSlowWrite = 0;
+            totalTimeSlowWrite = 0;
+            currTimeSlowWrite = 0;
         }
-        else {
-            cursorX += 1; //
-        }
-        DWORD Written;
-        WriteConsoleW(handle, &stringSlowWrite[i], (DWORD)1, &Written, nullptr);
     }
-    idxSlowWrite = targetIdx;
-    if (idxSlowWrite == stringSlowWrite.size()) {
-        stringSlowWrite = L"";
-        idxSlowWrite = 0;
-        totalTimeSlowWrite = 0;
-        currTimeSlowWrite = 0;
+    if (!pendedString.empty()) {
+        WriteString(pendedString);
+        pendedString.clear();
     }
-
 }
 
 DisplayManager::DisplayManager(short _width, short _height):width(_width),height(_height),currBufferIdx(1) {
@@ -136,6 +145,8 @@ DisplayManager::DisplayManager(short _width, short _height):width(_width),height
     for (int i = 0; i < nr_buffer; ++i) {
         ClearBuffer(i);
     }
+    cursorY = borderline +1;
+    cursorX = 0;
         
 }
 
@@ -247,8 +258,9 @@ void DisplayManager::DrawShop(const Character& player, const Shop& shop) {
 void DisplayManager::DrawShoplist(const Character& player, const Shop& shop) {
 }
 
-void DisplayManager::ClearFullScreen() {
+void DisplayManager::ClearTextArea() {
     clearFullScreen = true;
+
 }
 
 void DisplayManager::ClearBuffer(unsigned char bufferIdx) {
@@ -260,6 +272,8 @@ void DisplayManager::ClearBuffer(unsigned char bufferIdx) {
     
 }
 
+
+
 //천천히 출력중에 WriteString 무시함
 void DisplayManager::WriteString(std::wstring s) {
     if (drawBuffer[currBufferIdx].empty()) {
@@ -267,52 +281,40 @@ void DisplayManager::WriteString(std::wstring s) {
     }
     if (!stringSlowWrite.empty())
         return;
-    ClearFullScreen();
-
-    /*
-    for (int i = 0; i < s.size(); ++i) {
-        drawBuffer[currBufferIdx][(borderline + 2) * (width+1) + i] = s[i];
-    }
-    */
     
-    //PCONSOLE_SCREEN_BUFFER_INFO ret;
-    //GetConsoleScreenBufferInfo(handle, ret);
-    //COORD cursorPosition = ret->dwCursorPosition;
-
-    cursorY = borderline + 2;
     cursorX = 0;
+    if (cursorY >= height) {
+        ClearTextArea();
+        pendedString = s;
+        return;
+    }
+
     SetConsoleCursorPosition(handle, { 0,cursorY });
     for (int i = 0; i < s.size(); ++i) {
-        
         if (s[i] == L'\n') {
             SetConsoleCursorPosition(handle, { 0,++cursorY });
             continue;
         }
-        //putwchar(s[i]);
-
         DWORD Written;
-        //WriteConsoleW(handle, drawBuffer[currBufferIdx].c_str(), (DWORD)drawBuffer[currBufferIdx].size(), &Written, nullptr);
-        //WriteConsoleW(handle, s.c_str(), (DWORD)s.size(), &Written, nullptr);
         WriteConsoleW(handle, &s[i], (DWORD)1, &Written, nullptr);
-
     }
-
-
+    ++cursorY;
 }
 
 //천천히 출력중에 WriteString 무시함
-//TODO: 천천히 출력하기
 void DisplayManager::WriteStringSlow(std::wstring s, float time) {   
     if (!stringSlowWrite.empty())
         return;
-    ClearFullScreen();
+
+    cursorX = 0;
+    if (cursorY >= height) {
+        ClearTextArea();
+    }
+
     totalTimeSlowWrite = time;
     stringSlowWrite = s;
     currTimeSlowWrite = 0.0f;
     idxSlowWrite = 0;
-
-    cursorY = borderline + 2;
-    cursorX = 0;
     SetConsoleCursorPosition(handle, { 0,cursorY });
 
 }

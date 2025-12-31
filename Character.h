@@ -15,7 +15,7 @@ private:
 	std::unique_ptr<Inventory> inventory;
 
 public:
-	Character(std::string name);
+	Character(std::wstring name);
 	~Character();
 
 	void TakeDamage(int damage) override;
