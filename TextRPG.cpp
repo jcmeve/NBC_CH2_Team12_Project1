@@ -5,8 +5,9 @@
 #include "Monster.h"
 #include<string>
 #include "Widget.h"
+#include "QTE.h"
 void TextRPG::Tick(float deltaTime) {
-    TickTest(deltaTime);
+    //TickTest(deltaTime);
 
     /*
     Character* player = GM::CreateActor<Character>(L"플레이어");
@@ -70,5 +71,6 @@ void TextRPG::TickTest(float deltaTime) {
 TextRPG::TextRPG(std::wstring name):Actor(name) {
     Widget* widget = GM::CreateActor<Widget>(L"한글쓰지말자");
     widget->Init(0, 0, 40, 10);
-    
+ //   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
+ //   qte->Init(nullptr, 3);
 }
