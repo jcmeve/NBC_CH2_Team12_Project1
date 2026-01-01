@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <string>
 #include <unordered_set>
+
+//멈췄던거 다시 재생 추가도 가능은 함
 class SoundManager {
 private:
     SoundManager();

@@ -39,7 +39,7 @@ void TextRPG::TickTest(float deltaTime) {
     //if (GetAsyncKeyState(VK_LEFT)) {
             --x;
     }
-    if (GetAsyncKeyState(VK_RIGHT)) {
+    if (GM::GetInput().IsPressed(VK_RIGHT)) {
         ++x;
     }
     if (GetAsyncKeyState(VK_UP)) {

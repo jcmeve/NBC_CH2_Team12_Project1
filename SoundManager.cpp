@@ -6,6 +6,7 @@
 #pragma comment(lib,"winmm.lib")
     SoundManager::SoundManager() {  
         LoadAudio(L"test");
+        SetVolume(L"test", 100);
         PlayAudio(L"test");
     }
 
