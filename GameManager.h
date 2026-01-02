@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "SoundManager.h"
 #include "SaveManager.h"
+#include "ItemManager.h"
 #include <vector>
 #include <memory>
 class GameManager {
@@ -12,6 +13,7 @@ class GameManager {
     InputManager input;
     SoundManager sound;
     SaveManager save;
+    ItemManager item;
     bool isEngineEnd;
     std::vector<Actor*> actors;
     std::vector<Actor*> garbageActors;
@@ -28,6 +30,7 @@ public:
     static InputManager& GetInput();
     static SoundManager& GetSound();
     static SaveManager& GetSave();
+    static ItemManager& GetItemManager();
     static GameManager& GetInstance();
     static bool IsEnd();
     static bool ShutDown();
