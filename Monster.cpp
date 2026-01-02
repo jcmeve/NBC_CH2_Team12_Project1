@@ -2,6 +2,11 @@
 #include "GameManager.h"
 #include <random>
 #include "GameManager.h"
+
+
+Monster::Monster(std::wstring name) : Pawn(name, 0, 0) {}
+Monster::~Monster() {}
+
 int Monster::GenerateRandomStat(int min, int max)
 {
 	static std::random_device rd;
@@ -9,24 +14,6 @@ int Monster::GenerateRandomStat(int min, int max)
 	std::uniform_int_distribution<int> dis(min, max);
 	return dis(gen);
 }
-
-void Monster::Tick(float deltaTime) {
-}
-
-Monster::Monster(std::wstring name) : Pawn(name, 0, 0)
-{
-
-
-}
-
-
-
-Monster::~Monster()
-{
-
-}
-
-
 
 void Monster::Init(int playerLevel)
 {
@@ -47,3 +34,5 @@ void Monster::TakeDamage(int damage)
 {
 	Pawn::TakeDamage(damage);
 }
+
+void Monster::Tick(float deltaTime) {}

@@ -15,6 +15,7 @@ Character::~Character()
 
 void Character::Init()
 {
+	Pawn::Init();
 
 	this->level = 1;
 	this->maxHealth = 200;
@@ -42,7 +43,7 @@ void Character::displayStatus()
 	logger.Log(L"=============== Player's Status ===============");
 	logger.Log(L"이름: " + wName);
 
-	std::wstring levelStr = L"레벨: " + std::to_wstring(level) + L"경험치: " + std::to_wstring(experience) + L"/100";
+	std::wstring levelStr = L"레벨: " + std::to_wstring(level) + L" | 경험치: " + std::to_wstring(experience) + L"/100";
 	logger.Log(levelStr);
 
 	std::wstring hpStr = L"현재 체력: " + std::to_wstring(health) + L"/" + std::to_wstring(maxHealth);
@@ -79,6 +80,34 @@ Inventory* Character::getInventory() const
 int Character::getLevel() const
 {
 	return level;
+}
+
+int Character::getExperience() const
+{
+	return experience;
+}
+
+int Character::getGold() const
+{
+	return gold;
+}
+
+void Character::addExperience(int exp)
+{
+	experience += exp;
+	GM::GetLogger().Log(L"경험치 +" + std::to_wstring(exp) + L" 획득! (현재: " + std::to_wstring(experience) + L"/100)");
+
+	while (experience >= 100 && level < 10)
+	{
+		experience -= 100;
+		levelUp();
+		GM::GetLogger().Log(L"레벨 업! 현재 레벨: " + std::to_wstring(level));
+	}
+}
+
+void Character::addGold(int amount)
+{
+	gold += amount;
 }
 
 void Character::Tick(float deltaTime) {

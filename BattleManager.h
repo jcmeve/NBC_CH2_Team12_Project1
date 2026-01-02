@@ -12,7 +12,8 @@ enum class BattleState
 	BS_MONSTER_TURN, //몬스터 턴
 	BS_VICTORY, //플레이어 승리 (보상)
 	BS_DEFEAT, //플레이어 패배 (게임오버)
-	BS_END //전투 종료
+	BS_REWARD, //보상 확인
+	BS_END //전투 종료 
 };
 
 class BattleManager : public Actor {
@@ -20,7 +21,7 @@ private:
 	Character* player = nullptr;
 	Monster* monster = nullptr;
 
-	BattleState CurrentState;
+	BattleState currentState;
 	float turnTimer = 1.0f;
 	float turnDelay = 1.0f;
 public:
