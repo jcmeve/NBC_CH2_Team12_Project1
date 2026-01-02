@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include <algorithm>
 #include <atomic>
-GameManager::GameManager():display(250, 70),logger(),input(),sound(), save(), item(), isEngineEnd(false){
+GameManager::GameManager():display(250, 74),logger(),input(),sound(), save(), item(), isEngineEnd(false){
     system("cls");
 }
 void GameManager::RemoveActor(Actor* actor) {

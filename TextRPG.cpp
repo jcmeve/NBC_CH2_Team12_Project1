@@ -14,6 +14,7 @@
 
 TextRPG::TextRPG(std::wstring name) : Actor(name)
 {
+	
 	EnterState(GameState::TITLE);
 }
 
@@ -74,6 +75,7 @@ void TextRPG::EnterState(GameState state)
 	case GameState::CREATE_CHARACTER:
 		GM::GetLogger().Log(L"캐릭터를 생성합니다.");
 		GM::GetLogger().Log(L"[ENTER] 진행");
+
 		break;
 
 	case GameState::STORY:
