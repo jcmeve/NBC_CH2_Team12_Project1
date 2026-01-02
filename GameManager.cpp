@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include <algorithm>
 #include <atomic>
-GameManager::GameManager():display(250, 70),logger(),input(),isEngineEnd(false){
+GameManager::GameManager():display(250, 70),logger(),input(),sound(), isEngineEnd(false){
     system("cls");
 }
 void GameManager::RemoveActor(Actor* actor) {
@@ -28,6 +28,10 @@ DisplayManager& GameManager::GetDisplay() {
 
 InputManager& GameManager::GetInput() {
     return GetInstance().input;
+}
+
+SoundManager& GameManager::GetSound() {
+    return GetInstance().sound;
 }
 
 GameManager& GameManager::GetInstance() {
@@ -59,6 +63,7 @@ void GameManager::Tick(float deltaTime) {
     static std::atomic_char cnt = 0;
     ++cnt;
     _ASSERT(cnt == 1);
+
 
     GameManager& gm = GetInstance();
     std::vector<Actor*>& garbageActors = gm.garbageActors;

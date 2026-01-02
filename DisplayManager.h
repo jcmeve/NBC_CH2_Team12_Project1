@@ -49,8 +49,8 @@ public:
     void DrawShoplist(const Character& player, const Shop& shop);
     void ClearTextArea();
     void ClearBuffer(unsigned char bufferIdx);
-    void WriteString(std::wstring s);
-    void WriteStringSlow(std::wstring s, float time);
+    void WriteString(const std::wstring& s);
+    void WriteStringSlow(const std::wstring& s, float time);
 
     //위젯으로 옮기는게 깔끔함 but 아직 사용처가 하나이므로 냅둠
     void DrawBox(short posX, short posY, short width, short height,WORD color);

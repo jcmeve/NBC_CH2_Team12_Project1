@@ -5,10 +5,11 @@
 #include "Monster.h"
 #include<string>
 #include "Widget.h"
+#include "QTE.h"
 void TextRPG::Tick(float deltaTime) {
-    Widget* widget = GM::CreateActor<Widget>(L"한글쓰지말자");
-    widget->Init(40, 30, 40, 10);
+    //TickTest(deltaTime);
 
+    /*
     Character* player = GM::CreateActor<Character>(L"플레이어");
     Pawn* monster = GM::CreateActor<Monster>(L"트롤");
     static float attackSpeed = 1;
@@ -28,17 +29,18 @@ void TextRPG::Tick(float deltaTime) {
         turn = (turn + 1) % 2;
     }
     
-//    TickTest(deltaTime);
+    */
 }
 
 void TextRPG::TickTest(float deltaTime) {
     static short x = 30;
     static short y = 30;
 
-    if (GetAsyncKeyState(VK_LEFT)) {
-        --x;
+    if (GM::GetInput().IsKeyDown(VK_LEFT)) {
+    //if (GetAsyncKeyState(VK_LEFT)) {
+            --x;
     }
-    if (GetAsyncKeyState(VK_RIGHT)) {
+    if (GM::GetInput().IsPressed(VK_RIGHT)) {
         ++x;
     }
     if (GetAsyncKeyState(VK_UP)) {
@@ -55,7 +57,8 @@ void TextRPG::TickTest(float deltaTime) {
     x = x > 120 ? 120 : x;
     y = y > 55 ? 55 : y;
     GM::GetDisplay().DrawSectors();
-   // GM::GetDisplay().DrawWcharAtPosition(x, y);
+    GM::GetDisplay().DrawWcharAtPosition(x, y, L'a',BACKGROUND_RED);
+    GM::GetDisplay().DrawTester();
     static float timer = 0.0f;
     timer += deltaTime;
     if (timer > 0.6) {
@@ -66,5 +69,8 @@ void TextRPG::TickTest(float deltaTime) {
 
 
 TextRPG::TextRPG(std::wstring name):Actor(name) {
-
+    Widget* widget = GM::CreateActor<Widget>(L"한글쓰지말자");
+    widget->Init(0, 0, 40, 10);
+ //   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
+ //   qte->Init(nullptr, 3);
 }

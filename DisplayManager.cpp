@@ -209,7 +209,7 @@ void DisplayManager::DrawTester() {
         current_y_offset++;
     }
 
-    WriteString(L"ABCDEFGHIGKLMNOPQRSTUVWXTZ\n123456789");
+    WriteString(L"ABCDEFGHIGKLMNOPQRSTUVWXTZ");
     
 
 }
@@ -297,7 +297,7 @@ void DisplayManager::ClearBuffer(unsigned char bufferIdx) {
 
 
 //천천히 출력중에 WriteString 무시함
-void DisplayManager::WriteString(std::wstring s) {
+void DisplayManager::WriteString(const std::wstring& s) {
     if (NNNNdrawBuffer[currBufferIdx].empty()) {
         exit(-1);
     }
@@ -324,7 +324,7 @@ void DisplayManager::WriteString(std::wstring s) {
 }
 
 //천천히 출력중에 WriteString 무시함
-void DisplayManager::WriteStringSlow(std::wstring s, float time) {   
+void DisplayManager::WriteStringSlow(const std::wstring& s, float time) {   
     if (!stringSlowWrite.empty())
         return;
 

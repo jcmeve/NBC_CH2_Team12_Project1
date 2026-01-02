@@ -2,12 +2,14 @@
 #include "Logger.h"
 #include "DisplayManager.h"
 #include "InputManager.h"
+#include "SoundManager.h"
 #include <vector>
 #include <memory>
 class GameManager {
     DisplayManager display;
     Logger logger;
     InputManager input;
+    SoundManager sound;
     bool isEngineEnd;
     std::vector<Actor*> actors;
     std::vector<Actor*> garbageActors;
@@ -22,6 +24,7 @@ public:
     static Logger& GetLogger();
     static DisplayManager& GetDisplay();
     static InputManager& GetInput();
+    static SoundManager& GetSound();
     static GameManager& GetInstance();
     static bool IsEnd();
     static bool ShutDown();
