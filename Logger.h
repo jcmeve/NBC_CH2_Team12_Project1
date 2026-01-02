@@ -12,5 +12,6 @@ private:
 public:
     void ErrorLog(const std::wstring& s) const;
     void Log(const std::wstring& s) const;
+    void LogSlow(const std::wstring& s, float time) const;
 };
 
