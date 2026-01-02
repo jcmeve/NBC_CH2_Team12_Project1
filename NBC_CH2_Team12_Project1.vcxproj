@@ -129,6 +129,7 @@
     <ClInclude Include="Buff.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="DisplayManager.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="InputManager.h" />

@@ -1,37 +1,24 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
-class Actor;
+#include "Enums.h"
+class Pawn;
 class Item {
 public:
-    Item();
+    //name, gold, desc, turn, effects
+    Item(std::wstring _name, int _gold, std::wstring _desc, int _turn , std::vector<std::pair<STATS, int>> _effects);
     virtual ~Item();
-    virtual void Use(Actor& actor)=0;
+    virtual void Use(Pawn& pawn);
     std::wstring GetName();
 protected:
     std::wstring name;
     int gold;
     std::wstring description;
     int turn;//buff 필요
-    std::vector<std::pair<std::wstring, int>> effects;//target stat, ammound 
+    std::vector<std::pair<STATS, int>> effects;//stat, amount
+
+        
     //이름, 골드, 설명, 턴, HP 숫자, ATK 숫자, DEF 숫자
 
-};
-
-class HealingPotion : public Item {
-public:
-    HealingPotion(int _amount = 50);
-    void Use(Actor& actor) override;
-
-private:
-    int amount;
-};
-
-class DamageIncreasePotion : public Item {
-public:
-    DamageIncreasePotion(int _amount = 10);
-    void Use(Actor& actor) override;
-private:
-    int amount;
 };
 
