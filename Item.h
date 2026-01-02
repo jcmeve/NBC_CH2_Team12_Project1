@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include <vector>
 class Actor;
 class Item {
 public:
@@ -9,6 +10,12 @@ public:
     std::wstring GetName();
 protected:
     std::wstring name;
+    int gold;
+    std::wstring description;
+    int turn;//buff 필요
+    std::vector<std::pair<std::wstring, int>> effects;//target stat, ammound 
+    //이름, 골드, 설명, 턴, HP 숫자, ATK 숫자, DEF 숫자
+
 };
 
 class HealingPotion : public Item {

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include<string>
+#include <vector>
 class Character;
 class SaveManager {
 private:
@@ -12,8 +13,10 @@ private:
     friend class GameManager;
 public:
     bool LoadAscii(const std::wstring& name, std::wstring& buf);
+    bool LoadItems(const std::wstring& name, std::vector<std::vector<std::wstring>>& out);
     bool SaveGame(Character* player);
     bool LoadGame(Character* player);
+
 
 };
 
