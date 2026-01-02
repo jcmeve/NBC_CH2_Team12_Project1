@@ -9,7 +9,13 @@ Pawn::~Pawn() {
 
 void Pawn::Init()
 {
+	ascii.resize(3);
+	LoadAscii(L"");
 	isDead = false;
+}
+
+bool Pawn::LoadAscii(std::wstring fileName) {
+	return GM::GetSave().LoadAscii(L"001", ascii[0]);
 }
 
 int Pawn::GetHealth() const {
@@ -44,4 +50,10 @@ void Pawn::TakeDamage(int damage) {
 		health = 0;
 		isDead = true;
 	}
+}
+
+void Pawn::Tick(float deltaTime) {
+	//애니메이션 재생 필요
+	//GM::GetDisplay().DrawActor()
+	GM::GetDisplay().DrawAscii(ascii[0]);
 }

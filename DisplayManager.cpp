@@ -78,7 +78,7 @@ void DisplayManager::Render(float deltaTime) {
         COORD bufferSize = { (SHORT)width, (SHORT)height };
         COORD bufferCoord = { 0, 0 };
         SMALL_RECT writeRegion = { 0, 0, (SHORT)(width - 1), (SHORT)(height - 1) };
-        WriteConsoleOutputW(handle, &NNNNdrawBuffer[currBufferIdx][0], bufferSize, bufferCoord, &writeRegion);
+        WriteConsoleOutputW(handle, &drawBuffer[currBufferIdx][0], bufferSize, bufferCoord, &writeRegion);
         clearFullScreen = false;
         cursorX = 0;
         cursorY = borderline+1;
@@ -88,7 +88,7 @@ void DisplayManager::Render(float deltaTime) {
         COORD bufferSize = { (SHORT)width, (SHORT)height };
         COORD bufferCoord = { 0, 0 };
         SMALL_RECT writeRegion = { 0, 0, (SHORT)(width - 1), (SHORT)(borderline - 1) };
-        WriteConsoleOutputW(handle, &NNNNdrawBuffer[currBufferIdx][0], bufferSize, bufferCoord, &writeRegion);
+        WriteConsoleOutputW(handle, &drawBuffer[currBufferIdx][0], bufferSize, bufferCoord, &writeRegion);
     }
     currBufferIdx = (currBufferIdx + 1) % nr_buffer;
     ClearBuffer(currBufferIdx);
@@ -167,11 +167,11 @@ void DisplayManager::DrawSectors() {
   for (int x = 0; x < width; x += 2) {
 
         
-    NNNNdrawBuffer[currBufferIdx][width * borderline+x].Char.UnicodeChar = L'─';
-    NNNNdrawBuffer[currBufferIdx][width * borderline + x].Attributes = FOREGROUND_WHITE | COMMON_LVB_LEADING_BYTE;
+    drawBuffer[currBufferIdx][width * borderline+x].Char.UnicodeChar = L'─';
+    drawBuffer[currBufferIdx][width * borderline + x].Attributes = FOREGROUND_WHITE | COMMON_LVB_LEADING_BYTE;
     if (x + 1 < width) {
-        NNNNdrawBuffer[currBufferIdx][width * borderline + x + 1].Char.UnicodeChar = L' ';
-        NNNNdrawBuffer[currBufferIdx][width * borderline + x + 1].Attributes = FOREGROUND_WHITE | COMMON_LVB_TRAILING_BYTE;
+        drawBuffer[currBufferIdx][width * borderline + x + 1].Char.UnicodeChar = L' ';
+        drawBuffer[currBufferIdx][width * borderline + x + 1].Attributes = FOREGROUND_WHITE | COMMON_LVB_TRAILING_BYTE;
     }
     }
 }
@@ -200,8 +200,8 @@ void DisplayManager::DrawTester() {
 
         for (int i = 0; i < line_length; ++i) {
             int bufferIdx = (y_target + current_y_offset) * width + (x_target + i);
-            NNNNdrawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = aaaa[curr_pos + i];
-            NNNNdrawBuffer[currBufferIdx][bufferIdx].Attributes = FOREGROUND_WHITE;
+            drawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = aaaa[curr_pos + i];
+            drawBuffer[currBufferIdx][bufferIdx].Attributes = FOREGROUND_WHITE;
         }
 
         if (next_newline == std::wstring::npos) break;
@@ -215,29 +215,29 @@ void DisplayManager::DrawTester() {
 }
 
 void DisplayManager::DrawWcharAtPosition(short x, short y, wchar_t c, WORD color) {
-    if (NNNNdrawBuffer[currBufferIdx].empty()) {
+    if (drawBuffer[currBufferIdx].empty()) {
         exit(-1);
     }
     if (x < 0 || x >= width || y < 0 || y >= height) return;
     short idx = CoordToIdx(x, y);
-    if (NNNNdrawBuffer[currBufferIdx][idx].Attributes & COMMON_LVB_TRAILING_BYTE) {//앞이 전각인 경우 뒤에 새로 그리려면 앞 문자까지 지워야함
+    if (drawBuffer[currBufferIdx][idx].Attributes & COMMON_LVB_TRAILING_BYTE) {//앞이 전각인 경우 뒤에 새로 그리려면 앞 문자까지 지워야함
         if (x > 0) {
-            NNNNdrawBuffer[currBufferIdx][idx-1].Char.UnicodeChar = L' ';
-            NNNNdrawBuffer[currBufferIdx][idx-1].Attributes = color;
+            drawBuffer[currBufferIdx][idx-1].Char.UnicodeChar = L' ';
+            drawBuffer[currBufferIdx][idx-1].Attributes = color;
         }
     }
     if (!(c >= 0x2500 && c <= 0x257F) && c > 0x7F) { // 전각검사
         if (x + 1 < width) {//2칸씀
-            NNNNdrawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
-            NNNNdrawBuffer[currBufferIdx][idx].Attributes = color | COMMON_LVB_LEADING_BYTE;
+            drawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
+            drawBuffer[currBufferIdx][idx].Attributes = color | COMMON_LVB_LEADING_BYTE;
 
-            NNNNdrawBuffer[currBufferIdx][idx + 1].Char.UnicodeChar = L' ';
-            NNNNdrawBuffer[currBufferIdx][idx + 1].Attributes = color | COMMON_LVB_TRAILING_BYTE;
+            drawBuffer[currBufferIdx][idx + 1].Char.UnicodeChar = L' ';
+            drawBuffer[currBufferIdx][idx + 1].Attributes = color | COMMON_LVB_TRAILING_BYTE;
         }
     }
     else {
-        NNNNdrawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
-        NNNNdrawBuffer[currBufferIdx][idx].Attributes = color;
+        drawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
+        drawBuffer[currBufferIdx][idx].Attributes = color;
     }
 }
 
@@ -248,32 +248,62 @@ void DisplayManager::DrawLobby() {
 void DisplayManager::DrawBattle(const Actor& player, const Actor& monster) {
 
 }
-void DisplayManager::DrawActor(const Actor& actor, short x_target, short y_target) {
+//void DisplayManager::DrawActor(const Actor& actor, short x_target, short y_target) {
+//    if (x_target > width || y_target > borderline)
+//        WriteString(L"Draw Actor Fail!");
+//    short curr_pos = 0;
+//    short current_y_offset = 0;
+//    while (curr_pos < aaaa.size()) {
+//        //calculate current line length
+//        short next_newline = aaaa.find(L'\n', curr_pos);
+//
+//        short line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
+//        short line_length = line_end - curr_pos;
+//
+//        //if edge of the display stop draw
+//        if (y_target + current_y_offset >= height) break;
+//        if (x_target + line_length > width) {
+//            line_length =  width - x_target;
+//        }
+//
+//        for (int i = 0; i < line_length; ++i) {
+//            int bufferIdx = (y_target + current_y_offset) * width + (x_target + i);
+//            drawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = aaaa[curr_pos + i];
+//            drawBuffer[currBufferIdx][bufferIdx].Attributes = 0x0007; 
+//        }
+//
+//        if (next_newline == std::wstring::npos) break;
+//        curr_pos = next_newline + 1; 
+//        current_y_offset++;
+//    }
+//}
+
+void DisplayManager::DrawAscii(const std::wstring ascii, short x_target, short y_target) {
     if (x_target > width || y_target > borderline)
         WriteString(L"Draw Actor Fail!");
     short curr_pos = 0;
     short current_y_offset = 0;
-    while (curr_pos < aaaa.size()) {
+    while (curr_pos < ascii.size()) {
         //calculate current line length
-        short next_newline = aaaa.find(L'\n', curr_pos);
+        short next_newline = ascii.find(L'\n', curr_pos);
 
-        short line_end = (next_newline == std::wstring::npos) ? aaaa.size() : next_newline;
+        short line_end = (next_newline == std::wstring::npos) ? ascii.size() : next_newline;
         short line_length = line_end - curr_pos;
 
         //if edge of the display stop draw
         if (y_target + current_y_offset >= height) break;
         if (x_target + line_length > width) {
-            line_length =  width - x_target;
+            line_length = width - x_target;
         }
 
         for (int i = 0; i < line_length; ++i) {
             int bufferIdx = (y_target + current_y_offset) * width + (x_target + i);
-            NNNNdrawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = aaaa[curr_pos + i];
-            NNNNdrawBuffer[currBufferIdx][bufferIdx].Attributes = 0x0007; 
+            drawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = ascii[curr_pos + i];
+            drawBuffer[currBufferIdx][bufferIdx].Attributes = 0x0007;
         }
 
         if (next_newline == std::wstring::npos) break;
-        curr_pos = next_newline + 1; 
+        curr_pos = next_newline + 1;
         current_y_offset++;
     }
 }
@@ -291,14 +321,14 @@ void DisplayManager::ClearTextArea() {
 }
 
 void DisplayManager::ClearBuffer(unsigned char bufferIdx) {
-    NNNNdrawBuffer[bufferIdx].assign(width * height, { L' ' , });
+    drawBuffer[bufferIdx].assign(width * height, { L' ' , });
 }
 
 
 
 //천천히 출력중에 WriteString 무시함
 void DisplayManager::WriteString(const std::wstring& s) {
-    if (NNNNdrawBuffer[currBufferIdx].empty()) {
+    if (drawBuffer[currBufferIdx].empty()) {
         exit(-1);
     }
     if (!stringSlowWrite.empty())

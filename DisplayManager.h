@@ -14,7 +14,7 @@ class DisplayManager {
 private:
     static constexpr unsigned char nr_buffer = 2;
     
-    std::vector<CHAR_INFO> NNNNdrawBuffer[nr_buffer];
+    std::vector<CHAR_INFO> drawBuffer[nr_buffer];
     unsigned char currBufferIdx = 0;//그리고 있는 버퍼 idx
     short width;
     short height;
@@ -44,7 +44,8 @@ public:
     void DrawWcharAtPosition(short x, short y, wchar_t c, WORD color);
     void DrawLobby() ;
     void DrawBattle(const Actor& l_actor, const Actor& r_actor);
-    void DrawActor(const Actor& actor, short x_target, short y_target);
+    //void DrawActor(const Actor& actor, short x_target, short y_target);
+    void DrawAscii(const std::wstring ascii, short x_target=0, short y_target=0);
     void DrawShop(const Character& player, const Shop& shop) ;
     void DrawShoplist(const Character& player, const Shop& shop);
     void ClearTextArea();

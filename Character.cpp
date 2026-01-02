@@ -15,7 +15,7 @@ Character::~Character()
 
 void Character::Init()
 {
-
+	Pawn::Init();
 	this->level = 1;
 	this->maxHealth = 200;
 	this->health = maxHealth;
@@ -82,4 +82,5 @@ int Character::getLevel() const
 }
 
 void Character::Tick(float deltaTime) {
+	Pawn::Tick(deltaTime);
 }

@@ -11,6 +11,7 @@ int Monster::GenerateRandomStat(int min, int max)
 }
 
 void Monster::Tick(float deltaTime) {
+	Pawn::Tick(deltaTime);
 }
 
 Monster::Monster(std::wstring name) : Pawn(name, 0, 0)

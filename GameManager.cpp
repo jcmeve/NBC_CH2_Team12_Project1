@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include <algorithm>
 #include <atomic>
-GameManager::GameManager():display(250, 70),logger(),input(),sound(), isEngineEnd(false){
+GameManager::GameManager():display(250, 70),logger(),input(),sound(), save(), isEngineEnd(false){
     system("cls");
 }
 void GameManager::RemoveActor(Actor* actor) {
@@ -32,6 +32,10 @@ InputManager& GameManager::GetInput() {
 
 SoundManager& GameManager::GetSound() {
     return GetInstance().sound;
+}
+
+SaveManager& GameManager::GetSave() {
+    return GetInstance().save;
 }
 
 GameManager& GameManager::GetInstance() {

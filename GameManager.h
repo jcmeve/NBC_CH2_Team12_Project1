@@ -3,6 +3,7 @@
 #include "DisplayManager.h"
 #include "InputManager.h"
 #include "SoundManager.h"
+#include "SaveManager.h"
 #include <vector>
 #include <memory>
 class GameManager {
@@ -10,6 +11,7 @@ class GameManager {
     Logger logger;
     InputManager input;
     SoundManager sound;
+    SaveManager save;
     bool isEngineEnd;
     std::vector<Actor*> actors;
     std::vector<Actor*> garbageActors;
@@ -25,6 +27,7 @@ public:
     static DisplayManager& GetDisplay();
     static InputManager& GetInput();
     static SoundManager& GetSound();
+    static SaveManager& GetSave();
     static GameManager& GetInstance();
     static bool IsEnd();
     static bool ShutDown();
