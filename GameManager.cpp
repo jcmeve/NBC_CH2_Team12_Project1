@@ -18,6 +18,10 @@ void GameManager::RemoveActor(Actor* actor) {
     }
    
 }
+void GameManager::Init() {
+    item.Init();
+}
+
 Logger& GameManager::GetLogger() {
     return GetInstance().logger;
 }
