@@ -7,8 +7,8 @@
 #include<string>
 #include "Widget.h"
 #include "QTE.h"
- //   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
- //   qte->Init(nullptr, 3);
+//   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
+//   qte->Init(nullptr, 3);
 TextRPG::TextRPG(std::wstring name) : Actor(name) {}
 
 TextRPG::~TextRPG() {}
@@ -113,7 +113,6 @@ void TextRPG::UpdateEnding()
 void TextRPG::ChangeState(GameState newState)
 {
 	currentState = newState;
-	GM::GetDisplay().ClearTextArea();
 
 	// 상태 변경 시 초기화 로직이 필요하다면 추가할것
 }
