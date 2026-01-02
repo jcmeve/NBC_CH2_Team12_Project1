@@ -7,9 +7,7 @@
 
 BattleManager::BattleManager(std::wstring name) :Actor(name) {}
 
-BattleManager::~BattleManager()
-{
-}
+BattleManager::~BattleManager() {}
 
 void BattleManager::StartBattle(Character* p, Monster* m)
 {
@@ -23,23 +21,29 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
 
-	CurrentState = BattleState::BS_PLAYER_TURN;
+	currentState = BattleState::BS_PLAYER_TURN;
 	turnTimer = 1.0f;
 	turnDelay = 1.0f;
 }
 
 BattleState BattleManager::GetBattleState() const
 {
-	return CurrentState;
+	return currentState;
 }
 
 void BattleManager::Tick(float deltaTime)
 {
-	if (CurrentState == BattleState::BS_END ||
-		CurrentState == BattleState::BS_VICTORY ||
-		CurrentState == BattleState::BS_DEFEAT)
+	if (currentState == BattleState::BS_END)
 	{
 		return;
+	}
+
+	if (currentState == BattleState::BS_VICTORY || currentState == BattleState::BS_DEFEAT)
+	{
+		if (GM::GetInput().IsKeyDown(VK_SPACE))
+		{
+			currentState = BattleState::BS_END;
+		}
 	}
 
 	if (turnTimer > 0.0f)
@@ -48,7 +52,7 @@ void BattleManager::Tick(float deltaTime)
 		return;
 	}
 
-	switch (CurrentState)
+	switch (currentState)
 	{
 	case BattleState::BS_PLAYER_TURN:
 		ProcessPlayerTurn();
@@ -76,11 +80,14 @@ void BattleManager::ProcessPlayerTurn()
 	if (monster->IsDead())
 	{
 		GM::GetLogger().Log(L"전투 승리! 몬스터를 처치했습니다.");
-		CurrentState = BattleState::BS_VICTORY;
+		player->addExperience(50);
+		player->addGold(10);
+		GM::GetLogger().Log(L"[Space bar] 계속 진행");
+		currentState = BattleState::BS_VICTORY;
 	}
 	else
 	{
-		CurrentState = BattleState::BS_MONSTER_TURN;
+		currentState = BattleState::BS_MONSTER_TURN;
 		turnTimer = turnDelay;
 	}
 }
@@ -101,11 +108,11 @@ void BattleManager::ProcessMonsterTurn()
 	if (player->IsDead())
 	{
 		GM::GetLogger().Log(L"전투에서 패배했습니다...");
-		CurrentState = BattleState::BS_DEFEAT;
+		currentState = BattleState::BS_DEFEAT;
 	}
 	else
 	{
-		CurrentState = BattleState::BS_PLAYER_TURN;
+		currentState = BattleState::BS_PLAYER_TURN;
 		turnTimer = turnDelay;
 	}
 }
@@ -121,6 +128,5 @@ bool BattleManager::CanAttack(Pawn* attacker, Pawn* target)
 	{
 		return false;
 	}
-
 	return true;
 }

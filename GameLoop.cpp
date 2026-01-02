@@ -45,10 +45,10 @@ int main() {
         auto tickEnd = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> tickTime = tickEnd - curr;
 
-        sleepTime = 16 - (int)(tickTime.count() * 1000.0f);
-        if (sleepTime > 0) {
-            Sleep(sleepTime);
-        }        
+		sleepTime = 16 - (int)(tickTime.count() * 1000.0f);
+		if (sleepTime > 0) {
+			Sleep(sleepTime);
+		}
 
         float inputT = chrono::duration<float>(t2 - t1).count();
         float logicT = chrono::duration<float>(t3 - t2).count();

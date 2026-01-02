@@ -24,10 +24,14 @@ public:
 	void levelUp();
 	void useItem(int index);
 
-	Inventory* getInventory() const;
 	int getLevel() const;
+	int getExperience() const;
+	int getGold() const;
 
-	// Actor을(를) 통해 상속됨
+	void addExperience(int exp);
+	void addGold(int amount);
+
+	Inventory* getInventory() const;
+
 	void Tick(float deltaTime) override;
-
 };
