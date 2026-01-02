@@ -27,6 +27,7 @@ int main() {
     timeBeginPeriod(1);
     SetConsoleOutputCP(CP_UTF8);
     GameManager& gm = GM::GetInstance();
+    gm.Init();
     gm.CreateActor<TextRPG>();
     auto prev = std::chrono::high_resolution_clock::now();
     int sleepTime; 

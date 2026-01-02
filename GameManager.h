@@ -46,6 +46,7 @@ public:
     static T* CreateActor() {
         return CreateActor<T>(std::wstring(L"NONAME"));
     }
+    void Init();
 
     static void DestroyActor(Actor* actor);
     static void Tick(float deltaTime) ;
