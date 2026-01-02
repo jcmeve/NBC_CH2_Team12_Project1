@@ -5,7 +5,7 @@
 #include "GameManager.h"
 
 
-BattleManager::BattleManager() :Actor(L"BattleManager") {}
+BattleManager::BattleManager(std::wstring name) :Actor(name) {}
 
 BattleManager::~BattleManager()
 {

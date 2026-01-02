@@ -24,7 +24,7 @@ private:
 	float turnTimer = 1.0f;
 	float turnDelay = 1.0f;
 public:
-	BattleManager();
+	BattleManager(std::wstring name);
 	virtual ~BattleManager();
 
 	void StartBattle(Character* p, Monster* m);

@@ -76,5 +76,10 @@ Inventory* Character::getInventory() const
 	return inventory.get();
 }
 
+int Character::getLevel() const
+{
+	return level;
+}
+
 void Character::Tick(float deltaTime) {
 }
