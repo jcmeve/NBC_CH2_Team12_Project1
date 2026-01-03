@@ -22,7 +22,7 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
 
 	currentState = BattleState::BS_PLAYER_TURN;
-	turnTimer = 1.0f;
+	turnTimer = 0.0f;
 	turnDelay = 1.0f;
 }
 

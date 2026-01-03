@@ -33,22 +33,12 @@ void Character::TakeDamage(int damage)
 
 void Character::displayStatus()
 {
+	std::wstring str = std::wstring(L"=============== Player's Status ===============\n")
+		+ L"이름: " + name + L"\n레벨: " + std::to_wstring(level) + L" | 경험치: " + std::to_wstring(experience) + L"/100"
+		+ L"\n 현재 체력: " + std::to_wstring(health) + L"/" + std::to_wstring(maxHealth)
+		+ L"\n 소지 골드: " + std::to_wstring(gold);
 
-	std::wstring wName(name.begin(), name.end());
-
-	Logger& logger = GM::GetLogger();
-	logger.Log(L"=============== Player's Status ===============");
-	logger.Log(L"이름: " + wName);
-
-	std::wstring levelStr = L"레벨: " + std::to_wstring(level) + L" | 경험치: " + std::to_wstring(experience) + L"/100";
-	logger.Log(levelStr);
-
-	std::wstring hpStr = L"현재 체력: " + std::to_wstring(health) + L"/" + std::to_wstring(maxHealth);
-	logger.Log(hpStr);
-
-	std::wstring goldStr = L"소지 골드: " + std::to_wstring(gold);
-	logger.Log(goldStr);
-
+	GM::GetLogger().Log(str);
 }
 
 void Character::levelUp()
