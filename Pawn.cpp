@@ -67,6 +67,30 @@ void Pawn::TakeDamage(int damage) {
 	}
 }
 
+void Pawn::UseItem(std::wstring _name, int _turn, int _hp, int _dmg, int _def) {
+	//GM::GetLogger().Log(name + L"을 사용했습니ㄷ");
+	if (_turn == 1) {
+		health += _hp;
+		if (health > maxHealth) {
+			health = maxHealth;
+		}
+		dmg += _dmg;
+		//def+=_def;
+	}
+	else {//buff
+
+	}
+
+}
+
+void Pawn::ReCalc() {
+	dmg = originDmg;
+	//TODO
+	//for (auto buff : buffes) {
+	//	
+	//}
+}
+
 void Pawn::Tick(float deltaTime) {
 	//애니메이션 재생 필요
 	//GM::GetDisplay().DrawActor()

@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <string>
 #include <vector>
+#include <deque>
 class Actor;
 class Character;
 class Monster;
@@ -19,7 +20,7 @@ private:
     short width;
     short height;
     short borderline;
-    static constexpr short textAreaHeight = 10;
+    static constexpr short textAreaHeight = 15;
 
     float totalTimeSlowWrite = 0.0f;
     float currTimeSlowWrite = 0.0f;
@@ -27,13 +28,10 @@ private:
     size_t idxSlowWrite = 0;
     void* handle = nullptr;
 
-    std::wstring pendedString;
 
-    //for TextArea
-    short cursorY ;
-    short cursorX;
+    std::deque<std::wstring> stringDeque;
 
-    bool clearFullScreen = false;
+
     short CoordToIdx(short x, short y);
 
 public:
