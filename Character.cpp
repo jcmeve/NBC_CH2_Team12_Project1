@@ -1,17 +1,14 @@
-#include "Character.h"
+﻿#include "Character.h"
 #include "Inventory.h"
 #include "Item.h"
 #include "GameManager.h"
-#include <iostream>
 
 Character::Character(std::wstring name) :
-	Pawn(name, 0, 0), level(1), maxHealth(200), experience(0), gold(0)
+	Pawn(name, 0, 0, 1.0f), level(1), maxHealth(200), experience(0), gold(0)
 {
 }
 
-Character::~Character()
-{
-}
+Character::~Character() {}
 
 void Character::Init()
 {
@@ -20,6 +17,7 @@ void Character::Init()
 	this->maxHealth = 200;
 	this->health = maxHealth;
 	this->dmg = 30;
+	this->attackSpeed = 1.0f;
 	this->experience = 0;
 	this->gold = 0;
 
@@ -55,13 +53,10 @@ void Character::displayStatus()
 
 void Character::levelUp()
 {
-	if (level < 10)
-	{
-		level++;
-		maxHealth += level * 20;
-		dmg += level * 5;
-		health = maxHealth;
-	}
+	level++;
+	maxHealth += level * 20;
+	dmg += level * 5;
+	health = maxHealth;
 }
 
 void Character::useItem(int index)
@@ -107,6 +102,7 @@ void Character::addExperience(int exp)
 void Character::addGold(int amount)
 {
 	gold += amount;
+	GM::GetLogger().Log(L"골드 " + std::to_wstring(amount) + L" 획득! (현재: " + std::to_wstring(gold) + L"G)");
 }
 
 void Character::Tick(float deltaTime) {

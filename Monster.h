@@ -10,10 +10,11 @@ public:
 
 	void Init(int playerLevel);
 
+	int dropGold();
 	void TakeDamage(int damage) override;
 
 private:
-	int GenerateRandomStat(int min, int max);
+	int GenerateRandomValue(int min, int max);
 
 	// Actor을(를) 통해 상속됨
 	void Tick(float deltaTime) override;

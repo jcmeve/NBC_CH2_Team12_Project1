@@ -66,14 +66,14 @@ void BattleManager::Tick(float deltaTime)
 
 void BattleManager::ProcessPlayerTurn()
 {
-	if (CanAttack(player, monster))
+	if (player->CanAttack(monster))
 	{
 		int hpBefore = monster->GetHealth();
 		player->Attack(*monster);
 		int damage = hpBefore - monster->GetHealth();
 
-		std::wstring log = L"[플레이어 공격]" + monster->GetName() + L"에게" + std::to_wstring(damage) + L"데미지를 입혔습니다!"
-			+ L"(남은 체력: " + std::to_wstring(monster->GetHealth()) + L")";
+		std::wstring log = L"[플레이어 공격] " + monster->GetName() + L"에게 " + std::to_wstring(damage) + L"데미지를 입혔습니다!"
+			+ L" (남은 체력: " + std::to_wstring(monster->GetHealth()) + L")";
 		GM::GetLogger().Log(log);
 	}
 
@@ -81,27 +81,27 @@ void BattleManager::ProcessPlayerTurn()
 	{
 		GM::GetLogger().Log(L"전투 승리! 몬스터를 처치했습니다.");
 		player->addExperience(50);
-		player->addGold(10);
+		player->addGold(monster->dropGold());
 		GM::GetLogger().Log(L"[Space bar] 계속 진행");
 		currentState = BattleState::BS_VICTORY;
 	}
 	else
 	{
 		currentState = BattleState::BS_MONSTER_TURN;
-		turnTimer = turnDelay;
+		turnTimer = turnDelay / player->GetAttackSpeed();
 	}
 }
 
 void BattleManager::ProcessMonsterTurn()
 {
-	if (CanAttack(monster, player))
+	if (monster->CanAttack(player))
 	{
 		int hpBefore = player->GetHealth();
 		monster->Attack(*player);
 		int damage = hpBefore - player->GetHealth();
 
-		std::wstring log = L"[몬스터 공격]" + player->GetName() + L"에게" + std::to_wstring(damage) + L"데미지를 입혔습니다!"
-			+ L"(남은 체력: " + std::to_wstring(player->GetHealth()) + L")";
+		std::wstring log = L"[몬스터 공격] " + player->GetName() + L"에게 " + std::to_wstring(damage) + L"데미지를 입혔습니다!"
+			+ L" (남은 체력: " + std::to_wstring(player->GetHealth()) + L")";
 		GM::GetLogger().Log(log);
 	}
 
@@ -113,20 +113,6 @@ void BattleManager::ProcessMonsterTurn()
 	else
 	{
 		currentState = BattleState::BS_PLAYER_TURN;
-		turnTimer = turnDelay;
+		turnTimer = turnDelay / monster->GetAttackSpeed();
 	}
-}
-
-bool BattleManager::CanAttack(Pawn* attacker, Pawn* target)
-{
-	if (!attacker || !target)
-	{
-		return false;
-	}
-
-	if (attacker->IsDead() || target->IsDead())
-	{
-		return false;
-	}
-	return true;
 }

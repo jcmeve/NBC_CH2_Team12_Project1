@@ -1,6 +1,7 @@
 ﻿#include "Pawn.h"
 #include "GameManager.h"
-Pawn::Pawn(std::wstring name, int health, int dmg) : Actor(name), health(health), dmg(dmg), isDead(false) {
+Pawn::Pawn(std::wstring name, int health, int dmg, float attackSpeed) :
+	Actor(name), health(health), dmg(dmg), attackSpeed(attackSpeed), isDead(false) {
 }
 
 Pawn::~Pawn() {
@@ -26,8 +27,13 @@ int Pawn::GetDamage() const {
 	return dmg;
 }
 
+float Pawn::GetAttackSpeed() const
+{
+	return attackSpeed;
+}
+
 void Pawn::Attack(Pawn& target) {
-	
+
 	target.TakeDamage(GetDamage());
 	GM::GetDisplay().WriteString(GetName() + L" -> " + target.GetName());
 }
@@ -36,6 +42,15 @@ bool Pawn::IsDead() const {
 	return isDead;
 }
 
+bool Pawn::CanAttack(Pawn* target)
+{
+	if (!target || target->IsDead())
+	{
+		return false;
+	}
+
+	return true;
+}
 
 void Pawn::TakeDamage(int damage) {
 	if (isDead)

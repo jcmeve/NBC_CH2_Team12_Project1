@@ -39,7 +39,5 @@ private:
 	void ProcessPlayerTurn();
 	void ProcessMonsterTurn();
 
-	bool CanAttack(Pawn* attacker, Pawn* target);
-
 };
 
