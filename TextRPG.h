@@ -24,6 +24,8 @@ private:
 	Monster* currentMonster = nullptr;
 	BattleManager* battleManager = nullptr;
 
+	std::wstring inputName = L"";
+
 	bool isInitialized = false;
 
 public:

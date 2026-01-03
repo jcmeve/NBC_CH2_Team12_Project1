@@ -21,9 +21,9 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
 
-	currentState = BattleState::BS_PLAYER_TURN;
-	turnTimer = 0.0f;
-	turnDelay = 1.0f;
+	currentState = BattleState::BS_WAITING;
+	playerGauge = MAX_GAUGE; //플레이어 선공
+	monsterGauge = 0.0;
 }
 
 BattleState BattleManager::GetBattleState() const
@@ -46,21 +46,43 @@ void BattleManager::Tick(float deltaTime)
 		}
 	}
 
-	if (turnTimer > 0.0f)
+	if (currentState == BattleState::BS_FINISH_DELAY)
 	{
-		turnTimer -= deltaTime;
-		return;
+		//승패 확인 전 딜레이
+		finishTimer -= deltaTime;
+		if (finishTimer <= 0.0f)
+		{
+			if (player->IsDead()) ProcessDefeat();
+			else if (monster->IsDead()) ProcessVictory();
+		}
 	}
 
-	switch (currentState)
+	if (currentState == BattleState::BS_WAITING)
 	{
-	case BattleState::BS_PLAYER_TURN:
-		ProcessPlayerTurn();
-		break;
+		playerGauge += player->GetAttackSpeed() * deltaTime;
+		monsterGauge += monster->GetAttackSpeed() * deltaTime;
 
-	case BattleState::BS_MONSTER_TURN:
+		bool playerReady = playerGauge >= MAX_GAUGE;
+		bool monsterReady = monsterGauge >= MAX_GAUGE;
+
+		if (playerReady)
+		{
+			currentState = BattleState::BS_PLAYER_TURN;
+			playerGauge = 0;
+		}
+		else if (monsterReady)
+		{
+			currentState = BattleState::BS_MONSTER_TURN;
+			monsterGauge = 0;
+		}
+	}
+	else if (currentState == BattleState::BS_PLAYER_TURN)
+	{
+		ProcessPlayerTurn();
+	}
+	else if (currentState == BattleState::BS_MONSTER_TURN)
+	{
 		ProcessMonsterTurn();
-		break;
 	}
 }
 
@@ -79,16 +101,12 @@ void BattleManager::ProcessPlayerTurn()
 
 	if (monster->IsDead())
 	{
-		GM::GetLogger().Log(L"전투 승리! 몬스터를 처치했습니다.");
-		player->addExperience(50);
-		player->addGold(monster->dropGold());
-		GM::GetLogger().Log(L"[Space bar] 계속 진행");
-		currentState = BattleState::BS_VICTORY;
+		finishTimer = 1.5f;
+		currentState = BattleState::BS_FINISH_DELAY;
 	}
 	else
 	{
-		currentState = BattleState::BS_MONSTER_TURN;
-		turnTimer = turnDelay / player->GetAttackSpeed();
+		currentState = BattleState::BS_WAITING;
 	}
 }
 
@@ -107,12 +125,32 @@ void BattleManager::ProcessMonsterTurn()
 
 	if (player->IsDead())
 	{
-		GM::GetLogger().Log(L"전투에서 패배했습니다...");
-		currentState = BattleState::BS_DEFEAT;
+		finishTimer = 1.5f;
+		currentState = BattleState::BS_FINISH_DELAY;
 	}
 	else
 	{
-		currentState = BattleState::BS_PLAYER_TURN;
-		turnTimer = turnDelay / monster->GetAttackSpeed();
+		currentState = BattleState::BS_WAITING;
 	}
+}
+
+void BattleManager::ProcessVictory()
+{
+	GM::GetLogger().Log(L"전투 승리! 몬스터를 처치했습니다.");
+	player->RecordKill(monster->GetName());
+	player->addExperience(50);
+	player->addGold(monster->dropGold());
+	//아이템 획득 추가 필요
+
+	player->ShowKillLog();
+	GM::GetLogger().Log(L"[Space bar] 계속 진행");
+
+	currentState = BattleState::BS_VICTORY;
+}
+
+void BattleManager::ProcessDefeat()
+{
+	GM::GetLogger().Log(L"전투에서 패배했습니다...");
+
+	currentState = BattleState::BS_DEFEAT;
 }

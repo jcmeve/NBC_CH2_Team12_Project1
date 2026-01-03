@@ -2,7 +2,7 @@
 #include "GameManager.h"
 #include <random>
 
-Monster::Monster(std::wstring name) : Pawn(name, 0, 0, 0.5f) {}
+Monster::Monster(std::wstring name) : Pawn(name, 0, 0, 0, 1.0f) {}
 Monster::~Monster() {}
 
 int Monster::GenerateRandomValue(int min, int max)
@@ -19,15 +19,17 @@ void Monster::Init(int playerLevel)
 
 	int minHP = playerLevel * 20;
 	int maxHP = playerLevel * 30;
-	health = GenerateRandomValue(minHP, maxHP);
+	this->health = GenerateRandomValue(minHP, maxHP);
 
 	int minDmg = playerLevel * 5;
 	int maxDmg = playerLevel * 10;
-	dmg = GenerateRandomValue(minDmg, maxDmg);
+	this->dmg = GenerateRandomValue(minDmg, maxDmg);
 
-	float attackSpeed = 0.5; //나중에 매개변수로 수정
+	int minDef = playerLevel * 2;
+	int maxDef = playerLevel * 5;
+	this->def = GenerateRandomValue(minDef, maxDef);
 
-	GM::GetLogger().Log(L"몬스터 초기화 완료!");
+	this->attackSpeed = 60.0f; //나중에 매개변수로 수정
 }
 
 int Monster::dropGold()

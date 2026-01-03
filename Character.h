@@ -2,6 +2,7 @@
 #include "Pawn.h"
 #include <string>
 #include <memory>
+#include <map>
 
 class Inventory;
 
@@ -13,6 +14,7 @@ private:
 	int experience;
 	int gold;
 	std::unique_ptr<Inventory> inventory;
+	std::map<std::wstring, int> killRecord;
 
 public:
 	Character(std::wstring name);
@@ -31,7 +33,12 @@ public:
 	void addExperience(int exp);
 	void addGold(int amount);
 
+	void RecordKill(std::wstring monsterName);
+	void ShowKillLog();
+
 	Inventory* getInventory() const;
 
 	void Tick(float deltaTime) override;
+
+
 };

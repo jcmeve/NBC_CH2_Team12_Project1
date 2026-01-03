@@ -1,7 +1,7 @@
 ﻿#include "Pawn.h"
 #include "GameManager.h"
-Pawn::Pawn(std::wstring name, int health, int dmg, float attackSpeed) :
-	Actor(name), health(health), dmg(dmg), attackSpeed(attackSpeed), isDead(false) {
+Pawn::Pawn(std::wstring name, int health, int dmg, int def, float attackSpeed) :
+	Actor(name), health(health), dmg(dmg), def(def), attackSpeed(attackSpeed), isDead(false) {
 }
 
 Pawn::~Pawn() {
@@ -58,7 +58,15 @@ void Pawn::TakeDamage(int damage) {
 		return;
 	}
 
-	health -= damage;
+	float damageMultiplier = 100.0f / (100.0f + (float)def);
+	int finalDamage = (int)(damage * damageMultiplier);
+
+	if (finalDamage < 1) // 최소 데미지 1
+	{
+		finalDamage = 1;
+	}
+
+	health -= finalDamage;
 
 	if (health <= 0)
 	{
@@ -68,7 +76,7 @@ void Pawn::TakeDamage(int damage) {
 }
 
 void Pawn::UseItem(std::wstring _name, int _turn, int _hp, int _dmg, int _def) {
-	//GM::GetLogger().Log(name + L"을 사용했습니ㄷ");
+	//GM::GetLogger().Log(name + L"을 사용했습니다");
 	if (_turn == 1) {
 		health += _hp;
 		if (health > maxHealth) {

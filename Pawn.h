@@ -8,12 +8,13 @@ protected:
 	int maxHealth;
 	int originDmg;
 	int dmg;
+	int def;
 	float attackSpeed;
 
 	std::vector<std::wstring> ascii;
 	bool isDead;
 public:
-	Pawn(std::wstring name, int health, int dmg, float attackSpeed);
+	Pawn(std::wstring name, int health, int dmg, int def, float attackSpeed);
 	~Pawn();
 
 	void Init();

@@ -14,7 +14,6 @@
 
 TextRPG::TextRPG(std::wstring name) : Actor(name)
 {
-	
 	EnterState(GameState::TITLE);
 }
 
@@ -73,18 +72,18 @@ void TextRPG::EnterState(GameState state)
 		break;
 
 	case GameState::CREATE_CHARACTER:
-		GM::GetLogger().Log(L"캐릭터를 생성합니다.");
-		GM::GetLogger().Log(L"[ENTER] 진행");
+		GM::GetLogger().Log(L"당신의 이름을 입력해주세요. *영문 대문자");
+		GM::GetLogger().Log(L"[ENTER] 결정");
 
 		break;
 
 	case GameState::STORY:
-		GM::GetLogger().Log(L"스토리를 진행합니다.");
+		GM::GetLogger().Log(L"=============== 스토리를 진행합니다 ===============");
 		GM::GetLogger().Log(L"[B] 전투 | [S] 상점 | [I] 상태창");
 		break;
 
 	case GameState::SHOP:
-		GM::GetLogger().Log(L"상점에 진입했습니다.");
+		GM::GetLogger().Log(L"=============== 상점에 진입했습니다 ===============");
 		GM::GetLogger().Log(L"[ESC] 나가기");
 		break;
 
@@ -118,17 +117,43 @@ void TextRPG::UpdateTitle()
 void TextRPG::UpdateCreateCharacter()
 {
 	// 이름 입력 로직
+	for (int key = 'A'; key <= 'Z'; ++key)
+	{
+		if (GM::GetInput().IsKeyDown(key))
+		{
+			if (inputName.length() < 10)
+			{
+				inputName += (wchar_t)key;
+			}
+		}
+	}
+
+	if (GM::GetInput().IsKeyDown(VK_BACK))
+	{
+		if (!inputName.empty())
+		{
+			inputName.pop_back();
+		}
+	}
 
 	if (GM::GetInput().IsKeyDown(VK_RETURN))
 	{
-		if (player == nullptr)
+		if (inputName.empty())
 		{
-			player = GM::CreateActor<Character>(L"유진");
-			player->Init();
+			GM::GetLogger().Log(L"이름을 입력해주세요!");
 		}
-		GM::GetLogger().Log(L"캐릭터 생성 완료!");
-		ChangeState(GameState::STORY);
+		else
+		{
+			player = GM::CreateActor<Character>(inputName);
+			player->Init();
+			GM::GetLogger().Log(L"캐릭터 생성 완료!");
+			ChangeState(GameState::STORY);
+			return;
+		}
 	}
+
+	std::wstring displayName = inputName + L"_"; // 커서 표시
+	GM::GetDisplay().DrawWidget(30, 10, 20, 5, L"이름", displayName); //위젯이 뭔가 이상하다!!
 }
 
 void TextRPG::UpdateStory()
@@ -173,8 +198,15 @@ void TextRPG::UpdateBattle()
 	GM::DestroyActor(currentMonster);
 	currentMonster = nullptr;
 
-	ChangeState(GameState::STORY);
-
+	if (player->IsDead())
+	{
+		GM::GetLogger().Log(L"타이틀 화면으로 돌아갑니다.");
+		ChangeState(GameState::TITLE); // 또는 GameState::GAME_OVER
+	}
+	else
+	{
+		ChangeState(GameState::STORY);
+	}
 }
 
 void TextRPG::UpdateShop()

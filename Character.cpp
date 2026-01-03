@@ -4,7 +4,7 @@
 #include "GameManager.h"
 
 Character::Character(std::wstring name) :
-	Pawn(name, 0, 0, 1.0f), level(1), maxHealth(200), experience(0), gold(0)
+	Pawn(name, 0, 0, 0, 1.0f), level(1), maxHealth(200), experience(0), gold(0)
 {
 }
 
@@ -17,7 +17,8 @@ void Character::Init()
 	this->maxHealth = 200;
 	this->health = maxHealth;
 	this->dmg = 30;
-	this->attackSpeed = 1.0f;
+	this->def = 10; //기본 방어력 10, 레벨업마다 5 증가
+	this->attackSpeed = 50.0f;
 	this->experience = 0;
 	this->gold = 0;
 
@@ -33,12 +34,12 @@ void Character::TakeDamage(int damage)
 
 void Character::displayStatus()
 {
-	std::wstring str = std::wstring(L"=============== Player's Status ===============\n")
-		+ L"이름: " + name + L"\n레벨: " + std::to_wstring(level) + L" | 경험치: " + std::to_wstring(experience) + L"/100"
-		+ L"\n 현재 체력: " + std::to_wstring(health) + L"/" + std::to_wstring(maxHealth)
-		+ L"\n 소지 골드: " + std::to_wstring(gold);
-
-	GM::GetLogger().Log(str);
+	GM::GetLogger().Log(L"=============== Player's Status ===============\n");
+	GM::GetLogger().Log(L"이름: " + name);
+	GM::GetLogger().Log(L"레벨: " + std::to_wstring(level) + L" | 경험치: " + std::to_wstring(experience) + L"/100");
+	GM::GetLogger().Log(L"현재 체력: " + std::to_wstring(health) + L"/" + std::to_wstring(maxHealth));
+	GM::GetLogger().Log(L"방어력: " + std::to_wstring(def));
+	GM::GetLogger().Log(L"소지 골드: " + std::to_wstring(gold));
 }
 
 void Character::levelUp()
@@ -46,6 +47,7 @@ void Character::levelUp()
 	level++;
 	maxHealth += level * 20;
 	dmg += level * 5;
+	def += 5;
 	health = maxHealth;
 }
 
@@ -93,6 +95,28 @@ void Character::addGold(int amount)
 {
 	gold += amount;
 	GM::GetLogger().Log(L"골드 " + std::to_wstring(amount) + L" 획득! (현재: " + std::to_wstring(gold) + L"G)");
+}
+
+void Character::RecordKill(std::wstring monsterName)
+{
+	killRecord[monsterName]++;
+}
+
+void Character::ShowKillLog()
+{
+	GM::GetLogger().Log(L"=============== 전투 통계 ===============");
+	if (killRecord.empty())
+	{
+		GM::GetLogger().Log(L"기록이 없습니다.");
+		return;
+	}
+
+	for (auto const& pair : killRecord)
+	{
+		std::wstring monsterName = pair.first;
+		int killCount = pair.second;
+		GM::GetLogger().Log(monsterName + L": " + std::to_wstring(killCount));
+	}
 }
 
 void Character::Tick(float deltaTime) {
