@@ -217,10 +217,11 @@ void DisplayManager::DrawWcharAtPosition(short x, short y, wchar_t c, WORD color
     if (!(c >= 0x2500 && c <= 0x257F) && c > 0x7F) { // 전각검사
         if (x + 1 < width) {//2칸씀
             drawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
-            drawBuffer[currBufferIdx][idx].Attributes = color;// | COMMON_LVB_LEADING_BYTE;
+            drawBuffer[currBufferIdx][idx].Attributes = color | COMMON_LVB_LEADING_BYTE;
 
-            //drawBuffer[currBufferIdx][idx + 1].Char.UnicodeChar = L' ';
-           // drawBuffer[currBufferIdx][idx + 1].Attributes = color | COMMON_LVB_TRAILING_BYTE;
+            drawBuffer[currBufferIdx][idx + 1].Char.UnicodeChar = c; L' ';
+           // drawBuffer[currBufferIdx][idx + 1].Attributes = color;
+            drawBuffer[currBufferIdx][idx + 1].Attributes = color | COMMON_LVB_TRAILING_BYTE;
         }
     }
     else {
@@ -373,11 +374,13 @@ void DisplayManager::DrawWidget(short posX, short posY, short _width, short _hei
         WriteString(L"Draw Widget Fail!");
         return;
     }
+
     //on the top line of widget
     if (!title.empty()) {
         short titleX = posX + 2;
         for (wchar_t c : title) {
             DrawWcharAtPosition(titleX, posY, c, titleColor | FOREGROUND_INTENSITY);
+//            titleX += (c > 0x7F) ? 2 : 1; //끔찍한 전각처리
             titleX += (c > 0x7F) ? 2 : 1; //끔찍한 전각처리
         }
     }
