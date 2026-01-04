@@ -267,7 +267,7 @@ void DisplayManager::DrawBattle(const Actor& player, const Actor& monster) {
 //    }
 //}
 
-void DisplayManager::DrawAscii(const std::wstring ascii, short x_target, short y_target) {
+void DisplayManager::DrawAscii(const std::wstring ascii, short x_target, short y_target, bool isReverse) {
     if (x_target > width || y_target > borderline)
         WriteString(L"Draw Actor Fail!");
     short curr_pos = 0;

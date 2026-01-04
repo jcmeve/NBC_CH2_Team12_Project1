@@ -3,8 +3,7 @@
 #include <iostream>
 #include <string>
 #include "GameManager.h"
-#include "Character.h"
-#include "Monster.h"
+
 #include "TextRPG.h"
 #include <chrono>
 #pragma comment(lib, "winmm.lib")

@@ -43,7 +43,7 @@ public:
     void DrawLobby() ;
     void DrawBattle(const Actor& l_actor, const Actor& r_actor);
     //void DrawActor(const Actor& actor, short x_target, short y_target);
-    void DrawAscii(const std::wstring ascii, short x_target=0, short y_target=0);
+    void DrawAscii(const std::wstring ascii, short x_target=0, short y_target=0, bool isReverse = false);
     void DrawShop(const Character& player, const Shop& shop) ;
     void DrawShoplist(const Character& player, const Shop& shop);
     void ClearTextArea();

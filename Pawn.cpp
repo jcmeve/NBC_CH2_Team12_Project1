@@ -1,7 +1,7 @@
 ﻿#include "Pawn.h"
 #include "GameManager.h"
 Pawn::Pawn(std::wstring name, int health, int dmg, int def, float attackSpeed) :
-	Actor(name), health(health), dmg(dmg), def(def), attackSpeed(attackSpeed), isDead(false) {
+	Actor(name), maxHealth(health), health(health), originDmg(dmg), dmg(dmg), def(def), attackSpeed(attackSpeed), isDead(false) {
 }
 
 Pawn::~Pawn() {
@@ -99,8 +99,14 @@ void Pawn::ReCalc() {
 	//}
 }
 
+void Pawn::SetPos(short x, short y, bool reverse) {
+	posX = x;
+	posY = y;
+	isReverse = reverse;
+}
+
 void Pawn::Tick(float deltaTime) {
 	//애니메이션 재생 필요
 	//GM::GetDisplay().DrawActor()
-	GM::GetDisplay().DrawAscii(ascii[0]);
+	GM::GetDisplay().DrawAscii(ascii[0], posX, posY);
 }

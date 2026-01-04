@@ -34,4 +34,6 @@ void Monster::TakeDamage(int damage)
 	Pawn::TakeDamage(damage);
 }
 
-void Monster::Tick(float deltaTime) {}
+void Monster::Tick(float deltaTime) {
+	Pawn::Tick(deltaTime);
+}
