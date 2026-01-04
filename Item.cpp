@@ -9,24 +9,7 @@ Item::~Item() {
 }
 
 void Item::Use(Pawn& pawn) {
-    int hp = 0, atk = 0, def = 0;
-    for (auto pair : effects) {
-        switch (pair.first)
-        {
-        case STATS::HP:
-            hp = pair.second;
-            break;
-        case STATS::ATK:
-            atk = pair.second;
-            break;
-        case STATS::DEF:
-            def = pair.second;
-            break;
-        default:
-            break;
-        }
-    }
-    pawn.UseItem(name, turn, hp, atk, def);
+    pawn.UseItem(name, turn, effects);
 }
 
 std::wstring Item::GetName()const {

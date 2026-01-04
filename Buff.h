@@ -1,13 +1,23 @@
 ﻿#pragma once
+#include <string>
+#include <vector>
+#include "Enums.h"
+class Pawn;
 class Buff {
 private:
     float duration;
-    float timrer = 0.0f;
+    float timer = 0.0f;
+
+    Pawn* target;
+    std::wstring name;
+    std::vector<std::pair<STATS, int>> effects;//stat, amount
+
 public:
-    virtual void Enter()=0;
-    virtual void ReCalc()=0;
-    virtual void Update()=0;
-    virtual void Exit()=0;
+    Buff(Pawn* pawn, std::wstring _name, int _duration, std::vector<std::pair<STATS, int>>& _effects);
+    void Enter();
+    void ReCalc();
+    void Update(float deltaTime);//Time
+    void Exit();
 
 };
 

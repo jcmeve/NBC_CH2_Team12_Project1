@@ -1,7 +1,8 @@
 ﻿#include "Pawn.h"
 #include "GameManager.h"
+#include "Buff.h"
 Pawn::Pawn(std::wstring name, int health, int dmg, int def, float attackSpeed) :
-	Actor(name), maxHealth(health), health(health), originDmg(dmg), dmg(dmg), def(def), attackSpeed(attackSpeed), isDead(false) {
+	Actor(name), maxHealth(health), health(health), originDmg(dmg), dmg(dmg), originDef(def), def(def), attackSpeed(attackSpeed), isDead(false) {
 }
 
 Pawn::~Pawn() {
@@ -75,29 +76,66 @@ void Pawn::TakeDamage(int damage) {
 	}
 }
 
-void Pawn::UseItem(std::wstring _name, int _turn, int _hp, int _dmg, int _def) {
+void Pawn::UseItem(std::wstring _name, int _turn, std::vector<std::pair<STATS, int>>& _effects) {
 	//GM::GetLogger().Log(name + L"을 사용했습니다");
-	if (_turn == 1) {
-		health += _hp;
-		if (health > maxHealth) {
-			health = maxHealth;
+	if (_turn == 0) {
+		int hp = 0, dmg = 0, def = 0;
+		for (const auto& pair : _effects) {
+			switch (pair.first)
+			{
+			case STATS::HP:
+				hp = pair.second;
+				break;
+			case STATS::ATK:
+				dmg = pair.second;
+				break;
+			case STATS::DEF:
+				def = pair.second;
+				break;
+			default:
+				break;
+			}
 		}
-		dmg += _dmg;
-		//def+=_def;
+		Heal(hp);
+		dmg += dmg;
+		def += def;
 	}
 	else {//buff
-
+		AddBuff(_name, _turn, _effects);
 	}
 
+}
+
+void Pawn::AddBuff(std::wstring _name, int _duration, std::vector<std::pair<STATS, int>>& _effects) {
+	buffs.push_back(new Buff(this, _name, _duration, _effects));
+}
+
+void Pawn::RemoveBuff(Buff* buff) {
+	for (int i = 0; i < buffs.size(); ++i) {
+		if (buffs[i] == buff) {
+			buffs.erase(std::remove(buffs.begin(), buffs.end(), buff), buffs.end());
+			break;
+		}
+	}
+}
+
+void Pawn::IncreaseStats(int _maxHp, int _dmg, int _def) {
+	maxHealth += _maxHp;
+	dmg += _dmg;
+	def += _def;
+}
+
+void Pawn::Heal(int amount) {
 }
 
 void Pawn::ReCalc() {
 	dmg = originDmg;
 	//TODO
 	//for (auto buff : buffes) {
-	//	
+	//	buff.ReCalc();
 	//}
 }
+
 
 void Pawn::SetPos(short x, short y, bool reverse) {
 	posX = x;

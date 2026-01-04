@@ -11,15 +11,19 @@ void Monster::Init(int playerLevel)
 
 	int minHP = playerLevel * 20;
 	int maxHP = playerLevel * 30;
-	this->health = Utilities::GenerateRandomValue(minHP, maxHP);
+	this->maxHealth = Utilities::GenerateRandomValue(minHP, maxHP);
+	this->health = maxHealth;
+
 
 	int minDmg = playerLevel * 5;
 	int maxDmg = playerLevel * 10;
-	this->dmg = Utilities::GenerateRandomValue(minDmg, maxDmg);
+	this->originDmg = Utilities::GenerateRandomValue(minDmg, maxDmg);
+	dmg = originDmg;
 
 	int minDef = playerLevel * 2;
 	int maxDef = playerLevel * 5;
-	this->def = Utilities::GenerateRandomValue(minDef, maxDef);
+	this->originDef = Utilities::GenerateRandomValue(minDef, maxDef);
+	def = originDef;
 
 	this->attackSpeed = 60.0f; //나중에 매개변수로 수정
 }
