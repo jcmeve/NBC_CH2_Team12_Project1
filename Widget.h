@@ -12,5 +12,6 @@ private:
 public:
     void Tick(float deltaTime) override;
     void Init(short posX, short posY, short _width, short _height);
+    void SetText(const std::wstring& _text);
     Widget(std::wstring name);
 };

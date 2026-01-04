@@ -18,5 +18,9 @@ void Widget::Init(short _posX, short _posY, short _width, short _height) {
     posY = _posY;
 }
 
+void Widget::SetText(const std::wstring& _text) {
+    text = _text;
+}
+
 Widget::Widget(std::wstring name) :Actor(name){
 }
