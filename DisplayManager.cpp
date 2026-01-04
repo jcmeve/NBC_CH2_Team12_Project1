@@ -98,11 +98,10 @@ void DisplayManager::Render(float deltaTime) {
             DrawWcharAtPosition(cursorX, cursorY, stringSlowWrite[i], FOREGROUND_WHITE | FOREGROUND_INTENSITY);
 
             if (stringSlowWrite[i] > 0x7F) {
-                //cursorX += 2; //multibyte char use 2 문제가 있어서 넣은 처리인데 왜 없어도 잘 되는걸까
-                cursorX += 1; //multibyte char use 2
+                cursorX += 2; //multibyte char use 2 (한글 등 전각 문자는 2칸 차지)
             }
             else {
-                cursorX += 1; //
+                cursorX += 1; //반각 문자는 1칸
             }
             
             if (cursorX >= width) { 
@@ -217,10 +216,10 @@ void DisplayManager::DrawWcharAtPosition(short x, short y, wchar_t c, WORD color
     if (!(c >= 0x2500 && c <= 0x257F) && c > 0x7F) { // 전각검사
         if (x + 1 < width) {//2칸씀
             drawBuffer[currBufferIdx][idx].Char.UnicodeChar = c;
-            drawBuffer[currBufferIdx][idx].Attributes = color;// | COMMON_LVB_LEADING_BYTE;
+            drawBuffer[currBufferIdx][idx].Attributes = color | COMMON_LVB_LEADING_BYTE;
 
-            //drawBuffer[currBufferIdx][idx + 1].Char.UnicodeChar = L' ';
-           // drawBuffer[currBufferIdx][idx + 1].Attributes = color | COMMON_LVB_TRAILING_BYTE;
+            drawBuffer[currBufferIdx][idx + 1].Char.UnicodeChar = L' ';
+            drawBuffer[currBufferIdx][idx + 1].Attributes = color | COMMON_LVB_TRAILING_BYTE;
         }
     }
     else {
