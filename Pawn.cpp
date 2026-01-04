@@ -80,11 +80,12 @@ void Pawn::UseItem(std::wstring _name, int _turn, std::vector<std::pair<STATS, i
 	//GM::GetLogger().Log(name + L"을 사용했습니다");
 	if (_turn == 0) {
 		int hp = 0, dmg = 0, def = 0;
-		for (const auto& pair : _effects) {
+		for (auto& pair : _effects) {
 			switch (pair.first)
 			{
 			case STATS::HP:
 				hp = pair.second;
+				pair.second = 0;
 				break;
 			case STATS::ATK:
 				dmg = pair.second;
@@ -97,8 +98,7 @@ void Pawn::UseItem(std::wstring _name, int _turn, std::vector<std::pair<STATS, i
 			}
 		}
 		Heal(hp);
-		dmg += dmg;
-		def += def;
+		AddBuff(_name, MAXINT, _effects);
 	}
 	else {//buff
 		AddBuff(_name, _turn, _effects);
@@ -117,6 +117,7 @@ void Pawn::RemoveBuff(Buff* buff) {
 			break;
 		}
 	}
+	ReCalc();
 }
 
 void Pawn::IncreaseStats(int _maxHp, int _dmg, int _def) {

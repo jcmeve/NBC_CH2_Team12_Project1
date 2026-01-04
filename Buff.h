@@ -11,7 +11,7 @@ private:
     Pawn* target;
     std::wstring name;
     std::vector<std::pair<STATS, int>> effects;//stat, amount
-
+    int hpGen;
 public:
     Buff(Pawn* pawn, std::wstring _name, int _duration, std::vector<std::pair<STATS, int>>& _effects);
     void Enter();

@@ -15,6 +15,7 @@ void Buff::ReCalc() {
 		{
 		case STATS::HP:
 			hp = pair.second;
+			hpGen = pair.second;
 			break;
 		case STATS::ATK:
 			dmg = pair.second;
@@ -36,6 +37,8 @@ void Buff::Update(float deltaTime) {
 	if (timer > duration) {
 		Exit();
 	}
+	target->Heal(deltaTime * hpGen);
+
 }
 
 void Buff::Exit() {
