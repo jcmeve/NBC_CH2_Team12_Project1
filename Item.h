@@ -9,7 +9,7 @@ public:
     Item(std::wstring _name, int _gold, std::wstring _desc, int _turn , std::vector<std::pair<STATS, int>> _effects);
     virtual ~Item();
     virtual void Use(Pawn& pawn);
-    std::wstring GetName();
+    std::wstring GetName() const ;
 protected:
     std::wstring name;
     int gold;

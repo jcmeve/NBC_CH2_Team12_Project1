@@ -38,6 +38,21 @@ void ItemManager::Init() {
     GM::GetSave().LoadItems(L"Equipment", tokens);
 
 }
+
+const Item* ItemManager::GetUsableItem(std::wstring name) {
+    return usables[name];
+}
+
+const Item* ItemManager::GetArtifact(std::wstring name) {
+    return artifacts[name];
+}
+
+const Item* ItemManager::GetEquipment(std::wstring name) {
+    return equipments[name];
+}
+
+
+
 ItemManager::~ItemManager() {
     for (auto& pair : usables)
         delete pair.second;

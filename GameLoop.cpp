@@ -1,10 +1,7 @@
 ﻿#include<windows.h>
 #include <timeapi.h>
-#include <iostream>
-#include <string>
 #include "GameManager.h"
-#include "Character.h"
-#include "Monster.h"
+
 #include "TextRPG.h"
 #include <chrono>
 #pragma comment(lib, "winmm.lib")
@@ -12,6 +9,19 @@
 
 using namespace std;
 int main() {
+
+    CONSOLE_FONT_INFOEX cfi;
+    cfi.cbSize = sizeof(cfi);
+    cfi.nFont = 0;
+    cfi.dwFontSize.X = 0;                   // 폰트 너비
+    cfi.dwFontSize.Y = 16;                  // 폰트 높이
+    cfi.FontFamily = FF_DONTCARE;
+    cfi.FontWeight = FW_NORMAL;
+    
+    // 시스템에 기본으로 있는 유니코드 지원 폰트
+    wcscpy_s(cfi.FaceName, L"Courier New"); 
+    
+    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 
 //    system("cls");
   //  Sleep(100);

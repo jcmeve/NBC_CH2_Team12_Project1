@@ -45,9 +45,7 @@ void Character::displayStatus()
 void Character::levelUp()
 {
 	level++;
-	maxHealth += level * 20;
-	dmg += level * 5;
-	def += 5;
+	ReCalc();
 	health = maxHealth;
 }
 
@@ -117,6 +115,17 @@ void Character::ShowKillLog()
 		int killCount = pair.second;
 		GM::GetLogger().Log(monsterName + L": " + std::to_wstring(killCount));
 	}
+}
+
+void Character::ReCalc() {
+	//발제문서에 써진건 누적같은데 애매한듯
+	maxHealth = 200 + (level - 1) * 20;
+	originDmg = 30 + (level - 1) * 5;
+	originDef = (level - 1) * 5;
+	def = originDef;
+	dmg = originDmg;
+
+	Pawn::ReCalc();
 }
 
 void Character::Tick(float deltaTime) {

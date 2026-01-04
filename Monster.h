@@ -14,8 +14,6 @@ public:
 	void TakeDamage(int damage) override;
 
 private:
-	int GenerateRandomValue(int min, int max);
-
 	// Actor을(를) 통해 상속됨
 	void Tick(float deltaTime) override;
 };

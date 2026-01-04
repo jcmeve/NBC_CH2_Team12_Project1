@@ -1,45 +1,37 @@
 ﻿#include "Inventory.h"
-#include<iostream>
-#include<algorithm>
-#include<random>
-#include<cstdlib>
-#include<ctime>
-
-
-	void Inventory::addItem(Item* item) 
+#include "Utilities.h"
+	void Inventory::AddItem(const Item* item) 
 	{
-		items.push_back(item);
+		items[item]++;
 	}
 
-	void Inventory::removeItem(Item* item) 
+	void Inventory::RemoveItem(const Item* item) 
 	{
-		items.erase(std::remove(items.begin(), items.end(), item), items.end());
+		auto it = items.find(item);
+		if (it != items.end()) {
+			--(it->second);
+			if (it->second == 0)
+				items.erase(it);
+		}
+		else {
+			
+		}
 	}
 
-	Item* Inventory::randomItem()
+	const Item* Inventory::PopRandomItem() 
 	{
 		if (items.empty())
-		{
+			return nullptr;
 
-		std::cout << "인벤토리가 비어있습니다!" << std::endl;
+		int idx = Utilities::GenerateRandomValue(0, items.size()-1);
+		auto it = std::next(items.begin(), idx);
+		auto ret = it->first;
+		--(it->second);
+		if (it->second == 0)
+			items.erase(it);
 
-		return nullptr;
+		return ret;
 
-		}
-
-		else 
-		{
-			std::srand(static_cast<unsigned int>(std::time(0)));
-
-			int randomIndex = std::rand() % items.size();
-
-			Item* randomItem = items[randomIndex];
-
-			items.erase(items.begin() + randomIndex);
-
-			return randomItem;
-
-		}
 		
 	}
 

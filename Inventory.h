@@ -1,19 +1,24 @@
 ﻿#pragma once
-#include <vector>
+#include <map>
 #include "Item.h"
 
 class Inventory
 {
 private:
-	std::vector<Item*> items;
+	struct ItemPointerCompare{
+		bool operator()(const Item* a, const Item* b) const {
+			return a->GetName() < b->GetName();
+		}
+	};
+	std::map<const Item*,int, ItemPointerCompare> items;
 
 public:
 
-	void removeItem(Item* item);
+	void RemoveItem(const Item* item);
 
-	void addItem(Item* item);
+	void AddItem(const Item* item);
 
-	Item* randomItem();
+	const Item* PopRandomItem();
 
 	
 

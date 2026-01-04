@@ -35,6 +35,7 @@ public:
 
 	void RecordKill(std::wstring monsterName);
 	void ShowKillLog();
+	virtual void ReCalc() override;
 
 	Inventory* getInventory() const;
 

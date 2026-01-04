@@ -18,6 +18,7 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 
 	player = p;
 	monster = m;
+	monster->SetPos(120, 0, false);
 
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
 

@@ -16,9 +16,9 @@ private:
     std::map<std::wstring, Item*> artifacts;
 public:
     void Init();
-    Item CreateItem(std::wstring name);
-    Item CreateArtifact(std::wstring name);
-    Item CreateEquipment(std::wstring name);
+    const Item* GetUsableItem(std::wstring name);
+    const Item* GetArtifact(std::wstring name);
+    const Item* GetEquipment(std::wstring name);
 
 };
 
