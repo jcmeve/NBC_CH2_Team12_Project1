@@ -37,6 +37,18 @@ void ItemManager::Init() {
     GM::GetSave().LoadItems(L"Artifact", tokens);
     GM::GetSave().LoadItems(L"Equipment", tokens);
 
+
+    allItems.reserve(usables.size() + artifacts.size() + equipments.size());
+    for (auto pair : usables) {
+        allItems.push_back(pair.second);
+    }
+    for (auto pair : artifacts) {
+        allItems.push_back(pair.second);
+    }
+    for (auto pair : equipments) {
+        allItems.push_back(pair.second);
+    }
+
 }
 
 const Item* ItemManager::GetUsableItem(std::wstring name) {
@@ -49,6 +61,10 @@ const Item* ItemManager::GetArtifact(std::wstring name) {
 
 const Item* ItemManager::GetEquipment(std::wstring name) {
     return equipments[name];
+}
+
+std::vector<Item*> ItemManager::GetAllItems() {
+    return allItems;
 }
 
 

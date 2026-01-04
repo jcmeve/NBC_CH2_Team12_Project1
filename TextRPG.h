@@ -4,7 +4,7 @@
 class Character;
 class Monster;
 class BattleManager;
-
+class Shop;
 enum class GameState
 {
 	TITLE, // 게임 시작 화면
@@ -23,6 +23,8 @@ private:
 	Character* player = nullptr;
 	Monster* currentMonster = nullptr;
 	BattleManager* battleManager = nullptr;
+	Shop* shop;
+
 
 	std::wstring inputName = L"";
 

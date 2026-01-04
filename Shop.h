@@ -14,7 +14,7 @@ public:
     void Tick(float deltatTime);
     
     void SwitchWidget();
-
+    void Exit();
     Widget* widget;
 };
 

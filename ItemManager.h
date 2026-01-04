@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include <map>
+#include <vector>
 class Item;
 class ItemManager {
 private:
@@ -14,11 +15,13 @@ private:
     std::map<std::wstring, Item*> usables;
     std::map<std::wstring, Item*> equipments;
     std::map<std::wstring, Item*> artifacts;
+    std::vector<Item*> allItems;
 public:
     void Init();
     const Item* GetUsableItem(std::wstring name);
     const Item* GetArtifact(std::wstring name);
     const Item* GetEquipment(std::wstring name);
+    std::vector<Item*>  GetAllItems();
 
 };
 

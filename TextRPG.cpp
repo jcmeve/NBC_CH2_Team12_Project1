@@ -8,6 +8,7 @@
 #include "Widget.h"
 #include "QTE.h"
 #include "InputManager.h"
+#include "Shop.h"
 
 //   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
 //   qte->Init(nullptr, 3);
@@ -83,6 +84,11 @@ void TextRPG::EnterState(GameState state)
 		break;
 
 	case GameState::SHOP:
+		//shop = new Shop();
+		//shop->Enter(player);
+		//shop->SwitchWidget();
+		//shop->Exit();
+		//delete shop;
 		GM::GetLogger().Log(L"=============== 상점에 진입했습니다 ===============");
 		GM::GetLogger().Log(L"[ESC] 나가기");
 		break;

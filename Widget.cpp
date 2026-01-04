@@ -2,11 +2,8 @@
 #include "GameManager.h"
 #include<string>
 void Widget::Tick(float deltaTime) {
-    //GM::GetDisplay()
-    static int cnt = 0;
 
-    std::wstring s = L"DeltaTime: " + std::to_wstring(deltaTime);;
-    GM::GetDisplay().DrawWidget(posX, posY, width, height, name, s, FOREGROUND_BLUE, FOREGROUND_GREEN, FOREGROUND_RED);
+    GM::GetDisplay().DrawWidget(posX, posY, width, height, name, text, FOREGROUND_BLUE, FOREGROUND_GREEN, FOREGROUND_RED);
     
 
 }
