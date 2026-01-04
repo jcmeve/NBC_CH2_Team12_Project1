@@ -2,13 +2,7 @@
 #include "Utilities.h"
 	void Inventory::AddItem(const Item* item) 
 	{
-		auto it = items.find(item);
-		if (it != items.end()) {
-			++(it->second);
-		}
-		else {
-			items.emplace(item, 1);
-		}
+		items[item]++;
 	}
 
 	void Inventory::RemoveItem(const Item* item) 
@@ -17,22 +11,26 @@
 		if (it != items.end()) {
 			--(it->second);
 			if (it->second == 0)
-				items.erase(item);
+				items.erase(it);
 		}
 		else {
 			
 		}
 	}
 
-	const Item* Inventory::GetRandomItem() const
+	const Item* Inventory::PopRandomItem() 
 	{
 		if (items.empty())
 			return nullptr;
 
 		int idx = Utilities::GenerateRandomValue(0, items.size()-1);
 		auto it = std::next(items.begin(), idx);
-		
-		return it->first;
+		auto ret = it->first;
+		--(it->second);
+		if (it->second == 0)
+			items.erase(it);
+
+		return ret;
 
 		
 	}

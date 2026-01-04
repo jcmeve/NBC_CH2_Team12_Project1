@@ -18,7 +18,7 @@ public:
 
 	void AddItem(const Item* item);
 
-	const Item* GetRandomItem()const;
+	const Item* PopRandomItem();
 
 	
 
