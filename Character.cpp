@@ -2,6 +2,7 @@
 #include "Inventory.h"
 #include "Item.h"
 #include "GameManager.h"
+#include "Artifact.h"
 
 Character::Character(std::wstring name) :
 	Pawn(name, 0, 0, 0, 1.0f), level(1), maxHealth(200), experience(0), gold(0)
@@ -137,6 +138,13 @@ void Character::ReCalc() {
 	dmg = originDmg;
 
 	Pawn::ReCalc();
+
+	const std::map<const Artifact*, int, ItemPointerCompare>& artifacts = inventory->GetArtifacts();
+	for (const auto& pair: artifacts) {
+		pair.first->ReCalc(*this);
+	}
+
+
 }
 
 void Character::Tick(float deltaTime) {

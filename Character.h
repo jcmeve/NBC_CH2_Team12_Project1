@@ -14,6 +14,7 @@ private:
 	int experience;
 	int gold;
 	std::unique_ptr<Inventory> inventory;
+
 	std::map<std::wstring, int> killRecord;
 
 public:

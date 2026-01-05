@@ -131,10 +131,9 @@ void Pawn::Heal(int amount) {
 
 void Pawn::ReCalc() {
 	dmg = originDmg;
-	//TODO
-	//for (auto buff : buffes) {
-	//	buff.ReCalc();
-	//}
+	for (auto buff : buffs) {
+		buff->ReCalc();
+	}
 }
 
 
