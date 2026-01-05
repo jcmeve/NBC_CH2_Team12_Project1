@@ -4,6 +4,8 @@
 #include "ItemManager.h"
 #include "GameManager.h"
 #include "Artifact.h"
+#include "Equipment.h"
+#include "UsableItem.h"
 
 Character::Character(std::wstring name) :
 	Pawn(name, 0, 0, 0, 1.0f), level(1), maxHealth(200), experience(0), gold(0)
@@ -55,17 +57,17 @@ void Character::levelUp()
 
 bool Character::TryUseRandomItem()
 {
-	const Item* item = inventory->PopRandomItem();
+	const UsableItem* usableItem = inventory->PopRandomUsableItem();
 
-	if (item == nullptr)
+	if (usableItem == nullptr)
 	{
 		return false;
 	}
 
-	Item* mutableItem = const_cast<Item*>(item);
+	UsableItem* mutableUsableItem = const_cast<UsableItem*>(usableItem);
 
-	GM::GetLogger().Log(name + L"이(가) 아이템 " + item->GetName() + L"을(를) 사용했습니다!");
-	mutableItem->Use(*this);
+	GM::GetLogger().Log(name + L"이(가) 아이템 " + mutableUsableItem->GetName() + L"을(를) 사용했습니다!");
+	mutableUsableItem->Use(*this);
 
 	return true;
 }
@@ -151,7 +153,7 @@ void Character::ReCalc() {
 	Pawn::ReCalc();
 
 	const std::map<const Artifact*, int, ItemPointerCompare>& artifacts = inventory->GetArtifacts();
-	for (const auto& pair: artifacts) {
+	for (const auto& pair : artifacts) {
 		pair.first->ReCalc(*this);
 	}
 
