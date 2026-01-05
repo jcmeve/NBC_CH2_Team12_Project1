@@ -101,7 +101,14 @@ void Shop::IdxUpdate(int _idx) {
             break;
         }
     }
-    if (hp) resultText += L" HP 회복 : " + std::to_wstring(hp);
+    if (hp) {
+        if (dynamic_cast<const UsableItem*>(item)) {
+            resultText += L" HP 회복 : " + std::to_wstring(hp);
+        }
+        else {
+            resultText += L" 최대 HP 증가 : " + std::to_wstring(hp);
+        }
+    }
     if (dmg) resultText += L" 공격력 증가 : " + std::to_wstring(dmg);
     if (def) resultText += L" 방어력 증가 : " + std::to_wstring(def);
     if (const UsableItem* usable = dynamic_cast<const UsableItem*>(item)) {

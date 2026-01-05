@@ -6,6 +6,7 @@
 #include "Inventory.h"
 #include "GameManager.h"
 #include "StatWidget.h"
+#include "QTE.h"
 BattleManager::BattleManager(std::wstring name) :Actor(name) {}
 BattleManager::~BattleManager() {
 
@@ -101,16 +102,15 @@ void BattleManager::ProcessPlayerTurn()
 	}
 
 	// 공격
-	if (player->CanAttack(monster))
-	{
-		int hpBefore = monster->GetHealth();
-		player->Attack(*monster);
-		int damage = hpBefore - monster->GetHealth();
 
-		std::wstring log = L"[플레이어 공격] " + monster->GetName() + L"에게 " + std::to_wstring(damage) + L"데미지를 입혔습니다!"
-			+ L" (남은 체력: " + std::to_wstring(monster->GetHealth()) + L")";
-		GM::GetLogger().Log(log);
-	}
+	int hpBefore = monster->GetHealth();
+	player->Attack(*monster);
+	int damage = hpBefore - monster->GetHealth();
+
+	std::wstring log = L"[플레이어 공격] " + monster->GetName() + L"에게 " + std::to_wstring(damage) + L"데미지를 입혔습니다!"
+		+ L" (남은 체력: " + std::to_wstring(monster->GetHealth()) + L")";
+	GM::GetLogger().Log(log);
+	
 
 	if (monster->IsDead())
 	{
@@ -122,16 +122,18 @@ void BattleManager::ProcessPlayerTurn()
 
 void BattleManager::ProcessMonsterTurn()
 {
-	if (monster->CanAttack(player))
-	{
-		int hpBefore = player->GetHealth();
-		monster->Attack(*player);
-		int damage = hpBefore - player->GetHealth();
+	//QTE* qte = GM::CreateActor<QTE>(L"TESTQTE");
+	//qte->Init(player, 3);
+	//QTE TEST
 
-		std::wstring log = L"[몬스터 공격] " + player->GetName() + L"에게 " + std::to_wstring(damage) + L"데미지를 입혔습니다!"
-			+ L" (남은 체력: " + std::to_wstring(player->GetHealth()) + L")";
-		GM::GetLogger().Log(log);
-	}
+	int hpBefore = player->GetHealth();
+	monster->Attack(*player);
+	int damage = hpBefore - player->GetHealth();
+
+	std::wstring log = L"[몬스터 공격] " + player->GetName() + L"에게 " + std::to_wstring(damage) + L"데미지를 입혔습니다!"
+		+ L" (남은 체력: " + std::to_wstring(player->GetHealth()) + L")";
+	GM::GetLogger().Log(log);
+
 
 	if (player->IsDead())
 	{
