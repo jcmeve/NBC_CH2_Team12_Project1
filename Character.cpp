@@ -6,6 +6,7 @@
 #include "Artifact.h"
 #include "Equipment.h"
 #include "UsableItem.h"
+#include "Buff.h"
 
 Character::Character(std::wstring name) :
 	Pawn(name, 0, 0, 0, 1.0f), level(1), experience(0), gold(0)
@@ -31,6 +32,19 @@ void Character::Init()
 	this->inventory = std::make_unique<Inventory>();
 
 	GM::GetLogger().Log(L"플레이어 초기화 완료!");
+}
+
+bool Character::LoadAscii(std::wstring fileName) {
+
+	for (int chapter = 0; chapter < 4; ++chapter) {
+		for (EMotion motion : {EMotion::IDLE1, EMotion::IDLE2, EMotion::ATTACK, EMotion::DEFENSE }) {
+			std::wstring buf;
+			GM::GetSave().LoadAscii(L"Player\\Player0" + std::to_wstring(chapter + 1) + L"_" + EmotionToString(motion), buf);
+			ascii[motion].push_back(buf);
+		}
+	}
+
+	return true;
 }
 
 void Character::TakeDamage(int damage)
@@ -187,5 +201,34 @@ void Character::Unequip(int idx) {
 }
 
 void Character::Tick(float deltaTime) {
-	Pawn::Tick(deltaTime);
+	//버프 업데이트
+	for (int i = buffs.size() - 1; i >= 0; i--)
+	{
+		buffs[i]->Update(deltaTime); //Update에서 버프를 지우므로 뒤에서부터 순회
+	}
+	///asdad
+	int chapter = 0;
+	if (level < 4) chapter = 1;
+	else if (level < 7) chapter = 2;
+	else if (level < 10) chapter = 3;
+	else chapter = 4;
+
+
+	idleMotionTimer += deltaTime;
+	if (idleMotionTimer > idleMotionPeriod) {
+		idleMotionTimer = 0.0f;
+		idleMotionIdx = (idleMotionIdx + 1) % 2;
+
+	}
+	if (/*!공격후딜 && */!IsDead()) {
+		if (idleMotionIdx == 0) {
+			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][chapter-1], posX, posY);
+		}
+		else if (idleMotionIdx == 1) {
+			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE2][chapter - 1], posX, posY);
+		}
+	}
+
+	//asdadad
+
 }

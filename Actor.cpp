@@ -8,6 +8,7 @@ Actor::Actor(std::wstring name) :name(name){
 Actor::~Actor() {
 }
 
+
 const std::wstring& Actor::GetName() const {
 	return name;
 }

@@ -22,6 +22,8 @@ public:
 	Character(std::wstring name);
 	~Character();
 	void Init();
+	bool LoadAscii(std::wstring fileName)override;
+
 
 	void TakeDamage(int damage) override;
 	void displayStatus();

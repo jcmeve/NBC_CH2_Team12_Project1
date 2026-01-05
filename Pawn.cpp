@@ -1,6 +1,24 @@
 ﻿#include "Pawn.h"
 #include "GameManager.h"
 #include "Buff.h"
+std::wstring Pawn::EmotionToString(EMotion motion) {
+	switch (motion)
+	{
+	case Pawn::EMotion::IDLE1:
+		return L"Idle1";
+	case Pawn::EMotion::IDLE2:
+		return L"Idle2";
+	case Pawn::EMotion::ATTACK:
+		return L"Attack";
+	case Pawn::EMotion::DIE:
+		return L"Die";
+	case Pawn::EMotion::DEFENSE:
+		return L"Defense";
+	default:
+		break;
+	}
+	return std::wstring();
+}
 Pawn::Pawn(std::wstring name, int health, int dmg, int def, float attackSpeed) :
 	Actor(name), maxHealth(health), health(health), originDmg(dmg), dmg(dmg), originDef(def), def(def), attackSpeed(attackSpeed), isDead(false) {
 }
@@ -11,14 +29,10 @@ Pawn::~Pawn() {
 
 void Pawn::Init()
 {
-	ascii.resize(3);
-	LoadAscii(L"");
+	LoadAscii(name);
 	isDead = false;
 }
 
-bool Pawn::LoadAscii(std::wstring fileName) {
-	return GM::GetSave().LoadAscii(L"001", ascii[0]);
-}
 
 int Pawn::GetHealth() const {
 	return health;
@@ -186,7 +200,19 @@ void Pawn::Tick(float deltaTime) {
 		buffs[i]->Update(deltaTime); //Update에서 버프를 지우므로 뒤에서부터 순회
 	}
 
-	//애니메이션 재생 필요
-	//GM::GetDisplay().DrawActor()
-	GM::GetDisplay().DrawAscii(ascii[0], posX, posY);
+	idleMotionTimer += deltaTime;
+	if (idleMotionTimer > idleMotionPeriod) {
+		idleMotionTimer = 0.0f;
+		idleMotionIdx = (idleMotionIdx + 1) % 2;
+
+	}
+	if (/*!공격후딜 && */!IsDead()) {
+		if (idleMotionIdx == 0) {
+			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][0], posX, posY);
+		}
+		else if (idleMotionIdx == 1) {
+			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE2][0], posX, posY);
+		}
+	}
+	//ATTACK,DIE
 }

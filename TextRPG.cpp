@@ -189,7 +189,7 @@ void TextRPG::UpdateStory()
 	{
 		// 레벨 10 이상이면 보스전
 
-		currentMonster = GM::CreateActor<Monster>(L"몬스터");
+		currentMonster = GM::CreateActor<Monster>(L"StrongMan");
 		currentMonster->Init(player->getLevel());
 		battleManager = GM::CreateActor<BattleManager>(L"BattleManager");
 		battleManager->StartBattle(player, currentMonster);

@@ -9,6 +9,7 @@ public:
 	virtual ~Monster();
 
 	void Init(int playerLevel);
+	bool LoadAscii(std::wstring fileName)override;
 
 	int dropGold();
 	void TakeDamage(int damage) override;

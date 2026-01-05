@@ -3,9 +3,17 @@
 #include "Enums.h"
 #include <string>
 #include <vector>
+#include <map>
 class Buff;
+
+
+
 class Pawn : public Actor {
 protected:
+	enum class EMotion {
+		IDLE1, IDLE2, ATTACK, DIE, DEFENSE
+	};
+	std::wstring EmotionToString(EMotion motion);
 	int health;
 	int maxHealth;
 	int originDmg;
@@ -14,7 +22,11 @@ protected:
 	int def;
 	float attackSpeed;
 
-	std::vector<std::wstring> ascii;
+	std::map< EMotion, std::vector<std::wstring>> ascii;
+	const float idleMotionPeriod = 0.5f;
+	float idleMotionTimer;
+	int idleMotionIdx;
+	
 	bool isDead;
 
 	short posX;
@@ -28,7 +40,7 @@ public:
 	~Pawn();
 
 	void Init();
-	bool LoadAscii(std::wstring fileName);
+	virtual bool LoadAscii(std::wstring fileName) = 0;
 	int GetHealth() const;
 	int GetDamage() const;
 	int GetDefence() const;

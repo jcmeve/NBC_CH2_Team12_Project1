@@ -28,6 +28,15 @@ void Monster::Init(int playerLevel)
 	this->attackSpeed = 60.0f; //나중에 매개변수로 수정
 }
 
+bool Monster::LoadAscii(std::wstring fileName) {
+	for (EMotion motion : {EMotion::IDLE1, EMotion::IDLE2, EMotion::ATTACK, EMotion::DIE }) {
+		std::wstring buf;
+		GM::GetSave().LoadAscii(L"Monster\\" + fileName + L"_" + EmotionToString(motion), buf);
+		ascii[motion].push_back(buf);
+	}
+	return true;
+}
+
 int Monster::dropGold()
 {
 	return Utilities::GenerateRandomValue(10, 20);
