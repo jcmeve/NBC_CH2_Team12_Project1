@@ -127,14 +127,20 @@ void Pawn::IncreaseStats(int _maxHp, int _dmg, int _def) {
 }
 
 void Pawn::Heal(int amount) {
+	health += amount;
+	if (health > maxHealth)
+	{
+		health = maxHealth;
+	}
 }
 
 void Pawn::ReCalc() {
 	dmg = originDmg;
-	//TODO
-	//for (auto buff : buffes) {
-	//	buff.ReCalc();
-	//}
+	def = originDef;
+
+	for (Buff* buff : buffs) {
+		buff->ReCalc();
+	}
 }
 
 
@@ -145,6 +151,12 @@ void Pawn::SetPos(short x, short y, bool reverse) {
 }
 
 void Pawn::Tick(float deltaTime) {
+	//버프 업데이트
+	for (int i = buffs.size() - 1; i >= 0; i--)
+	{
+		buffs[i]->Update(deltaTime); //Update에서 버프를 지우므로 뒤에서부터 순회
+	}
+
 	//애니메이션 재생 필요
 	//GM::GetDisplay().DrawActor()
 	GM::GetDisplay().DrawAscii(ascii[0], posX, posY);

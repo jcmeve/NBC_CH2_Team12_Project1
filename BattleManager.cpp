@@ -2,6 +2,8 @@
 #include "Actor.h"
 #include "Monster.h"
 #include "Character.h"
+#include "Utilities.h"
+#include "Inventory.h"
 #include "GameManager.h"
 
 BattleManager::BattleManager(std::wstring name) :Actor(name) {}
@@ -87,6 +89,15 @@ void BattleManager::Tick(float deltaTime)
 
 void BattleManager::ProcessPlayerTurn()
 {
+	// 랜덤 아이템 사용 시도
+	int randomValue = Utilities::GenerateRandomValue(0, 50);
+
+	if (randomValue < 50)
+	{
+		player->TryUseRandomItem();
+	}
+
+	// 공격
 	if (player->CanAttack(monster))
 	{
 		int hpBefore = monster->GetHealth();
@@ -139,7 +150,23 @@ void BattleManager::ProcessVictory()
 	player->RecordKill(monster->GetName());
 	player->addExperience(50);
 	player->addGold(monster->dropGold());
-	//아이템 획득 추가 필요
+
+	// 아이템 획득
+	int itemDropChance = Utilities::GenerateRandomValue(0, 99);
+	if (itemDropChance < 100) // 디버그용
+	{
+		std::vector<Item*> allItems = GM::GetItemManager().GetAllItems();
+		if (!allItems.empty())
+		{
+			int idx = Utilities::GenerateRandomValue(0, allItems.size() - 1);
+			const Item* dropItem = allItems[idx];
+			player->getInventory()->AddItem(dropItem);
+
+			GM::GetLogger().Log(L"아이템을 획득했습니다! [" + dropItem->GetName() + L"]");
+		}
+	}
+
+	// 업적 알림
 	GM::GetAchievement().NotifyBattleWin();
 
 	player->ShowKillLog();

@@ -24,7 +24,7 @@ public:
 	void TakeDamage(int damage) override;
 	void displayStatus();
 	void levelUp();
-	void useItem(int index);
+	bool TryUseRandomItem();
 
 	int getLevel() const;
 	int getExperience() const;

@@ -1,6 +1,7 @@
 ﻿#include "Character.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "ItemManager.h"
 #include "GameManager.h"
 
 Character::Character(std::wstring name) :
@@ -51,11 +52,21 @@ void Character::levelUp()
 	GM::GetAchievement().NotifyLevelUp(level);
 }
 
-void Character::useItem(int index)
+bool Character::TryUseRandomItem()
 {
-	//1. Item* itemToUse = inventory->getItem(index)
-	//2. itemToUse->use(this)
-	//3. inventory->removeItem(index)
+	const Item* item = inventory->PopRandomItem();
+
+	if (item == nullptr)
+	{
+		return false;
+	}
+
+	Item* mutableItem = const_cast<Item*>(item);
+
+	GM::GetLogger().Log(name + L"이(가) 아이템 " + item->GetName() + L"을(를) 사용했습니다!");
+	mutableItem->Use(*this);
+
+	return true;
 }
 
 Inventory* Character::getInventory() const
