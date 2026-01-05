@@ -218,6 +218,8 @@ void TextRPG::UpdateBattle()
 	{
 		return;
 	}
+	//이부분 전체적으로 TextRPG::Exit으로 옮겨야함! 여유남으면 해주세요
+	battleManager->Exit();
 
 	GM::DestroyActor(battleManager);
 	battleManager = nullptr;
@@ -225,6 +227,8 @@ void TextRPG::UpdateBattle()
 	GM::DestroyActor(currentMonster);
 	currentMonster = nullptr;
 	player->ClearBuff();
+
+	
 
 	if (player->IsDead())
 	{

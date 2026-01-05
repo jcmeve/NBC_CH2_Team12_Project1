@@ -16,11 +16,11 @@ void Shop::Enter(Character* _player) {
 
     
     widget2 = GM::CreateActor<Widget>(L"조작법");
-    widget2->Init(150, 40, 30, 10);
-    widget2->SetText(L"[ESC] : 나가기\n[◀ ▶] : 구매/판매 전환\n[▲ ▼] : 이동");
+    widget2->Init(150, 40, 30, 5);
+    widget2->SetText(L"[ESC] : 나가기\n[◀ ▶] : 구매/판매 전환\n[▲ ▼] : 이동\n[ENTER] : 거래하기");
+    GM::GetDisplay().ClearTextArea();
     GM::GetLogger().Log(L"=============== 상점에 진입했습니다 ===============");
-    
-    GM::GetLogger().Log(L"[ESC] 나가기");
+
 }
 
 void Shop::Tick(float deltatTime) {

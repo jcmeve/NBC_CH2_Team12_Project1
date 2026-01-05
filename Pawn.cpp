@@ -28,6 +28,22 @@ int Pawn::GetDamage() const {
 	return dmg;
 }
 
+int Pawn::GetDefence() const {
+	return def;
+}
+
+int Pawn::GetMaxHealth() const {
+	return maxHealth;
+}
+
+int Pawn::GetOriginDamage() const {
+	return originDmg;
+}
+
+int Pawn::GetOriginDefence() const {
+	return originDef;
+}
+
 float Pawn::GetAttackSpeed() const
 {
 	return attackSpeed;
@@ -111,6 +127,7 @@ void Pawn::UseItem(std::wstring _name, int _turn, const std::vector<std::pair<ST
 
 void Pawn::AddBuff(std::wstring _name, int _duration, const std::vector<std::pair<STATS, int>>& _effects) {
 	buffs.push_back(new Buff(this, _name, _duration, _effects));
+	ReCalc();
 }
 
 void Pawn::ClearBuff() {
@@ -152,6 +169,7 @@ void Pawn::ReCalc() {
 	for (Buff* buff : buffs) {
 		buff->ReCalc();
 	}
+
 }
 
 

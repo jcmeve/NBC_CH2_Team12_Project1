@@ -4,7 +4,7 @@
 class Character;
 class Monster;
 class Pawn;
-
+class StatWidget;
 enum class BattleState
 {
 	BS_WAITING, //전투 시작 전 OR 턴 사이 대기
@@ -21,6 +21,10 @@ class BattleManager : public Actor {
 private:
 	Character* player = nullptr;
 	Monster* monster = nullptr;
+
+	StatWidget* playerStatWidget;
+	StatWidget* monsterStatWidget;
+
 
 	BattleState currentState;
 
@@ -39,6 +43,7 @@ public:
 
 	//spawn monster, drop item when player win
 	void Tick(float deltaTime) override;
+	void Exit();
 
 private:
 	void ProcessPlayerTurn();

@@ -157,7 +157,9 @@ void Character::ReCalc() {
 	for (const auto& pair : artifacts) {
 		pair.first->ReCalc(*this);
 	}
-
+	if (health > maxHealth) {
+		health = maxHealth;
+	}
 
 }
 

@@ -145,6 +145,7 @@
     <ClInclude Include="SaveManager.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="StatWidget.h" />
     <ClInclude Include="TextRPG.h" />
     <ClInclude Include="UsableItem.h" />
     <ClInclude Include="Utilities.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="StatWidget.cpp" />
     <ClCompile Include="TextRPG.cpp" />
     <ClCompile Include="UsableItem.cpp" />
     <ClCompile Include="Utilities.cpp" />

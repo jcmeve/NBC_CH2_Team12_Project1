@@ -5,9 +5,17 @@
 #include "Utilities.h"
 #include "Inventory.h"
 #include "GameManager.h"
-
+#include "StatWidget.h"
 BattleManager::BattleManager(std::wstring name) :Actor(name) {}
-BattleManager::~BattleManager() {}
+BattleManager::~BattleManager() {
+
+}
+void BattleManager::Exit() {
+	GM::DestroyActor(playerStatWidget);
+	playerStatWidget = nullptr;
+	GM::DestroyActor(monsterStatWidget);
+	monsterStatWidget = nullptr;
+}
 
 void BattleManager::StartBattle(Character* p, Monster* m)
 {
@@ -19,6 +27,14 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 	player = p;
 	monster = m;
 	monster->SetPos(120, 0, false);
+
+	playerStatWidget = GM::CreateActor<StatWidget>(player->GetName());
+	playerStatWidget->SetTarget(player);
+	playerStatWidget->Init(0, 0, 20, 10);
+	monsterStatWidget = GM::CreateActor<StatWidget>(monster->GetName());
+	monsterStatWidget->SetTarget(monster);
+	monsterStatWidget->Init(120, 0, 20, 10);
+
 
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
 

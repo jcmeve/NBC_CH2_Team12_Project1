@@ -31,6 +31,10 @@ public:
 	bool LoadAscii(std::wstring fileName);
 	int GetHealth() const;
 	int GetDamage() const;
+	int GetDefence() const;
+	int GetMaxHealth() const;
+	int GetOriginDamage() const;
+	int GetOriginDefence() const;
 	float GetAttackSpeed() const;
 
 	bool IsDead() const;
