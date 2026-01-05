@@ -11,6 +11,8 @@ public:
     virtual ~Item();
     std::wstring GetName() const ;
     int GetPrice()const;
+    const std::wstring& GetDesc() const;
+    const std::vector<std::pair<STATS, int>>& GetEffects() const;
 protected:
     std::wstring name;
     int gold;

@@ -1,5 +1,6 @@
 ﻿#pragma once
 class VectorWidget;
+class Widget;
 class Character;
 class Shop {
     enum class MODE{
@@ -10,6 +11,7 @@ private:
     Character* player;
     int idx = 0;
     VectorWidget* widget;
+    Widget* widget2;
 
 public:
     void Enter(Character* _player);

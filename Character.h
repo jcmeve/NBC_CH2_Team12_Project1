@@ -5,7 +5,7 @@
 #include <map>
 
 class Inventory;
-
+class Equipment;
 class Character : public Pawn
 {
 private:
@@ -13,6 +13,8 @@ private:
 	int experience;
 	int gold;
 	std::unique_ptr<Inventory> inventory;
+	std::vector<const Equipment*> equipmentSlot;
+	const static int equipmentSlotSize = 5;
 
 	std::map<std::wstring, int> killRecord;
 
@@ -38,6 +40,8 @@ public:
 	void ShowKillLog();
 	virtual void ReCalc() override;
 
+	bool Equip(const Equipment* equipment);
+	void Unequip(int idx);
 
 	Inventory* getInventory() const;
 

@@ -25,6 +25,8 @@ void Character::Init()
 	this->attackSpeed = 50.0f;
 	this->experience = 0;
 	this->gold = 123450;
+	
+	equipmentSlot.assign(equipmentSlotSize, nullptr);
 
 	this->inventory = std::make_unique<Inventory>();
 
@@ -157,6 +159,29 @@ void Character::ReCalc() {
 	}
 
 
+}
+
+bool Character::Equip(const Equipment* equipment) {
+	for (int i = 0; i < equipmentSlot.size(); ++i) {
+		if (equipmentSlot[i] == nullptr) {
+			equipmentSlot[i] = equipment;
+			inventory->RemoveItem(equipment);
+			return true;
+		}
+	}
+	return false;
+
+}
+
+void Character::Unequip(int idx) {
+	if (idx >= equipmentSlot.size() || idx<0) {
+		return;
+	}
+	if (equipmentSlot[idx] == nullptr) {
+		return;
+	}
+	inventory->AddItem(equipmentSlot[idx]);
+	equipmentSlot[idx] = nullptr;
 }
 
 void Character::Tick(float deltaTime) {

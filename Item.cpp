@@ -18,3 +18,11 @@ int Item::GetPrice() const {
     return gold;
 }
 
+const std::wstring& Item::GetDesc() const {
+    return description;
+}
+
+const std::vector<std::pair<STATS, int>>& Item::GetEffects() const{
+    return effects;
+}
+
