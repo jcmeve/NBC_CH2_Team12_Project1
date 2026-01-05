@@ -13,6 +13,10 @@ void Item::Use(Pawn& pawn) {
 }
 
 std::wstring Item::GetName()const {
-    return std::wstring();
+    return name;
+}
+
+int Item::GetPrice() const {
+    return gold;
 }
 

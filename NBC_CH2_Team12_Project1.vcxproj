@@ -145,6 +145,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TextRPG.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="VectorWidget.h" />
     <ClInclude Include="Widget.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TextRPG.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="VectorWidget.cpp" />
     <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

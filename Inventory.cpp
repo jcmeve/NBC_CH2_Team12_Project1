@@ -36,4 +36,6 @@
 	}
 
 	
-		
+	const std::map<const Item*, int, ItemPointerCompare> Inventory::GetAllItems() {
+		return items;
+	}

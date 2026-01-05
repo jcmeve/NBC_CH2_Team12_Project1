@@ -14,6 +14,7 @@ public:
 
 public:
 	const std::wstring& GetName() const;
+	void SetName(const std::wstring& _name);
 	virtual void Tick(float deltaTime) = 0;
 
 };
