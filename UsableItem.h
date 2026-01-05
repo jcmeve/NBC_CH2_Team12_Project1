@@ -6,6 +6,6 @@ private:
 public:
     UsableItem(std::wstring _name, int _gold, std::wstring _desc, int _turn, std::vector<std::pair<STATS, int>> _effects);
 
-    void Use(Pawn& pawn);
+    void Use(Pawn& pawn) const;
 };
 

@@ -8,7 +8,7 @@
 #include "UsableItem.h"
 
 Character::Character(std::wstring name) :
-	Pawn(name, 0, 0, 0, 1.0f), level(1), maxHealth(200), experience(0), gold(0)
+	Pawn(name, 0, 0, 0, 1.0f), level(1), experience(0), gold(0)
 {
 }
 
@@ -64,10 +64,8 @@ bool Character::TryUseRandomItem()
 		return false;
 	}
 
-	UsableItem* mutableUsableItem = const_cast<UsableItem*>(usableItem);
-
-	GM::GetLogger().Log(name + L"이(가) 아이템 " + mutableUsableItem->GetName() + L"을(를) 사용했습니다!");
-	mutableUsableItem->Use(*this);
+	GM::GetLogger().Log(name + L"이(가) 아이템 " + usableItem->GetName() + L"을(를) 사용했습니다!");
+	usableItem->Use(*this);
 
 	return true;
 }
@@ -149,6 +147,7 @@ void Character::ReCalc() {
 	originDef = (level - 1) * 5;
 	def = originDef;
 	dmg = originDmg;
+
 
 	Pawn::ReCalc();
 

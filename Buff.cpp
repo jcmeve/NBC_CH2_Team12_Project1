@@ -1,6 +1,6 @@
 ﻿#include "Buff.h"
 #include "Pawn.h"
-Buff::Buff(Pawn* pawn, std::wstring _name, int _duration, std::vector<std::pair<STATS, int>>& _effects) :target(pawn), name(_name), duration(_duration), effects(_effects) {
+Buff::Buff(Pawn* pawn, std::wstring _name, int _duration, const std::vector<std::pair<STATS, int>>& _effects) :target(pawn), name(_name), duration(_duration), effects(_effects) {
 }
 
 void Buff::Enter() {

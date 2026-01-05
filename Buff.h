@@ -13,7 +13,7 @@ private:
     std::vector<std::pair<STATS, int>> effects;//stat, amount
     int hpGen;
 public:
-    Buff(Pawn* pawn, std::wstring _name, int _duration, std::vector<std::pair<STATS, int>>& _effects);
+    Buff(Pawn* pawn, std::wstring _name, int _duration, const std::vector<std::pair<STATS, int>>& _effects);
     void Enter();
     void ReCalc();
     void Update(float deltaTime);//Time

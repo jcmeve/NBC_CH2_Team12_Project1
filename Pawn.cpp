@@ -76,11 +76,13 @@ void Pawn::TakeDamage(int damage) {
 	}
 }
 
-void Pawn::UseItem(std::wstring _name, int _turn, std::vector<std::pair<STATS, int>>& _effects) {
+void Pawn::UseItem(std::wstring _name, int _turn, const std::vector<std::pair<STATS, int>>& _effects) {
 	//GM::GetLogger().Log(name + L"을 사용했습니다");
 	if (_turn == 0) {
 		int hp = 0, dmg = 0, def = 0;
-		for (auto& pair : _effects) {
+		std::vector<std::pair<STATS, int>> effects{ _effects };
+		//아이템 설계 이슈로 쩔수 없이 값복사함
+		for (auto& pair : effects) {
 			switch (pair.first)
 			{
 			case STATS::HP:
@@ -97,8 +99,9 @@ void Pawn::UseItem(std::wstring _name, int _turn, std::vector<std::pair<STATS, i
 				break;
 			}
 		}
+
 		Heal(hp);
-		AddBuff(_name, MAXINT, _effects);
+		AddBuff(_name, MAXINT, effects);
 	}
 	else {//buff
 		AddBuff(_name, _turn, _effects);
@@ -106,8 +109,16 @@ void Pawn::UseItem(std::wstring _name, int _turn, std::vector<std::pair<STATS, i
 
 }
 
-void Pawn::AddBuff(std::wstring _name, int _duration, std::vector<std::pair<STATS, int>>& _effects) {
+void Pawn::AddBuff(std::wstring _name, int _duration, const std::vector<std::pair<STATS, int>>& _effects) {
 	buffs.push_back(new Buff(this, _name, _duration, _effects));
+}
+
+void Pawn::ClearBuff() {
+	for (int i = 0; i < buffs.size(); ++i) {
+		buffs[i]->Exit();
+	}
+	buffs.clear();
+	ReCalc();
 }
 
 void Pawn::RemoveBuff(Buff* buff) {

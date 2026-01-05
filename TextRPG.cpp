@@ -226,6 +226,7 @@ void TextRPG::UpdateBattle()
 
 	GM::DestroyActor(currentMonster);
 	currentMonster = nullptr;
+	player->ClearBuff();
 
 	if (player->IsDead())
 	{

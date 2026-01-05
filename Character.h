@@ -10,7 +10,6 @@ class Character : public Pawn
 {
 private:
 	int level;
-	int maxHealth;
 	int experience;
 	int gold;
 	std::unique_ptr<Inventory> inventory;
@@ -38,6 +37,7 @@ public:
 	void RecordKill(std::wstring monsterName);
 	void ShowKillLog();
 	virtual void ReCalc() override;
+
 
 	Inventory* getInventory() const;
 

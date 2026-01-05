@@ -37,9 +37,10 @@ public:
 	bool CanAttack(Pawn* target);
 	virtual void Attack(Pawn& pawn);
 	virtual void TakeDamage(int damage);
-	void UseItem(std::wstring _name, int _turn, std::vector<std::pair<STATS, int>>& _effects);
+	void UseItem(std::wstring _name, int _turn, const std::vector<std::pair<STATS, int>>& _effects);
 
-	void AddBuff(std::wstring _name, int _duration, std::vector<std::pair<STATS, int>>& _effects);
+	void AddBuff(std::wstring _name, int _duration, const std::vector<std::pair<STATS, int>>& _effects);
+	void ClearBuff();
 	void RemoveBuff(Buff* buff);
 	void IncreaseStats(int _maxHp, int _dmg, int _def);
 	void Heal(int amount);
