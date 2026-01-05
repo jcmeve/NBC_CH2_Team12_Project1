@@ -36,9 +36,9 @@ void Buff::Update(float deltaTime) {
 	timer += deltaTime;
 	if (timer > duration) {
 		Exit();
+		return;
 	}
 	target->Heal(deltaTime * hpGen);
-
 }
 
 void Buff::Exit() {
