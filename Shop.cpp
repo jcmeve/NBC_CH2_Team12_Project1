@@ -1,20 +1,38 @@
 ﻿#include "Shop.h"
-#include "Widget.h"
+#include "VectorWidget.h"
 #include "GameManager.h"
 #include "Item.h"
 #include "Character.h"
 #include "Inventory.h"
 
 void Shop::Enter(Character* _player) {
-    widget = GM::CreateActor<Widget>();
+    widget = GM::CreateActor<VectorWidget>();
     player = _player;
     mode = MODE::SELL;
+    idx = 0;
 }
 
 void Shop::Tick(float deltatTime) {
     if (GM::GetInput().IsKeyDown(VK_LEFT) || GM::GetInput().IsKeyDown(VK_RIGHT)) {
-        
+        SwitchWidget();
     }
+    if (GM::GetInput().IsKeyDown(VK_DOWN)) {
+        IdxUpdate(idx + 1);
+    }
+    else if (GM::GetInput().IsKeyDown(VK_UP)) {
+        IdxUpdate(idx - 1);
+    }
+
+}
+void Shop::IdxUpdate(int _idx) {
+    int size = widget->GetLineCount();
+    if (size == 0)return;
+    int originIdx = idx;
+    idx = (_idx + size) % size;
+    if (originIdx == idx) return;
+    widget->SetHighlight(idx);
+
+
 }
 void Shop::Exit() {
     GM::DestroyActor(widget);
@@ -27,29 +45,29 @@ void Shop::SwitchWidget() {
         mode = MODE::SELL;
     else if (mode == MODE::SELL)
         mode = MODE::BUY;
+    idx = 0;
 
     if (mode == MODE::BUY) {
-        mode = MODE::SELL;
-        widget->Init(0, 0, 40, 50);
+        widget->Init(10, 5, 80, 50);
         auto ret = GM::GetItemManager().GetAllItems();
-
-        std::wstring text;
+        std::vector<std::wstring> texts;
         for (auto& item : ret) {
-            text += item->GetName() + L" : " + std::to_wstring(item->GetPrice()) + L"\n";
+            texts.push_back(item->GetName() + L" : " + std::to_wstring(item->GetPrice()));
         }
-        widget->SetText(text);
-    
+        widget->SetTexts(texts);
+        widget->SetName(L"구매하기");
+
     }
     else if (mode == MODE::SELL) {
-        mode = MODE::BUY;
-        widget->Init(0, 0, 40, 50);
+        widget->Init(10, 5, 80, 50);
         auto ret = player->getInventory()->GetAllItems();
+        std::vector<std::wstring> texts;
 
-        std::wstring text;
         for (auto& item : ret) {
-            text += item.first->GetName() + L" : " + std::to_wstring(item.first->GetPrice()) + L"\t" + std::to_wstring(item.second) + L"\n";
+            texts.push_back(item.first->GetName() + L" : " + std::to_wstring(item.first->GetPrice()) + L"\t" + std::to_wstring(item.second));
         }
-        widget->SetText(text);
+        widget->SetTexts(texts);
+        widget->SetName(L"판매하기");
     }
 
 

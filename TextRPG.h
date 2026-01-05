@@ -47,7 +47,7 @@ private:
 	void UpdateCreateCharacter();
 	void UpdateStory();
 	void UpdateBattle();
-	void UpdateShop();
+	void UpdateShop(float deltaTime);
 	void UpdateStatus();
 	void UpdateEnding();
 

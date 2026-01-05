@@ -11,3 +11,7 @@ Actor::~Actor() {
 const std::wstring& Actor::GetName() const {
 	return name;
 }
+
+void Actor::SetName(const std::wstring& _name) {
+	name = _name;
+}

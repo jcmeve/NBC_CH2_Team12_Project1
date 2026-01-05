@@ -304,9 +304,18 @@ void DisplayManager::DrawShop(const Character& player, const Shop& shop) {
 void DisplayManager::DrawShoplist(const Character& player, const Shop& shop) {
 }
 
+void DisplayManager::ClearTextArea() {
+    stringDeque.clear();
+    totalTimeSlowWrite = 0.0f;
+    stringSlowWrite.clear();
+    currTimeSlowWrite = 0.0f;
+    idxSlowWrite = 0;
+}
+
 
 void DisplayManager::ClearBuffer(unsigned char bufferIdx) {
     drawBuffer[bufferIdx].assign(width * height, { L' ' , });
+
 }
 
 

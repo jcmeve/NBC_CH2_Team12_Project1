@@ -16,9 +16,14 @@
 TextRPG::TextRPG(std::wstring name) : Actor(name)
 {
 	EnterState(GameState::TITLE);
+	shop = new Shop();
+
 }
 
-TextRPG::~TextRPG() {}
+TextRPG::~TextRPG() {		
+	shop->Exit();
+	delete shop;
+}
 
 void TextRPG::Tick(float deltaTime) {
 	switch (currentState)
@@ -36,7 +41,7 @@ void TextRPG::Tick(float deltaTime) {
 		UpdateBattle();
 		break;
 	case GameState::SHOP:
-		UpdateShop();
+		UpdateShop(deltaTime);
 		break;
 	case GameState::STATUS:
 		UpdateStatus();
@@ -84,11 +89,8 @@ void TextRPG::EnterState(GameState state)
 		break;
 
 	case GameState::SHOP:
-		//shop = new Shop();
-		//shop->Enter(player);
-		//shop->SwitchWidget();
-		//shop->Exit();
-		//delete shop;
+		shop->Enter(player);
+		shop->SwitchWidget();
 		GM::GetLogger().Log(L"=============== 상점에 진입했습니다 ===============");
 		GM::GetLogger().Log(L"[ESC] 나가기");
 		break;
@@ -106,6 +108,28 @@ void TextRPG::EnterState(GameState state)
 
 void TextRPG::ExitState(GameState state)
 {
+	switch (state)
+	{
+	case GameState::TITLE:
+		break;
+	case GameState::CREATE_CHARACTER:
+		break;
+	case GameState::STORY:
+		break;
+	case GameState::BATTLE:
+		break;
+	case GameState::SHOP:
+		shop->Exit();
+		break;
+	case GameState::STATUS:
+		break;
+	case GameState::BOSS_BATTLE:
+		break;
+	case GameState::ENDING:
+		break;
+	default:
+		break;
+	}
 }
 
 // ==========================================================
@@ -215,13 +239,14 @@ void TextRPG::UpdateBattle()
 	}
 }
 
-void TextRPG::UpdateShop()
+void TextRPG::UpdateShop(float deltaTime)
 {
 	// 상점 로직
 	if (GM::GetInput().IsKeyDown(VK_ESCAPE))
 	{
 		ChangeState(GameState::STORY);
 	}
+	shop->Tick(deltaTime);
 }
 
 void TextRPG::UpdateStatus()
