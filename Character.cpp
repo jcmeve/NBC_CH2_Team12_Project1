@@ -99,6 +99,13 @@ void Character::addGold(int amount)
 	GM::GetAchievement().NotifyGoldChange(gold);
 }
 
+void Character::RemoveGold(int amount) {
+	gold -= amount;
+	if (gold < 0) {
+		GM::GetLogger().ErrorLog(L"Minus GOLD!");
+	}
+}
+
 void Character::RecordKill(std::wstring monsterName)
 {
 	killRecord[monsterName]++;

@@ -30,11 +30,16 @@ bool SaveManager::LoadItems(const std::wstring& name, std::vector<std::vector<st
     if (file.is_open()) {
         file.imbue(std::locale(file.getloc(), new std::codecvt_utf8<wchar_t>));
         std::wstring line;
+
         while (std::getline(file, line)) {
+            if (!line.empty() && (unsigned short)line[0] == 65279) { //65001 BOM 처리
+                line.erase(0, 1); 
+            }
             out.push_back(std::vector<std::wstring>());
             std::wstringstream wss(line);
             std::wstring temp;
             while (std::getline(wss, temp, L',')) {
+                
                 out[out.size() - 1].push_back(temp);
             }
         }
