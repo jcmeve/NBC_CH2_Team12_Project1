@@ -7,9 +7,7 @@ class Pawn;
 class StatWidget;
 enum class BattleState
 {
-	BS_WAITING, //전투 시작 전 OR 턴 사이 대기
-	BS_PLAYER_TURN, //플레이어 행동
-	BS_MONSTER_TURN, //몬스터 턴
+	BS_FIGHT, //전투 시작 전 OR 턴 사이 대기
 	BS_FINISH_DELAY,
 	BS_VICTORY, //플레이어 승리 (보상)
 	BS_DEFEAT, //플레이어 패배 (게임오버)
@@ -27,10 +25,6 @@ private:
 
 
 	BattleState currentState;
-
-	float playerGauge = 0.0f;
-	float monsterGauge = 0.0f;
-	const float MAX_GAUGE = 100.0;
 
 	float finishTimer = 0.0f;
 

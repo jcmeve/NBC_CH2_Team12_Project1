@@ -21,6 +21,8 @@ protected:
 	int dmg;
 	int def;
 	float attackSpeed;
+	float attackTimer = 0.0f;
+	bool isAttacking = false;
 
 	std::map< EMotion, std::vector<std::wstring>> ascii;
 	const float idleMotionPeriod = 0.5f;
@@ -48,6 +50,8 @@ public:
 	int GetOriginDamage() const;
 	int GetOriginDefence() const;
 	float GetAttackSpeed() const;
+
+	void InitAttackTimer();
 
 	bool IsDead() const;
 	bool CanAttack(Pawn* target);

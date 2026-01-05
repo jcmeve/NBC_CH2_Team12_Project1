@@ -63,10 +63,15 @@ float Pawn::GetAttackSpeed() const
 	return attackSpeed;
 }
 
-void Pawn::Attack(Pawn& target) {
+void Pawn::InitAttackTimer() {
+	attackTimer = 0.0f;
+}
 
+void Pawn::Attack(Pawn& target) {
+	isAttacking = true;
 	target.TakeDamage(GetDamage());
 	GM::GetDisplay().WriteString(GetName() + L" -> " + target.GetName());
+	attackTimer = 0.0f;
 }
 
 bool Pawn::IsDead() const {
@@ -75,12 +80,14 @@ bool Pawn::IsDead() const {
 
 bool Pawn::CanAttack(Pawn* target)
 {
-	if (!target || target->IsDead())
+	if (!target || target->IsDead() || IsDead())
 	{
 		return false;
 	}
-
-	return true;
+	if (attackTimer > 1.0f) {
+		return true;
+	}
+	return false;
 }
 
 void Pawn::TakeDamage(int damage) {
@@ -200,19 +207,17 @@ void Pawn::Tick(float deltaTime) {
 		buffs[i]->Update(deltaTime); //Update에서 버프를 지우므로 뒤에서부터 순회
 	}
 
+	attackTimer += deltaTime*attackSpeed;
+	if (attackTimer > 1.0 / attackSpeed * 0.1) {
+		isAttacking = false;
+	}
+
 	idleMotionTimer += deltaTime;
 	if (idleMotionTimer > idleMotionPeriod) {
 		idleMotionTimer = 0.0f;
 		idleMotionIdx = (idleMotionIdx + 1) % 2;
 
 	}
-	if (/*!공격후딜 && */!IsDead()) {
-		if (idleMotionIdx == 0) {
-			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][0], posX, posY);
-		}
-		else if (idleMotionIdx == 1) {
-			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE2][0], posX, posY);
-		}
-	}
+
 	//ATTACK,DIE
 }

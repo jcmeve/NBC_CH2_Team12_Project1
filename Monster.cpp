@@ -25,7 +25,7 @@ void Monster::Init(int playerLevel)
 	this->originDef = Utilities::GenerateRandomValue(minDef, maxDef);
 	def = originDef;
 
-	this->attackSpeed = 60.0f; //나중에 매개변수로 수정
+	this->attackSpeed = 0.4f; //나중에 매개변수로 수정
 }
 
 bool Monster::LoadAscii(std::wstring fileName) {
@@ -49,4 +49,21 @@ void Monster::TakeDamage(int damage)
 
 void Monster::Tick(float deltaTime) {
 	Pawn::Tick(deltaTime);
+	if (IsDead()) {
+		GM::GetDisplay().DrawAscii(ascii[EMotion::DIE][0], posX, posY);
+		return;
+	}
+	if (isAttacking) {
+		GM::GetDisplay().DrawAscii(ascii[EMotion::ATTACK][0], posX, posY);
+		return;
+	}
+	
+	if (idleMotionIdx == 0) {
+		GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][0], posX, posY);
+	}
+	else if (idleMotionIdx == 1) {
+		GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE2][0], posX, posY);
+	}
+	
+
 }

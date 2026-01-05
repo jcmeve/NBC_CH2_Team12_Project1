@@ -27,6 +27,12 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 	player = p;
 	monster = m;
 	monster->SetPos(120, 0, false);
+	
+	player->ReCalc();
+	monster->ReCalc();
+
+	player->InitAttackTimer();
+	monster->InitAttackTimer();
 
 	playerStatWidget = GM::CreateActor<StatWidget>(player->GetName());
 	playerStatWidget->SetTarget(player);
@@ -38,9 +44,7 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
 
-	currentState = BattleState::BS_WAITING;
-	playerGauge = MAX_GAUGE; //플레이어 선공
-	monsterGauge = 0.0;
+	currentState = BattleState::BS_FIGHT;
 }
 
 BattleState BattleManager::GetBattleState() const
@@ -74,33 +78,16 @@ void BattleManager::Tick(float deltaTime)
 		}
 	}
 
-	if (currentState == BattleState::BS_WAITING)
+	if (currentState == BattleState::BS_FIGHT)
 	{
-		playerGauge += player->GetAttackSpeed() * deltaTime;
-		monsterGauge += monster->GetAttackSpeed() * deltaTime;
-
-		bool playerReady = playerGauge >= MAX_GAUGE;
-		bool monsterReady = monsterGauge >= MAX_GAUGE;
-
-		if (playerReady)
-		{
-			currentState = BattleState::BS_PLAYER_TURN;
-			playerGauge = 0;
+		if (player->CanAttack(monster)) {
+			ProcessPlayerTurn();
 		}
-		else if (monsterReady)
-		{
-			currentState = BattleState::BS_MONSTER_TURN;
-			monsterGauge = 0;
+		if (monster->CanAttack(player)) {
+			ProcessMonsterTurn();
 		}
 	}
-	else if (currentState == BattleState::BS_PLAYER_TURN)
-	{
-		ProcessPlayerTurn();
-	}
-	else if (currentState == BattleState::BS_MONSTER_TURN)
-	{
-		ProcessMonsterTurn();
-	}
+
 }
 
 void BattleManager::ProcessPlayerTurn()
@@ -130,10 +117,7 @@ void BattleManager::ProcessPlayerTurn()
 		finishTimer = 1.5f;
 		currentState = BattleState::BS_FINISH_DELAY;
 	}
-	else
-	{
-		currentState = BattleState::BS_WAITING;
-	}
+
 }
 
 void BattleManager::ProcessMonsterTurn()
@@ -154,10 +138,7 @@ void BattleManager::ProcessMonsterTurn()
 		finishTimer = 1.5f;
 		currentState = BattleState::BS_FINISH_DELAY;
 	}
-	else
-	{
-		currentState = BattleState::BS_WAITING;
-	}
+
 }
 
 void BattleManager::ProcessVictory()

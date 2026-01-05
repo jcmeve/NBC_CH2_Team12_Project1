@@ -23,7 +23,7 @@ void Character::Init()
 	this->health = maxHealth;
 	this->dmg = 30;
 	this->def = 10; //기본 방어력 10, 레벨업마다 5 증가
-	this->attackSpeed = 50.0f;
+	this->attackSpeed = 0.5;
 	this->experience = 0;
 	this->gold = 123450;
 	
@@ -201,33 +201,32 @@ void Character::Unequip(int idx) {
 }
 
 void Character::Tick(float deltaTime) {
-	//버프 업데이트
-	for (int i = buffs.size() - 1; i >= 0; i--)
-	{
-		buffs[i]->Update(deltaTime); //Update에서 버프를 지우므로 뒤에서부터 순회
-	}
-	///asdad
+	Pawn::Tick(deltaTime);
+
 	int chapter = 0;
 	if (level < 4) chapter = 1;
 	else if (level < 7) chapter = 2;
 	else if (level < 10) chapter = 3;
 	else chapter = 4;
 
-
-	idleMotionTimer += deltaTime;
-	if (idleMotionTimer > idleMotionPeriod) {
-		idleMotionTimer = 0.0f;
-		idleMotionIdx = (idleMotionIdx + 1) % 2;
-
+	if (isAttacking) {
+		GM::GetDisplay().DrawAscii(ascii[EMotion::ATTACK][chapter - 1], posX, posY);
+		return;
 	}
-	if (/*!공격후딜 && */!IsDead()) {
+
+	if (!IsDead()) {
 		if (idleMotionIdx == 0) {
-			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][chapter-1], posX, posY);
+			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][chapter - 1], posX, posY);
 		}
 		else if (idleMotionIdx == 1) {
 			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE2][chapter - 1], posX, posY);
 		}
 	}
+
+
+
+
+
 
 	//asdadad
 
