@@ -20,7 +20,7 @@ void Character::Init()
 	this->def = 10; //기본 방어력 10, 레벨업마다 5 증가
 	this->attackSpeed = 50.0f;
 	this->experience = 0;
-	this->gold = 0;
+	this->gold = 123450;
 
 	this->inventory = std::make_unique<Inventory>();
 

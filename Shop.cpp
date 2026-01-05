@@ -50,13 +50,18 @@ void Shop::Trade() {
     }
     else if (mode == MODE::SELL) {
         const auto* pair = player->getInventory()->GetItem(idx);
+        if (!pair) {
+            GM::GetLogger().Log(L"아이템을 팔 수 없었습니다..");
+            return;
+        }
+        auto itemName = pair->first->GetName();
         int price = pair->first->GetPrice();
         player->getInventory()->RemoveItem(pair->first);
         player->addGold(price);
-        GM::GetLogger().Log(pair->first->GetName() + L" 판매 성공!  남은 골드 : " + std::to_wstring(player->getGold()));
+        GM::GetLogger().Log(itemName + L" 판매 성공!  남은 골드 : " + std::to_wstring(player->getGold()));
     }
     ReloadItems();
-    widget->SetHighlight(idx);
+    IdxUpdate(idx);
 }
 void Shop::IdxUpdate(int _idx) {
     int size = widget->GetLineCount();

@@ -16,9 +16,6 @@ void VectorWidget::SetHighlight(int idx) {
         if (i == idx) {
             str += L'█';
         }
-        if (i == 34) {
-            int a = 1;
-        }
         str += texts[i] + L'\n';
     }
     SetText(str);
