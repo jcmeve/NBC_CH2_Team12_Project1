@@ -4,9 +4,7 @@
 #include "Character.h"
 #include "GameManager.h"
 
-
 BattleManager::BattleManager(std::wstring name) :Actor(name) {}
-
 BattleManager::~BattleManager() {}
 
 void BattleManager::StartBattle(Character* p, Monster* m)
@@ -142,6 +140,7 @@ void BattleManager::ProcessVictory()
 	player->addExperience(50);
 	player->addGold(monster->dropGold());
 	//아이템 획득 추가 필요
+	GM::GetAchievement().NotifyBattleWin();
 
 	player->ShowKillLog();
 	GM::GetLogger().Log(L"[Space bar] 계속 진행");

@@ -5,51 +5,54 @@
 #include "SoundManager.h"
 #include "SaveManager.h"
 #include "ItemManager.h"
+#include "AchievementManager.h"
 #include <vector>
 #include <memory>
 class GameManager {
-    DisplayManager display;
-    Logger logger;
-    InputManager input;
-    SoundManager sound;
-    SaveManager save;
-    ItemManager item;
-    bool isEngineEnd;
-    std::vector<Actor*> actors;
-    std::vector<Actor*> garbageActors;
+	DisplayManager display;
+	Logger logger;
+	InputManager input;
+	SoundManager sound;
+	SaveManager save;
+	ItemManager item;
+	AchievementManager achievement;
+	bool isEngineEnd;
+	std::vector<Actor*> actors;
+	std::vector<Actor*> garbageActors;
 private:
-    GameManager();
-    GameManager& operator=(const GameManager& other) = delete;
-    GameManager(const GameManager& other) = delete;
-    GameManager& operator=(const GameManager&& other) = delete;
-    GameManager(const GameManager&& other) = delete;
-    static void RemoveActor(Actor* actor);
+	GameManager();
+	GameManager& operator=(const GameManager& other) = delete;
+	GameManager(const GameManager& other) = delete;
+	GameManager& operator=(const GameManager&& other) = delete;
+	GameManager(const GameManager&& other) = delete;
+	static void RemoveActor(Actor* actor);
 public:
-    static Logger& GetLogger();
-    static DisplayManager& GetDisplay();
-    static InputManager& GetInput();
-    static SoundManager& GetSound();
-    static SaveManager& GetSave();
-    static ItemManager& GetItemManager();
-    static GameManager& GetInstance();
-    static bool IsEnd();
-    static bool ShutDown();
-    
-    template<typename T, typename = typename std::enable_if<std::is_base_of<Actor, T>::value>::type>
-    static T* CreateActor(const std::wstring& name) {
-        T* temp = new T(name);
-        GetInstance().actors.push_back(temp);
-        return temp;
-    }
+	static Logger& GetLogger();
+	static DisplayManager& GetDisplay();
+	static InputManager& GetInput();
+	static SoundManager& GetSound();
+	static SaveManager& GetSave();
+	static ItemManager& GetItemManager();
+	static AchievementManager& GetAchievement();
+	static GameManager& GetInstance();
+	static bool IsEnd();
+	static bool ShutDown();
 
-    template<typename T, typename = typename std::enable_if<std::is_base_of<Actor, T>::value>::type>
-    static T* CreateActor() {
-        return CreateActor<T>(std::wstring(L"NONAME"));
-    }
-    void Init();
+	template<typename T, typename = typename std::enable_if<std::is_base_of<Actor, T>::value>::type>
+	static T* CreateActor(const std::wstring& name) {
+		T* temp = new T(name);
+		GetInstance().actors.push_back(temp);
+		return temp;
+	}
 
-    static void DestroyActor(Actor* actor);
-    static void Tick(float deltaTime) ;
+	template<typename T, typename = typename std::enable_if<std::is_base_of<Actor, T>::value>::type>
+	static T* CreateActor() {
+		return CreateActor<T>(std::wstring(L"NONAME"));
+	}
+	void Init();
+
+	static void DestroyActor(Actor* actor);
+	static void Tick(float deltaTime);
 
 }typedef GM;
 

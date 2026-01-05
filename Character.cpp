@@ -47,6 +47,8 @@ void Character::levelUp()
 	level++;
 	ReCalc();
 	health = maxHealth;
+
+	GM::GetAchievement().NotifyLevelUp(level);
 }
 
 void Character::useItem(int index)
@@ -93,6 +95,8 @@ void Character::addGold(int amount)
 {
 	gold += amount;
 	GM::GetLogger().Log(L"골드 " + std::to_wstring(amount) + L" 획득! (현재: " + std::to_wstring(gold) + L"G)");
+
+	GM::GetAchievement().NotifyGoldChange(gold);
 }
 
 void Character::RecordKill(std::wstring monsterName)
