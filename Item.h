@@ -7,16 +7,14 @@ class Pawn;
 class Item {
 public:
     //name, gold, desc, turn, effects
-    Item(std::wstring _name, int _gold, std::wstring _desc, int _turn , std::vector<std::pair<STATS, int>> _effects);
+    Item(std::wstring _name, int _gold, std::wstring _desc, std::vector<std::pair<STATS, int>> _effects);
     virtual ~Item();
-    virtual void Use(Pawn& pawn);
     std::wstring GetName() const ;
     int GetPrice()const;
 protected:
     std::wstring name;
     int gold;
     std::wstring description;
-    int turn;//buff 필요
     std::vector<std::pair<STATS, int>> effects;//stat, amount
 
         

@@ -90,7 +90,6 @@ void TextRPG::EnterState(GameState state)
 
 	case GameState::SHOP:
 		shop->Enter(player);
-		shop->SwitchWidget();
 		GM::GetLogger().Log(L"=============== 상점에 진입했습니다 ===============");
 		GM::GetLogger().Log(L"[ESC] 나가기");
 		break;

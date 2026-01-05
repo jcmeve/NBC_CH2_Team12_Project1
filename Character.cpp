@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "ItemManager.h"
 #include "GameManager.h"
+#include "Artifact.h"
 
 Character::Character(std::wstring name) :
 	Pawn(name, 0, 0, 0, 1.0f), level(1), maxHealth(200), experience(0), gold(0)
@@ -21,7 +22,7 @@ void Character::Init()
 	this->def = 10; //기본 방어력 10, 레벨업마다 5 증가
 	this->attackSpeed = 50.0f;
 	this->experience = 0;
-	this->gold = 0;
+	this->gold = 123450;
 
 	this->inventory = std::make_unique<Inventory>();
 
@@ -110,6 +111,13 @@ void Character::addGold(int amount)
 	GM::GetAchievement().NotifyGoldChange(gold);
 }
 
+void Character::RemoveGold(int amount) {
+	gold -= amount;
+	if (gold < 0) {
+		GM::GetLogger().ErrorLog(L"Minus GOLD!");
+	}
+}
+
 void Character::RecordKill(std::wstring monsterName)
 {
 	killRecord[monsterName]++;
@@ -141,6 +149,13 @@ void Character::ReCalc() {
 	dmg = originDmg;
 
 	Pawn::ReCalc();
+
+	const std::map<const Artifact*, int, ItemPointerCompare>& artifacts = inventory->GetArtifacts();
+	for (const auto& pair: artifacts) {
+		pair.first->ReCalc(*this);
+	}
+
+
 }
 
 void Character::Tick(float deltaTime) {

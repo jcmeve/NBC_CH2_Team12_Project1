@@ -14,6 +14,7 @@ private:
 	int experience;
 	int gold;
 	std::unique_ptr<Inventory> inventory;
+
 	std::map<std::wstring, int> killRecord;
 
 public:
@@ -32,6 +33,7 @@ public:
 
 	void addExperience(int exp);
 	void addGold(int amount);
+	void RemoveGold(int amount);
 
 	void RecordKill(std::wstring monsterName);
 	void ShowKillLog();
