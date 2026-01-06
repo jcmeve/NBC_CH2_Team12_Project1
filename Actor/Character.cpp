@@ -216,6 +216,16 @@ void Character::Unequip(int idx) {
 	equipmentSlot[idx] = nullptr;
 }
 
+const Equipment* Character::GetCurrentEquipment(int idx) {
+	if (idx >= equipmentSlot.size())
+		return nullptr;
+	return equipmentSlot[idx];
+}
+
+int Character::GetCurrentEquipmentSize() {
+	return equipmentSlot.size();
+}
+
 void Character::Tick(float deltaTime) {
 	Pawn::Tick(deltaTime);
 

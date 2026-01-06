@@ -15,9 +15,9 @@ void Shop::Enter(Character* _player) {
     ReloadItems();
 
     
-    widget2 = GM::CreateActor<Widget>(L"조작법");
-    widget2->Init(150, 40, 30, 5);
-    widget2->SetText(L"[ESC] : 나가기\n[◀ ▶] : 구매/판매 전환\n[▲ ▼] : 이동\n[ENTER] : 거래하기");
+    manualWidget = GM::CreateActor<Widget>(L"조작법");
+    manualWidget->Init(150, 40, 30, 5);
+    manualWidget->SetText(L"[ESC] : 나가기\n[◀ ▶] : 구매/판매 전환\n[▲ ▼] : 이동\n[ENTER] : 거래하기");
     GM::GetDisplay().ClearTextArea();
     GM::GetLogger().Log(L"=============== 상점에 진입했습니다 ===============");
 
@@ -78,7 +78,6 @@ void Shop::Trade() {
 void Shop::IdxUpdate(int _idx) {
     int size = widget->GetLineCount();
     if (size == 0)return;
-    int originIdx = idx;
     idx = (_idx + size) % size;
     widget->SetHighlight(idx);
     GM::GetDisplay().ClearTextArea();
@@ -129,7 +128,7 @@ void Shop::IdxUpdate(int _idx) {
 }
 void Shop::Exit() {
     GM::DestroyActor(widget);
-    GM::DestroyActor(widget2);
+    GM::DestroyActor(manualWidget);
     player = nullptr;
 }
 
@@ -141,7 +140,6 @@ void Shop::SwitchWidget() {
         mode = MODE::BUY;
     idx = 0;
     ReloadItems();
-
 }
 
 void Shop::ReloadItems() {
@@ -150,7 +148,7 @@ void Shop::ReloadItems() {
         auto ret = GM::GetItemManager().GetAllItems();
         std::vector<std::wstring> texts;
         for (auto& item : ret) {
-            texts.push_back(item->GetName() + L" : " + std::to_wstring(item->GetPrice())+L"g");
+            texts.push_back(item->GetName() + L" : " + std::to_wstring(item->GetPrice())+L"G");
         }
         widget->SetTexts(texts);
         widget->SetName(L"구매하기");
@@ -163,7 +161,7 @@ void Shop::ReloadItems() {
         int i = 0;
         while (const auto& pair = player->getInventory()->GetItem(i)) {
             ++i;
-            texts.push_back(pair->first->GetName() + L" : " + std::to_wstring((int)(pair->first->GetPrice() * 0.6)) + L"g   " + std::to_wstring(pair->second) + L"개");
+            texts.push_back(pair->first->GetName() + L" : " + std::to_wstring((int)(pair->first->GetPrice() * 0.6)) + L"G   " + std::to_wstring(pair->second) + L"개");
         }
 
         widget->SetTexts(texts);

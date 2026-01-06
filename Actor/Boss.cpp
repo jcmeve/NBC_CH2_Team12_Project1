@@ -24,4 +24,7 @@ void Boss::Init(int playerLevel) {
 	def = originDef;
 
 	this->attackSpeed = 0.7f; //나중에 매개변수로 수정
+	
+	qteTimer = (float)Utilities::GenerateRandomValue(0, 9);
+	qteTime = 10.0f;
 }

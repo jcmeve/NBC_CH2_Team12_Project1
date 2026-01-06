@@ -283,7 +283,7 @@ void DisplayManager::DrawAscii(const std::wstring ascii, short x_target, short y
 		short line_length = line_end - curr_pos;
 
 		//if edge of the display stop draw
-		if (y_target + current_y_offset >= height) break;
+		if (y_target + current_y_offset >= borderline) break;
 		if (x_target + line_length > width) {
 			line_length = width - x_target;
 		}

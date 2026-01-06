@@ -11,7 +11,7 @@ private:
     Character* player;
     int idx = 0;
     VectorWidget* widget;
-    Widget* widget2;
+    Widget* manualWidget;
 
 public:
     void Enter(Character* _player);

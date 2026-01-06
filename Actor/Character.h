@@ -47,6 +47,8 @@ public:
 
 	bool Equip(const Equipment* equipment);
 	void Unequip(int idx);
+	const Equipment* GetCurrentEquipment(int idx);
+	int GetCurrentEquipmentSize();
 
 	Inventory* getInventory() const;
 
