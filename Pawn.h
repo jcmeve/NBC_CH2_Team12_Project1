@@ -31,6 +31,8 @@ protected:
 	
 	bool isDead;
 
+
+
 	short posX;
 	short posY;
 	bool isReverse;

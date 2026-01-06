@@ -122,8 +122,8 @@ void BattleManager::ProcessPlayerTurn()
 
 void BattleManager::ProcessMonsterTurn()
 {
-	//QTE* qte = GM::CreateActor<QTE>(L"TESTQTE");
-	//qte->Init(player, 3);
+	QTE* qte = GM::CreateActor<QTE>(L"TESTQTE");
+	qte->Init(player, 1);
 	//QTE TEST
 
 	int hpBefore = player->GetHealth();
