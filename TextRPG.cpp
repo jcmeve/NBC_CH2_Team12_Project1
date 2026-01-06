@@ -128,7 +128,7 @@ void TextRPG::ExitState(GameState state)
 		GM::DestroyActor(currentMonster);
 		currentMonster = nullptr;
 		player->ClearBuff();
-
+		player->Heal(player->GetMaxHealth());
 		break;
 	case GameState::SHOP:
 		shop->Exit();
@@ -144,6 +144,8 @@ void TextRPG::ExitState(GameState state)
 		GM::DestroyActor(currentMonster);
 		currentMonster = nullptr;
 		player->ClearBuff();
+		player->Heal(player->GetMaxHealth());
+
 		break;
 	case GameState::ENDING:
 		break;
@@ -263,6 +265,8 @@ void TextRPG::UpdateBattle()
 	{
 		ChangeState(GameState::STORY);
 	}
+
+
 }
 
 
