@@ -102,6 +102,9 @@
     <ClInclude Include="Boss.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="LifeTimeWidget.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -186,6 +189,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeTimeWidget.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

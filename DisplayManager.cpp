@@ -289,6 +289,7 @@ void DisplayManager::DrawAscii(const std::wstring ascii, short x_target, short y
 		}
 
 		for (int i = 0; i < line_length; ++i) {
+			if (ascii[curr_pos + i] == L' ') continue;
 			int bufferIdx = (y_target + current_y_offset) * width + (x_target + i);
 			drawBuffer[currBufferIdx][bufferIdx].Char.UnicodeChar = ascii[curr_pos + i];
 			drawBuffer[currBufferIdx][bufferIdx].Attributes = 0x0007;

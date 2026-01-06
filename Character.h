@@ -34,7 +34,7 @@ public:
 	int getExperience() const;
 	int getGold() const;
 
-	void addExperience(int exp);
+	bool addExperience(int exp);
 	void addGold(int amount);
 	void RemoveGold(int amount);
 

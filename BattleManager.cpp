@@ -40,7 +40,7 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 	playerStatWidget->Init(0, 0, 20, 10);
 	monsterStatWidget = GM::CreateActor<StatWidget>(monster->GetName());
 	monsterStatWidget->SetTarget(monster);
-	monsterStatWidget->Init(120, 0, 20, 10);
+	monsterStatWidget->Init(100, 0, 20, 10);
 
 
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
@@ -60,14 +60,9 @@ void BattleManager::Tick(float deltaTime)
 		return;
 	}
 
-	if (currentState == BattleState::BS_VICTORY || currentState == BattleState::BS_DEFEAT)
+	if (currentState == BattleState::BS_RESULT )
 	{
-		player->UpdateAttackTimer(deltaTime);
-		monster->UpdateAttackTimer(deltaTime);
-		if (GM::GetInput().IsKeyDown(VK_SPACE))
-		{
-			currentState = BattleState::BS_END;
-		}
+		UpdateResult(deltaTime);
 	}
 
 	if (currentState == BattleState::BS_FINISH_DELAY)
@@ -164,9 +159,21 @@ void BattleManager::ProcessMonsterTurn()
 void BattleManager::ProcessVictory()
 {
 	GM::GetLogger().Log(L"전투 승리! 몬스터를 처치했습니다.");
+
 	player->RecordKill(monster->GetName());
-	player->addExperience(50);
-	player->addGold(monster->dropGold());
+
+	resultText.clear();
+	resultText += L"전투 승리! 몬스터를 처치했습니다.\n";
+
+	bool ret = player->addExperience(50);
+	resultText += L"경험치 +" + std::to_wstring(50) + L" 획득! (현재: " + std::to_wstring( player->getExperience()) + L"/100)\n";
+	if (ret) {
+		resultText += L"레벨 업! 현재 레벨: " + std::to_wstring(player->getLevel()) + L"\n";
+	}
+
+	int droppedGold = monster->dropGold();
+	player->addGold(droppedGold);
+	resultText += L"골드 " + std::to_wstring(droppedGold) + L" 획득! (현재: " + std::to_wstring(player->getGold()) + L"G)\n";
 
 	// 아이템 획득
 	int itemDropChance = Utilities::GenerateRandomValue(0, 99);
@@ -179,22 +186,34 @@ void BattleManager::ProcessVictory()
 			const Item* dropItem = allItems[idx];
 			player->getInventory()->AddItem(dropItem);
 
-			GM::GetLogger().Log(L"아이템을 획득했습니다! [" + dropItem->GetName() + L"]");
+			resultText += L"아이템을 획득했습니다! [" + dropItem->GetName() + L"]\n";
 		}
 	}
 
 	// 업적 알림
 	GM::GetAchievement().NotifyBattleWin();
 
-	player->ShowKillLog();
-	GM::GetLogger().Log(L"[Space bar] 계속 진행");
+	//player->ShowKillLog();
 
-	currentState = BattleState::BS_VICTORY;
+	currentState = BattleState::BS_RESULT;
 }
 
 void BattleManager::ProcessDefeat()
 {
 	GM::GetLogger().Log(L"전투에서 패배했습니다...");
 
-	currentState = BattleState::BS_DEFEAT;
+	currentState = BattleState::BS_RESULT;
+}
+
+void BattleManager::UpdateResult(float deltaTime) {
+	player->UpdateAttackTimer(deltaTime);
+	monster->UpdateAttackTimer(deltaTime);
+	if (GM::GetInput().IsKeyDown(VK_SPACE))
+	{
+		currentState = BattleState::BS_END;
+	}
+	GM::GetDisplay().ClearTextArea();
+	GM::GetDisplay().DrawWidget(60, 40, 80, 10, L"전투 결과", resultText);
+	GM::GetLogger().Log(L"[Space bar] 계속 진행");
+	//player->ShowKillLog();
 }

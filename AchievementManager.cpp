@@ -1,6 +1,6 @@
 ﻿#include "AchievementManager.h"
 #include "GameManager.h"
-
+#include "LifeTimeWidget.h"
 
 AchievementManager::AchievementManager() {}
 AchievementManager::~AchievementManager() {}
@@ -54,13 +54,29 @@ void AchievementManager::Unlock(AchievementID id)
 
 	achievements[index].isUnlocked = true;
 
-	GM::GetLogger().Log(L"========================================");
-	GM::GetLogger().Log(L"           업적을 달성했습니다!         ");
-	GM::GetLogger().Log(L"========================================");
+	std::wstring text;
 
-	GM::GetLogger().Log(L"[" + achievements[index].fakeTitle + L"] " + achievements[index].fakeDesc);
-	GM::GetLogger().Log(achievements[index].unlockCondition);
-	GM::GetLogger().Log(L"========================================");
+	//GM::GetLogger().Log(L"========================================");
+	//GM::GetLogger().Log(L"           업적을 달성했습니다!         ");
+	//GM::GetLogger().Log(L"========================================");
+
+	//GM::GetLogger().Log(L"[" + achievements[index].fakeTitle + L"] " + achievements[index].fakeDesc);
+	//GM::GetLogger().Log(achievements[index].unlockCondition);
+	//GM::GetLogger().Log(L"========================================");
+
+	text += L"========================================\n";
+	text += L"           업적을 달성했습니다!         \n";
+	text += L"========================================\n";
+	text += achievements[index].fakeDesc + L"\n";
+	text += achievements[index].unlockCondition+L"\n";
+	text += L"========================================";
+
+	LifeTimeWidget* widget = GM::CreateActor<LifeTimeWidget>(achievements[index].fakeTitle);
+	widget->Init(10, 40, 41, 10, 5);
+	widget->SetText(text);
+	widget == nullptr;
+
+	//GM::GetDisplay().DrawWidget(10, 40, 20, 10, achievements[index].fakeTitle, text);
 }
 
 // ==========================================================

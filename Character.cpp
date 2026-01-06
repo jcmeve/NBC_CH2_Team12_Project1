@@ -106,7 +106,7 @@ int Character::getGold() const
 	return gold;
 }
 
-void Character::addExperience(int exp)
+bool Character::addExperience(int exp)
 {
 	experience += exp;
 	GM::GetLogger().Log(L"경험치 +" + std::to_wstring(exp) + L" 획득! (현재: " + std::to_wstring(experience) + L"/100)");
@@ -116,7 +116,9 @@ void Character::addExperience(int exp)
 		experience -= 100;
 		levelUp();
 		GM::GetLogger().Log(L"레벨 업! 현재 레벨: " + std::to_wstring(level));
+		return true;
 	}
+	return false;
 }
 
 void Character::addGold(int amount)

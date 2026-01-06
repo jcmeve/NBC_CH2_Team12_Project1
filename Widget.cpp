@@ -1,6 +1,7 @@
 ﻿#include "Widget.h"
 #include "GameManager.h"
 #include<string>
+#include "LifeTimeWidget.h"
 
 
 void Widget::Tick(float deltaTime) {
@@ -21,6 +22,7 @@ void Widget::Init(short _posX, short _posY, short _width, short _height, WORD _t
     borderColor = _borderColor;
 
 }
+
 
 void Widget::SetText(const std::wstring& _text) {
     text = _text;
