@@ -2,23 +2,23 @@
 class VectorWidget;
 class Widget;
 class Character;
-class Shop {
-    enum class MODE{
-        BUY,SELL
+class PrepareBattle {
+    enum class MODE {
+        EQUIP, UNEQUIP
     };
 private:
-    MODE mode = MODE::BUY;
+    MODE mode = MODE::EQUIP;
     Character* player;
     int idx = 0;
-    VectorWidget* widget;
+    VectorWidget* EquipmentsWidget;
+    VectorWidget* InventoryEquipmentsWidget;
     Widget* manualWidget;
-
 public:
     void Enter(Character* _player);
     void Exit();
     void Tick(float deltatTime);
 
-    void Trade();
+    void TryEquip();
     void IdxUpdate(int _idx);
     void SwitchWidget();
     void ReloadItems();
