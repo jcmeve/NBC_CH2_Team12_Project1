@@ -1,4 +1,4 @@
-#include "StoryManager.h"
+ï»¿#include "StoryManager.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -31,33 +31,33 @@ void StoryManager::Tick(float deltaTime)
 		GM::GetDisplay().DrawAscii(cachedAsciiArt, 0, 0);
 	}
 
-	// QTE ÁøÇàÁß
+	// QTE ì§„í–‰ì¤‘
 	if (isWatingQTE)
 	{
 		if (activeQTE && activeQTE->IsFinished())
 		{
-			bool isSuccess = !activeQTE->IsFailed(); // ¼º°ø ¿©ºÎ
+			bool isSuccess = !activeQTE->IsFailed(); // ì„±ê³µ ì—¬ë¶€
 
 			activeQTE = nullptr;
 			isWatingQTE = false;
 
 			if (isSuccess)
 			{
-				currentIndex++; // ¼º°ø ´ë»ç Ãâ·Â
-				shouldSkipNextLine = true; // ½ÇÆĞ ´ë»ç ½ºÅµ ¿¹¾à
+				currentIndex++; // ì„±ê³µ ëŒ€ì‚¬ ì¶œë ¥
+				shouldSkipNextLine = true; // ì‹¤íŒ¨ ëŒ€ì‚¬ ìŠ¤í‚µ ì˜ˆì•½
 				PlayLine(currentIndex);
 			}
 			else
 			{
-				currentIndex += 2; // ½ÇÆĞ ´ë»ç Ãâ·Â
-				shouldSkipNextLine = false; // ½ºÅµ= ¾øÀÌ Á¤»ó ÁøÇà
+				currentIndex += 2; // ì‹¤íŒ¨ ëŒ€ì‚¬ ì¶œë ¥
+				shouldSkipNextLine = false; // ìŠ¤í‚µ= ì—†ì´ ì •ìƒ ì§„í–‰
 				PlayLine(currentIndex);
 			}
 		}
 		return;
 	}
 
-	// ÀÚµ¿ ÁøÇà (Duration > 0)
+	// ìë™ ì§„í–‰ (Duration > 0)
 	if (isAutoNext)
 	{
 		lineTimer -= deltaTime;
@@ -67,7 +67,7 @@ void StoryManager::Tick(float deltaTime)
 		}
 	}
 
-	// ¼öµ¿ ÁøÇà (Spacebar)
+	// ìˆ˜ë™ ì§„í–‰ (Spacebar)
 	else
 	{
 		if (GM::GetInput().IsKeyDown(VK_SPACE))
@@ -81,7 +81,7 @@ void StoryManager::PlayLine(int index)
 {
 	const StoryLine& line = currentChapterLines[index];
 
-	// ¾Æ½ºÅ°¾ÆÆ® º¯°æ
+	// ì•„ìŠ¤í‚¤ì•„íŠ¸ ë³€ê²½
 	if (!line.asciiFileName.empty() && line.asciiFileName != lastAsciiFile)
 	{
 		lastAsciiFile = line.asciiFileName;
@@ -92,13 +92,13 @@ void StoryManager::PlayLine(int index)
 
 			if (!GM::GetSave().LoadAscii(lastAsciiFile, cachedAsciiArt))
 			{
-				GM::GetLogger().Log(L"ÀÌ¹ÌÁö ·Îµå ½ÇÆĞ: " + lastAsciiFile);
+				GM::GetLogger().Log(L"ì´ë¯¸ì§€ ë¡œë“œ ì‹¤íŒ¨: " + lastAsciiFile);
 				cachedAsciiArt = L"";
 			}
 		}
 	}
 
-	// QTE ÀÌº¥Æ®
+	// QTE ì´ë²¤íŠ¸
 	if (line.speaker == L"QTE")
 	{
 		isWatingQTE = true;
@@ -131,7 +131,7 @@ void StoryManager::PlayLine(int index)
 	}
 	else
 	{
-		isAutoNext = false; // ½ºÆäÀÌ½º¹Ù ´ë±â
+		isAutoNext = false; // ìŠ¤í˜ì´ìŠ¤ë°” ëŒ€ê¸°
 	}
 }
 
@@ -162,10 +162,10 @@ void StoryManager::NextLine()
 
 	if (currentIndex >= currentChapterLines.size())
 	{
-		isPlaying = false; // ÇöÀç Ã©ÅÍ Á¾·á
+		isPlaying = false; // í˜„ì¬ ì±•í„° ì¢…ë£Œ
 
 		//GM::GetLogger().Log(L"--------------------------------");
-		//GM::GetLogger().Log(L"[SPACE] °è¼Ó");
+		//GM::GetLogger().Log(L"[SPACE] ê³„ì†");
 
 		return;
 	}
@@ -196,7 +196,7 @@ void StoryManager::SetPlayer(Character* player)
 }
 
 // ==========================================================
-// CSV ÆÄ½Ì ±¸Çö
+// CSV íŒŒì‹± êµ¬í˜„
 // ==========================================================
 
 
@@ -208,7 +208,7 @@ void StoryManager::ParseCSV(std::wstring filePath)
 
 	if (!file.is_open())
 	{
-		GM::GetLogger().Log(L"ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù: " + filePath);
+		GM::GetLogger().Log(L"íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: " + filePath);
 		return;
 	}
 

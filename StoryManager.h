@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <vector>
 
@@ -31,12 +31,12 @@ private:
 
 	bool isPlaying = false;
 	float lineTimer = 0.0f;
-	bool isAutoNext = false; // duration > 0 ÀÌ¸é true
+	bool isAutoNext = false; // duration > 0 ì´ë©´ true
 
 	bool isWatingQTE = false;
-	bool shouldSkipNextLine = false; // QTE ¼º°ø/½ÇÆĞ ½Ã ¶óÀÎ °Ç³Ê¶Ù±â
+	bool shouldSkipNextLine = false; // QTE ì„±ê³µ/ì‹¤íŒ¨ ì‹œ ë¼ì¸ ê±´ë„ˆë›°ê¸°
 	QTE* activeQTE = nullptr;
-	Character* targetPlayer = nullptr; // QTE Å¸°Ù
+	Character* targetPlayer = nullptr; // QTE íƒ€ê²Ÿ
 
 	std::wstring lastAsciiFile;
 	std::wstring cachedAsciiArt;
