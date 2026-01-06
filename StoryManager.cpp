@@ -85,16 +85,10 @@ void StoryManager::PlayLine(int index)
 	if (!line.asciiFileName.empty() && line.asciiFileName != lastAsciiFile)
 	{
 		lastAsciiFile = line.asciiFileName;
-
-		if (!line.asciiFileName.empty() && line.asciiFileName != lastAsciiFile)
+		if (!GM::GetSave().LoadAscii(lastAsciiFile, cachedAsciiArt))
 		{
-			lastAsciiFile = line.asciiFileName;
-
-			if (!GM::GetSave().LoadAscii(lastAsciiFile, cachedAsciiArt))
-			{
-				GM::GetLogger().Log(L"이미지 로드 실패: " + lastAsciiFile);
-				cachedAsciiArt = L"";
-			}
+			GM::GetLogger().Log(L"이미지 로드 실패: " + lastAsciiFile);
+			cachedAsciiArt = L"";
 		}
 	}
 
