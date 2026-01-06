@@ -1,7 +1,6 @@
 ﻿#include "AchievementManager.h"
 #include "GameManager.h"
 #include "LifeTimeWidget.h"
-
 AchievementManager::AchievementManager() {}
 AchievementManager::~AchievementManager() {}
 

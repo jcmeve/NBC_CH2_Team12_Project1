@@ -197,7 +197,7 @@ void StoryManager::SetPlayer(Character* player)
 void StoryManager::ParseCSV(std::wstring filePath)
 {
 	std::wstring fullPath = L"Assets\\Story\\" + filePath + L".csv";
-	string path(fullPath.begin(), fullPath.end());
+	wstring path(fullPath.begin(), fullPath.end());
 	ifstream file(path);
 
 	if (!file.is_open())
@@ -206,7 +206,7 @@ void StoryManager::ParseCSV(std::wstring filePath)
 		return;
 	}
 
-	string line;
+	wstring line;
 	bool isFirstLine = true;
 
 
