@@ -39,7 +39,7 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 	GM::GetLogger().Log(L"=============== 전투 시작! ===============");
 
 	currentState = BattleState::BS_WAITING;
-	playerGauge = MAX_GAUGE; //플레이어 선공
+	playerGauge = 0.0;
 	monsterGauge = 0.0;
 }
 
@@ -105,7 +105,7 @@ void BattleManager::Tick(float deltaTime)
 
 void BattleManager::ProcessPlayerTurn()
 {
-	// 랜덤 아이템 사용 시도
+	// 1. 랜덤 아이템 사용 시도
 	int randomValue = Utilities::GenerateRandomValue(0, 50);
 
 	if (randomValue < 50)
@@ -113,7 +113,7 @@ void BattleManager::ProcessPlayerTurn()
 		player->TryUseRandomItem();
 	}
 
-	// 공격
+	// 2. 공격
 	if (player->CanAttack(monster))
 	{
 		int hpBefore = monster->GetHealth();

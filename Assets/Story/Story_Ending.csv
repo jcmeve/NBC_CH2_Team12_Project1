@@ -1,0 +1,21 @@
+1|Boss_Cut|Narrator|최종 생존자가 쓰러졌습니다.|2.5
+2||Narrator|당신은 그를 내려다봅니다.|2.0
+3||System|임무 완료. 모든 오염원이 제거되었습니다.|2.5
+4||System|세계는 이제 정화되었습니다.|2.0
+5||Narrator|...|2.0
+6|Ending_Corridor|Narrator|텅 빈 복도를 걷습니다. 발소리만이 메아리칩니다.|2.5
+7|Ending_Pictue|Narrator|바닥에 떨어진 사진 한 장. 웃고 있는 사람들. 행복해 보입니다.|3.0
+8||Narrator|당신은 그것을 밟고 지나갑니다.|2.0
+9||Narrator|...|2.0
+10|Ending_City|Narrator|밖으로 나갑니다. 세상은 고요합니다.|2.5
+11||Narrator|너무나 고요합니다.|2.0
+12||System|새로운 임무를 검색 중|2.0
+13||System|...|1.5
+14||System|임무 없음.|3.0
+15||Narrator|당신은 무엇을 해야 할지 모릅니다.|2.0
+16||Narrator|...|2.0
+17||Unknown|"당신은 무엇인가요?"|2.0
+18||Narrator|- END -|3.0
+19||Narrator|인류는 멸망했습니다. 당신만이 남았습니다.|3.0
+20||Narrator|이것이... 승리인가요?|3.0
+21||Credits|"Sometimes the cure is worse than the disease."|4.0

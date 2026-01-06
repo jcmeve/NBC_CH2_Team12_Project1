@@ -29,6 +29,10 @@ private:
 	std::wstring inputName = L"";
 
 	bool isInitialized = false;
+	int gameProgress = 0; // 0: 프롤로그, 1: 1구역, 2: 2구역 ...
+	int currentBattleCount = 0; // 현재 구역에서 완료한 전투 횟수
+	bool canUseShop = false;
+	bool isMenuPrinted = false;
 
 public:
 	TextRPG(std::wstring name);
@@ -50,6 +54,9 @@ private:
 	void UpdateShop(float deltaTime);
 	void UpdateStatus();
 	void UpdateEnding();
+
+	void LoadStoryForCurrentProgress();
+	int GetRequiredBattleCount() const;
 
 };
 
