@@ -478,15 +478,14 @@ void TextRPG::LoadStoryForCurrentProgress()
 	GM::GetLogger().Log(L"스토리 로드 시도: " + filename);
 
 	// 스토리 로드 실패 시 처리
-	try {
-		GM::GetStory().LoadChapter(filename);
-	}
-	catch (...) {
+	GM::GetStory().LoadChapter(filename);
+
+	/*catch (...) {
 		GM::GetLogger().Log(L"[오류] 스토리 로드 실패: " + filename);
 		if (gameProgress == 0) {
 			ChangeState(GameState::CREATE_CHARACTER);
 		}
-	}
+	}*/
 }
 
 int TextRPG::GetRequiredBattleCount() const
