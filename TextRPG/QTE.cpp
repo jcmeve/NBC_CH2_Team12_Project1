@@ -94,7 +94,7 @@ void QTE::DrawQTE() {
             float _angle = atan2f(_y, _x);
             if (_angle < 0) _angle += 2.0 * M_PI;
             if (_angle > angle) {
-                GM::GetDisplay().DrawWcharAtPosition(posX + x, posY + y, L'■', color);
+                GM::GetDisplay().DrawWcharAtPosition(posX + x, posY + y, L'█', color);
             }
         }
     }
