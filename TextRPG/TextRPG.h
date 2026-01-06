@@ -17,7 +17,7 @@ enum class GameState
 	ENDING // 엔딩
 };
 
-const static std::vector<std::wstring> monsterNames = {L"FatMan",L"Kid",L"Nurse",L"StrongMan",L"SwordMan",L"WalkMan"};
+const static std::vector<std::wstring> monsterNames = { L"FatMan",L"Kid",L"Nurse",L"StrongMan",L"SwordMan",L"WalkMan" };
 const static std::wstring bossName = L"Boss";
 
 class TextRPG : public Actor {
@@ -28,7 +28,6 @@ private:
 	BattleManager* battleManager = nullptr;
 	Shop* shop;
 
-
 	std::wstring inputName = L"";
 
 	bool isInitialized = false;
@@ -36,6 +35,8 @@ private:
 	int currentBattleCount = 0; // 현재 구역에서 완료한 전투 횟수
 	bool canUseShop = false;
 	bool isMenuPrinted = false;
+
+	std::wstring mainAsciiArt;
 
 public:
 	TextRPG(std::wstring name);
