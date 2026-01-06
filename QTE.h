@@ -22,5 +22,8 @@ public:
     void DrawQTE();
     void Init(Character* target, float time);
     //Character포인터 직접 가지고 있는데 이벤트로 변경해야함
+
+    bool IsFinished() const { return isEnd; }
+	bool IsFailed() const { return fail; }
 };
 

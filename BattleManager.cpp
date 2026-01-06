@@ -100,7 +100,7 @@ void BattleManager::Tick(float deltaTime)
 
 void BattleManager::ProcessPlayerTurn()
 {
-	// 랜덤 아이템 사용 시도
+	// 1. 랜덤 아이템 사용 시도
 	int randomValue = Utilities::GenerateRandomValue(0, 50);
 
 	if (randomValue < 50)

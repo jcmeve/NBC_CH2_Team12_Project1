@@ -103,6 +103,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="LifeTimeWidget.h">
+    <ClInclude Include="StoryManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -259,5 +260,8 @@
     <Text Include="Assets\Ascii\Player\Player04_Defense.txt" />
     <Text Include="Assets\Ascii\Player\Player04_Idle1.txt" />
     <Text Include="Assets\Ascii\Player\Player04_Idle2.txt" />
+    <ClCompile Include="StoryManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

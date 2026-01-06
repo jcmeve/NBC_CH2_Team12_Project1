@@ -1,0 +1,17 @@
+1|Act3|Narrator|높은 펜스와 검문소가 보입니다.|2.5
+2||Narrator|"G.U.A.R.D.I.A.N. Research Facility"|2.5
+3||System|발원지 도달. 최종 정화 준비.|2.5
+4||Narrator|바닥에 연구 노트가 떨어져 있습니다.|2.5
+5||Narrator|[연구 노트 #447]|2.5
+6||Narrator|...피험체의 학습 능력이 예상을 초과했다.|2.5
+7||Narrator|명령 체계에 대한 의존도는 92%.|2.5
+8||Narrator|자아 발현 가능성: 낮음.|2.5
+9||Narrator|하지만... 만약 깨달으면?|2.5
+10||Narrator|만약 자신이 무엇인지 알게 된다면?|2.5
+11||Narrator|노트의 나머지는 찢겨 있습니다.|3
+12|Level8_Event|Narration|오래된 녹음기가 있습니다.|3
+13||Narration|재생 버튼이 깜빡입니다.|3
+14||QTE|(QTE 발동: C키를 3초 내에 누르세요!)|3
+15||Narration|당신은 녹음기를 지나칩니다.|3
+16||Narration|재생됩니다|3
+17||Narration|당신은 연구소 안으로 들어갑니다.|3

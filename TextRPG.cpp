@@ -11,6 +11,7 @@
 #include "InputManager.h"
 #include "Shop.h"
 #include "Utilities.h"
+#include "StoryManager.h"
 
 //   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
 //   qte->Init(nullptr, 3);
@@ -20,9 +21,12 @@ TextRPG::TextRPG(std::wstring name) : Actor(name)
 	EnterState(GameState::TITLE);
 	shop = new Shop();
 
+	gameProgress = 0;
+	currentBattleCount = 0;
+	canUseShop = false;
 }
 
-TextRPG::~TextRPG() {		
+TextRPG::~TextRPG() {
 	shop->Exit();
 	delete shop;
 }
@@ -73,6 +77,8 @@ void TextRPG::ChangeState(GameState newState)
 
 void TextRPG::EnterState(GameState state)
 {
+	GM::GetDisplay().ClearTextArea();
+
 	switch (state)
 	{
 	case GameState::TITLE:
@@ -89,8 +95,24 @@ void TextRPG::EnterState(GameState state)
 		break;
 
 	case GameState::STORY:
-		GM::GetLogger().Log(L"=============== 스토리를 진행합니다 ===============");
-		GM::GetLogger().Log(L"[B] 전투 | [S] 상점 | [I] 상태창");
+		// 해당 구역 스토리 로드 (전투 횟수가 0인 경우에만)
+		if (currentBattleCount == 0)
+		{
+			LoadStoryForCurrentProgress();
+		}
+		else
+		{
+			GM::GetLogger().Log(L"========================================");
+			GM::GetLogger().Log(L"현재 구역 진행도: 전투 " + std::to_wstring(currentBattleCount)
+				+ L" / " + std::to_wstring(GetRequiredBattleCount()));
+			GM::GetLogger().Log(L"[B] 전투");
+			GM::GetLogger().Log(L"[I] 상태창");
+
+			if (canUseShop)
+			{
+				GM::GetLogger().Log(L"[S] 상점");
+			}
+		}
 		break;
 
 	case GameState::SHOP:
@@ -130,6 +152,7 @@ void TextRPG::ExitState(GameState state)
 		player->ClearBuff();
 		player->Heal(player->GetMaxHealth());
 		break;
+
 	case GameState::SHOP:
 		shop->Exit();
 		break;
@@ -163,6 +186,7 @@ void TextRPG::UpdateTitle()
 	if (GM::GetInput().IsKeyDown(VK_SPACE))
 	{
 		ChangeState(GameState::CREATE_CHARACTER);
+		//ChangeState(GameState::STORY);
 	}
 }
 
@@ -199,17 +223,41 @@ void TextRPG::UpdateCreateCharacter()
 			player = GM::CreateActor<Character>(inputName);
 			player->Init();
 			GM::GetLogger().Log(L"캐릭터 생성 완료!");
+			GM::GetStory().SetPlayer(player); // StoryManager 등록
+
+			gameProgress = 1; // 1구역 시작
+			currentBattleCount = 0;
 			ChangeState(GameState::STORY);
 			return;
 		}
 	}
 
-	std::wstring displayName = inputName + L"_"; // 커서 표시
-	GM::GetDisplay().DrawWidget(30, 10, 20, 5, L"이름", displayName); //위젯이 뭔가 이상하다!!
+	std::wstring displayName = inputName + L"_";
+	GM::GetDisplay().DrawWidget(30, 10, 20, 5, L"이름", displayName);
 }
 
 void TextRPG::UpdateStory()
 {
+	// StoryManager 실행중 ===========================
+	if (!GM::GetStory().IsStoryFinished())
+	{
+		GM::GetStory().Tick(0.016f);
+		return;
+	}
+
+	// 스토리 끝남 OR 이미 본 상태 ===================
+	// 프롤로그
+	if (gameProgress == 0) {
+		if (GM::GetInput().IsKeyDown(VK_SPACE))
+		{
+			ChangeState(GameState::CREATE_CHARACTER);
+			gameProgress = 1;
+			currentBattleCount = 0;
+		}
+		return;
+	}
+
+	// 게임 진행
 	if (GM::GetInput().IsKeyDown('B'))
 	{
 		// 레벨 10 이상이면 보스전
@@ -230,10 +278,11 @@ void TextRPG::UpdateStory()
 			battleManager = GM::CreateActor<BattleManager>(L"BattleManager");
 			battleManager->StartBattle(player, currentMonster);
 
-			ChangeState(GameState::BATTLE);
-		}
+		ChangeState(GameState::BATTLE);
+
+		canUseShop = false;
 	}
-	else if (GM::GetInput().IsKeyDown('S'))
+	else if (canUseShop && GM::GetInput().IsKeyDown('S'))
 	{
 		ChangeState(GameState::SHOP);
 	}
@@ -263,6 +312,21 @@ void TextRPG::UpdateBattle()
 	}
 	else
 	{
+		currentBattleCount++;
+		canUseShop = true;
+
+		int requiredBattleCount = GetRequiredBattleCount();
+
+		GM::GetLogger().Log(L"전투 종료! 현재 진행도: " + std::to_wstring(currentBattleCount)
+			+ L"/" + std::to_wstring(requiredBattleCount));
+
+		if (currentBattleCount >= requiredBattleCount)
+		{
+			GM::GetLogger().Log(L"이 구역의 모든 위협을 제거했습니다. 다음 구역으로 이동합니다!");
+			gameProgress++;
+			currentBattleCount = 0;
+		}
+
 		ChangeState(GameState::STORY);
 	}
 
@@ -296,7 +360,6 @@ void TextRPG::UpdateBossBattle() {
 
 void TextRPG::UpdateShop(float deltaTime)
 {
-	// 상점 로직
 	if (GM::GetInput().IsKeyDown(VK_ESCAPE))
 	{
 		ChangeState(GameState::STORY);
@@ -315,4 +378,36 @@ void TextRPG::UpdateStatus()
 void TextRPG::UpdateEnding()
 {
 	// 엔딩 크레딧 & 게임 종료 처리
+}
+
+void TextRPG::LoadStoryForCurrentProgress()
+{
+	std::wstring filename;
+	switch (gameProgress)
+	{
+	case 0: filename = L"Story_Intro"; break;
+	case 1: filename = L"Story_Zone1"; break;
+	case 2: filename = L"Story_Zone2"; break;
+	case 3: filename = L"Story_Zone3"; break;
+	case 4: filename = L"Story_Boss_Intro"; break;
+	case 5: filename = L"Story_Ending"; break;
+	}
+
+	GM::GetLogger().Log(L"스토리 로드: " + filename);
+	GM::GetStory().LoadChapter(filename);
+}
+
+int TextRPG::GetRequiredBattleCount() const
+{
+	switch (gameProgress)
+	{
+	case 1:
+		return 6; // 1구역: 6회
+	case 2:
+		return 8; // 2구역: 8회
+	case 3:
+		return 4; // 3구역: 4회
+	default:
+		return 1;
+	}
 }

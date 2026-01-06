@@ -6,6 +6,7 @@
 #include "SaveManager.h"
 #include "ItemManager.h"
 #include "AchievementManager.h"
+#include "StoryManager.h"
 #include <vector>
 #include <memory>
 class GameManager {
@@ -16,6 +17,7 @@ class GameManager {
 	SaveManager save;
 	ItemManager item;
 	AchievementManager achievement;
+	StoryManager story;
 	bool isEngineEnd;
 	std::vector<Actor*> actors;
 	std::vector<Actor*> garbageActors;
@@ -34,6 +36,7 @@ public:
 	static SaveManager& GetSave();
 	static ItemManager& GetItemManager();
 	static AchievementManager& GetAchievement();
+	static StoryManager& GetStory();
 	static GameManager& GetInstance();
 	static bool IsEnd();
 	static bool ShutDown();
