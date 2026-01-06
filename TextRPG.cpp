@@ -3,12 +3,14 @@
 #include "GameManager.h"
 #include "Character.h"
 #include "Monster.h"
+#include "Boss.h"
 #include "BattleManager.h"
 #include<string>
 #include "Widget.h"
 #include "QTE.h"
 #include "InputManager.h"
 #include "Shop.h"
+#include "Utilities.h"
 
 //   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
 //   qte->Init(nullptr, 3);
@@ -39,6 +41,9 @@ void TextRPG::Tick(float deltaTime) {
 		break;
 	case GameState::BATTLE:
 		UpdateBattle();
+		break;
+	case GameState::BOSS_BATTLE:
+		UpdateBossBattle();
 		break;
 	case GameState::SHOP:
 		UpdateShop(deltaTime);
@@ -114,6 +119,16 @@ void TextRPG::ExitState(GameState state)
 	case GameState::STORY:
 		break;
 	case GameState::BATTLE:
+		//updatebattle에서 옮겨옴
+		battleManager->Exit();
+
+		GM::DestroyActor(battleManager);
+		battleManager = nullptr;
+
+		GM::DestroyActor(currentMonster);
+		currentMonster = nullptr;
+		player->ClearBuff();
+
 		break;
 	case GameState::SHOP:
 		shop->Exit();
@@ -121,6 +136,14 @@ void TextRPG::ExitState(GameState state)
 	case GameState::STATUS:
 		break;
 	case GameState::BOSS_BATTLE:
+		battleManager->Exit();
+
+		GM::DestroyActor(battleManager);
+		battleManager = nullptr;
+
+		GM::DestroyActor(currentMonster);
+		currentMonster = nullptr;
+		player->ClearBuff();
 		break;
 	case GameState::ENDING:
 		break;
@@ -189,12 +212,24 @@ void TextRPG::UpdateStory()
 	{
 		// 레벨 10 이상이면 보스전
 
-		currentMonster = GM::CreateActor<Monster>(L"StrongMan");
-		currentMonster->Init(player->getLevel());
-		battleManager = GM::CreateActor<BattleManager>(L"BattleManager");
-		battleManager->StartBattle(player, currentMonster);
+		if (player->getLevel() >= 10) {
+			Boss* temp = GM::CreateActor<Boss>(bossName);
+			temp->Init(player->getLevel());
+			currentMonster = temp;
+			temp = nullptr;
+			battleManager = GM::CreateActor<BattleManager>(L"BattleManager");
+			battleManager->StartBattle(player, currentMonster);
+			ChangeState(GameState::BOSS_BATTLE);
+		}
+		else {
+			int idx = Utilities::GenerateRandomValue(0, monsterNames.size() - 1);
+			currentMonster = GM::CreateActor<Monster>(monsterNames[idx]);
+			currentMonster->Init(player->getLevel());
+			battleManager = GM::CreateActor<BattleManager>(L"BattleManager");
+			battleManager->StartBattle(player, currentMonster);
 
-		ChangeState(GameState::BATTLE);
+			ChangeState(GameState::BATTLE);
+		}
 	}
 	else if (GM::GetInput().IsKeyDown('S'))
 	{
@@ -218,17 +253,6 @@ void TextRPG::UpdateBattle()
 	{
 		return;
 	}
-	//이부분 전체적으로 TextRPG::Exit으로 옮겨야함! 여유남으면 해주세요
-	battleManager->Exit();
-
-	GM::DestroyActor(battleManager);
-	battleManager = nullptr;
-
-	GM::DestroyActor(currentMonster);
-	currentMonster = nullptr;
-	player->ClearBuff();
-
-	
 
 	if (player->IsDead())
 	{
@@ -240,6 +264,31 @@ void TextRPG::UpdateBattle()
 		ChangeState(GameState::STORY);
 	}
 }
+
+
+void TextRPG::UpdateBossBattle() {
+	if (battleManager == nullptr)
+	{
+		ChangeState(GameState::STORY);
+		return;
+	}
+
+	if (battleManager->GetBattleState() != BattleState::BS_END)
+	{
+		return;
+	}
+
+	if (player->IsDead())
+	{
+		GM::GetLogger().Log(L"타이틀 화면으로 돌아갑니다.");
+		ChangeState(GameState::TITLE); // 또는 GameState::GAME_OVER
+	}
+	else
+	{
+		ChangeState(GameState::ENDING);
+	}
+}
+
 
 void TextRPG::UpdateShop(float deltaTime)
 {

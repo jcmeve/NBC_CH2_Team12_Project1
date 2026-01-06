@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Actor.h"
-
+#include <vector>
 class Character;
 class Monster;
 class BattleManager;
@@ -16,6 +16,9 @@ enum class GameState
 	BOSS_BATTLE, // 레벨 10 달성 시 보스전
 	ENDING // 엔딩
 };
+
+const static std::vector<std::wstring> monsterNames = {L"FatMan",L"Kid",L"Nurse",L"StrongMan",L"SwordMan",L"WalkMan"};
+const static std::wstring bossName = L"Boss";
 
 class TextRPG : public Actor {
 private:
@@ -47,9 +50,14 @@ private:
 	void UpdateCreateCharacter();
 	void UpdateStory();
 	void UpdateBattle();
+	void UpdateBossBattle();
 	void UpdateShop(float deltaTime);
 	void UpdateStatus();
 	void UpdateEnding();
+
+
+
+
 
 };
 
