@@ -37,10 +37,10 @@ void Character::Init()
 bool Character::LoadAscii(std::wstring fileName) {
 
 	for (int chapter = 0; chapter < 4; ++chapter) {
-		for (EMotion motion : {EMotion::IDLE1, EMotion::IDLE2, EMotion::ATTACK, EMotion::DEFENSE }) {
+		for (EAction action : {EAction::IDLE1, EAction::IDLE2, EAction::ATTACK, EAction::DEFENSE }) {
 			std::wstring buf;
-			GM::GetSave().LoadAscii(L"Player\\Player0" + std::to_wstring(chapter + 1) + L"_" + EmotionToString(motion), buf);
-			ascii[motion].push_back(buf);
+			GM::GetSave().LoadAscii(L"Player\\Player0" + std::to_wstring(chapter + 1) + L"_" + EActionToString(action), buf);
+			ascii[action].push_back(buf);
 		}
 	}
 
@@ -136,6 +136,18 @@ void Character::RemoveGold(int amount) {
 	}
 }
 
+void Character::PlayAudio(EAction action) {
+	if (action == EAction::DIE)
+		return;
+	if (action == EAction::ATTACK || action == EAction::HIT || action == EAction::USEITEM || action == EAction::EQUIP) {
+		GM::GetSound().PlayAudio(L"Player_" + EActionToString(action) + std::to_wstring(Utilities::GenerateRandomValue(1, 2)));
+	}
+    //else i{
+    //    GM::GetSound().PlayAudio(L"Player_" + EActionToString(action));
+    //}
+
+}
+
 void Character::RecordKill(std::wstring monsterName)
 {
 	killRecord[monsterName]++;
@@ -184,6 +196,7 @@ bool Character::Equip(const Equipment* equipment) {
 		if (equipmentSlot[i] == nullptr) {
 			equipmentSlot[i] = equipment;
 			inventory->RemoveItem(equipment);
+			PlayAudio(EAction::EQUIP);
 			return true;
 		}
 	}
@@ -198,6 +211,7 @@ void Character::Unequip(int idx) {
 	if (equipmentSlot[idx] == nullptr) {
 		return;
 	}
+	PlayAudio(EAction::EQUIP);
 	inventory->AddItem(equipmentSlot[idx]);
 	equipmentSlot[idx] = nullptr;
 }
@@ -216,16 +230,16 @@ void Character::Tick(float deltaTime) {
 		return;
 	}
 	if (isAttacking) {
-		GM::GetDisplay().DrawAscii(ascii[EMotion::ATTACK][chapter - 1], posX, posY);
+		GM::GetDisplay().DrawAscii(ascii[EAction::ATTACK][chapter - 1], posX, posY);
 		return;
 	}
 
 	if (!IsDead()) {
 		if (idleMotionIdx == 0) {
-			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][chapter - 1], posX, posY);
+			GM::GetDisplay().DrawAscii(ascii[EAction::IDLE1][chapter - 1], posX, posY);
 		}
 		else if (idleMotionIdx == 1) {
-			GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE2][chapter - 1], posX, posY);
+			GM::GetDisplay().DrawAscii(ascii[EAction::IDLE2][chapter - 1], posX, posY);
 		}
 	}
 

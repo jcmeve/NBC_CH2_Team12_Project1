@@ -56,6 +56,7 @@ void Shop::Trade() {
         player->RemoveGold(price);
         player->getInventory()->AddItem(item);
         resultText = item->GetName() + L" 구매 성공!  남은 골드 : " + std::to_wstring(player->getGold());
+        GM::GetSound().PlayAudio(L"Buy_Coin");
     }
     else if (mode == MODE::SELL) {
         const auto* pair = player->getInventory()->GetItem(idx);
@@ -68,6 +69,7 @@ void Shop::Trade() {
         player->getInventory()->RemoveItem(pair->first);
         player->addGold(price);
         resultText =itemName + L" 판매 성공!  남은 골드 : " + std::to_wstring(player->getGold());
+        GM::GetSound().PlayAudio(L"Sell_Coin");
     }
     ReloadItems();
     IdxUpdate(idx);

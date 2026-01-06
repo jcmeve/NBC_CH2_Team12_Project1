@@ -37,6 +37,9 @@ public:
 	bool addExperience(int exp);
 	void addGold(int amount);
 	void RemoveGold(int amount);
+	
+	void PlayAudio(EAction action) override;
+
 
 	void RecordKill(std::wstring monsterName);
 	void ShowKillLog();
