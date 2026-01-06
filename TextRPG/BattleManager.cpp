@@ -218,6 +218,7 @@ void BattleManager::UpdateResult(float deltaTime) {
 	monster->UpdateAttackTimer(deltaTime);
 	if (GM::GetInput().IsKeyDown(VK_SPACE))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		currentState = BattleState::BS_END;
 	}
 	GM::GetDisplay().ClearTextArea();

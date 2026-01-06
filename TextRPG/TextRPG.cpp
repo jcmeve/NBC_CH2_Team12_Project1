@@ -100,19 +100,6 @@ void TextRPG::EnterState(GameState state)
 		{
 			LoadStoryForCurrentProgress();
 		}
-		else
-		{
-			GM::GetLogger().Log(L"========================================");
-			GM::GetLogger().Log(L"현재 구역 진행도: 전투 " + std::to_wstring(currentBattleCount)
-				+ L" / " + std::to_wstring(GetRequiredBattleCount()));
-			GM::GetLogger().Log(L"[B] 전투");
-			GM::GetLogger().Log(L"[I] 상태창");
-
-			if (canUseShop)
-			{
-				GM::GetLogger().Log(L"[S] 상점");
-			}
-		}
 		break;
 
 	case GameState::SHOP:
@@ -185,6 +172,7 @@ void TextRPG::UpdateTitle()
 {
 	if (GM::GetInput().IsKeyDown(VK_SPACE))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		ChangeState(GameState::CREATE_CHARACTER);
 		//ChangeState(GameState::STORY);
 	}
@@ -214,6 +202,7 @@ void TextRPG::UpdateCreateCharacter()
 
 	if (GM::GetInput().IsKeyDown(VK_RETURN))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		if (inputName.empty())
 		{
 			GM::GetLogger().Log(L"이름을 입력해주세요!");
@@ -251,16 +240,30 @@ void TextRPG::UpdateStory()
 	if (gameProgress == 0) {
 		if (GM::GetInput().IsKeyDown(VK_SPACE))
 		{
+			GM::GetSound().PlayAudio(L"Select1");
 			ChangeState(GameState::CREATE_CHARACTER);
 			gameProgress = 1;
 			currentBattleCount = 0;
 		}
 		return;
 	}
+	GM::GetDisplay().ClearTextArea();
+	GM::GetLogger().Log(L"========================================");
+	GM::GetLogger().Log(L"현재 구역 진행도: 전투 " + std::to_wstring(currentBattleCount)
+		+ L" / " + std::to_wstring(GetRequiredBattleCount()));
+	GM::GetLogger().Log(L"[B] 전투");
+	GM::GetLogger().Log(L"[I] 상태창");
+
+	if (canUseShop)
+	{
+		GM::GetLogger().Log(L"[S] 상점");
+	}
+
 
 	// 게임 진행
 	if (GM::GetInput().IsKeyDown('B'))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		// 레벨 10 이상이면 보스전
 
 		if (player->getLevel() >= 10) {
@@ -286,10 +289,12 @@ void TextRPG::UpdateStory()
 	}
 	else if (canUseShop && GM::GetInput().IsKeyDown('S'))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		ChangeState(GameState::SHOP);
 	}
 	else if (GM::GetInput().IsKeyDown('I'))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		ChangeState(GameState::STATUS);
 	}
 }
@@ -362,6 +367,7 @@ void TextRPG::UpdateShop(float deltaTime)
 {
 	if (GM::GetInput().IsKeyDown(VK_ESCAPE))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		ChangeState(GameState::STORY);
 	}
 	shop->Tick(deltaTime);
@@ -371,6 +377,7 @@ void TextRPG::UpdateStatus()
 {
 	if (GM::GetInput().IsKeyDown(VK_ESCAPE))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		ChangeState(GameState::STORY);
 	}
 }

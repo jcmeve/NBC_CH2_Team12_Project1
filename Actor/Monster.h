@@ -23,4 +23,8 @@ private:
 	float qteTimer;
 
 
+
+	// Pawn을(를) 통해 상속됨
+	void PlayAudio(EAction action) override;
+
 };

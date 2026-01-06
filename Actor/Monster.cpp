@@ -31,10 +31,10 @@ void Monster::Init(int playerLevel)
 }
 
 bool Monster::LoadAscii(std::wstring fileName) {
-	for (EMotion motion : {EMotion::IDLE1, EMotion::IDLE2, EMotion::ATTACK, EMotion::DIE }) {
+	for (EAction action : {EAction::IDLE1, EAction::IDLE2, EAction::ATTACK, EAction::DIE }) {
 		std::wstring buf;
-		GM::GetSave().LoadAscii(L"Monster\\" + fileName + L"_" + EmotionToString(motion), buf);
-		ascii[motion].push_back(buf);
+		GM::GetSave().LoadAscii(L"Monster\\" + fileName + L"_" + EActionToString(action), buf);
+		ascii[action].push_back(buf);
 	}
 	return true;
 }
@@ -66,20 +66,29 @@ void Monster::Tick(float deltaTime) {
 	}
 
 	if (IsDead()) {
-		GM::GetDisplay().DrawAscii(ascii[EMotion::DIE][0], posX, posY);
+		GM::GetDisplay().DrawAscii(ascii[EAction::DIE][0], posX, posY);
 		return;
 	}
 	if (isAttacking) {
-		GM::GetDisplay().DrawAscii(ascii[EMotion::ATTACK][0], posX, posY);
+		GM::GetDisplay().DrawAscii(ascii[EAction::ATTACK][0], posX, posY);
 		return;
 	}
 	
 	if (idleMotionIdx == 0) {
-		GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE1][0], posX, posY);
+		GM::GetDisplay().DrawAscii(ascii[EAction::IDLE1][0], posX, posY);
 	}
 	else if (idleMotionIdx == 1) {
-		GM::GetDisplay().DrawAscii(ascii[EMotion::IDLE2][0], posX, posY);
+		GM::GetDisplay().DrawAscii(ascii[EAction::IDLE2][0], posX, posY);
 	}
 	
 
+}
+
+void Monster::PlayAudio(EAction action) {
+	if (action == EAction::ATTACK || action == EAction::HIT) {
+		GM::GetSound().PlayAudio(GetName() + L"_" + EActionToString(action) + std::to_wstring(Utilities::GenerateRandomValue(1, 2)));
+	}
+	else if(action == EAction::DIE){
+		GM::GetSound().PlayAudio(GetName() + L"_" + EActionToString(action));
+	}
 }

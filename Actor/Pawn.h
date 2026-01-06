@@ -10,10 +10,10 @@ class Buff;
 
 class Pawn : public Actor {
 protected:
-	enum class EMotion {
-		IDLE1, IDLE2, ATTACK, DIE, DEFENSE
+	enum class EAction {
+		IDLE1, IDLE2, ATTACK, DIE, DEFENSE, HIT, USEITEM, EQUIP
 	};
-	std::wstring EmotionToString(EMotion motion);
+	std::wstring EActionToString(EAction action);
 	int health;
 	int maxHealth;
 	int originDmg;
@@ -24,7 +24,7 @@ protected:
 	float attackTimer = 0.0f;
 	bool isAttacking = false;
 
-	std::map< EMotion, std::vector<std::wstring>> ascii;
+	std::map< EAction, std::vector<std::wstring>> ascii;
 	const float idleMotionPeriod = 0.5f;
 	float idleMotionTimer;
 	int idleMotionIdx;
@@ -59,6 +59,7 @@ public:
 	bool IsDead() const;
 	bool CanAttack(Pawn* target);
 	virtual void Attack(Pawn& pawn);
+	virtual void PlayAudio(EAction action) =0;
 	virtual void TakeDamage(int damage);
 	void UseItem(std::wstring _name, int _turn, const std::vector<std::pair<STATS, int>>& _effects);
 

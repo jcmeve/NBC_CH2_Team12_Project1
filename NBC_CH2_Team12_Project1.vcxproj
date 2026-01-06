@@ -288,7 +288,7 @@
     <Media Include="Assets\Audio\SFX\Monster\FatMan\FatMan_Attack1.wav" />
     <Media Include="Assets\Audio\SFX\Monster\FatMan\FatMan_Attack2.wav" />
     <Media Include="Assets\Audio\SFX\Monster\FatMan\FatMan_Die.wav" />
-    <Media Include="Assets\Audio\SFX\Monster\FatMan\FatMan_Hit.wav" />
+    <Media Include="Assets\Audio\SFX\Monster\FatMan\FatMan_Hit1.wav" />
     <Media Include="Assets\Audio\SFX\Monster\FatMan\FatMan_Hit2.wav" />
     <Media Include="Assets\Audio\SFX\Monster\Kid\Kid_Attack1.wav" />
     <Media Include="Assets\Audio\SFX\Monster\Kid\Kid_Attack2.wav" />
@@ -302,7 +302,7 @@
     <Media Include="Assets\Audio\SFX\Monster\Nurse\Nurse_Hit2.wav" />
     <Media Include="Assets\Audio\SFX\Monster\Strongman\Strongman_Attack1.wav" />
     <Media Include="Assets\Audio\SFX\Monster\Strongman\Strongman_Attack2.wav" />
-    <Media Include="Assets\Audio\SFX\Monster\Strongman\Strongman_Die1.wav" />
+    <Media Include="Assets\Audio\SFX\Monster\Strongman\Strongman_Die.wav" />
     <Media Include="Assets\Audio\SFX\Monster\Strongman\Strongman_Hit1.wav" />
     <Media Include="Assets\Audio\SFX\Monster\Strongman\Strongman_Hit2.wav" />
     <Media Include="Assets\Audio\SFX\Monster\SwordMan\SwordMan_Attck1.wav" />
@@ -312,7 +312,7 @@
     <Media Include="Assets\Audio\SFX\Monster\SwordMan\SwordMan_Hit2.wav" />
     <Media Include="Assets\Audio\SFX\Monster\WalkMan\WalkMan_Attack1.wav" />
     <Media Include="Assets\Audio\SFX\Monster\WalkMan\WalkMan_Attack2.wav" />
-    <Media Include="Assets\Audio\SFX\Monster\WalkMan\WalkMan_Die1.wav" />
+    <Media Include="Assets\Audio\SFX\Monster\WalkMan\WalkMan_Die.wav" />
     <Media Include="Assets\Audio\SFX\Monster\WalkMan\WalkMan_Hit1.wav" />
     <Media Include="Assets\Audio\SFX\Monster\WalkMan\WalkMan_Hit2.wav" />
     <Media Include="Assets\Audio\SFX\Player\Player_Attack1.mp3" />
@@ -333,6 +333,9 @@
     <None Include="Assets\Audio\BGM\Shop\Shop_BGM.ogg" />
     <None Include="Assets\Audio\BGM\Story\Story_Zone2_BGM.ogg" />
     <None Include="Assets\Audio\AudioList.csv" />
+    <None Include="Assets\Item\Artifact.csv" />
+    <None Include="Assets\Item\Equipment.csv" />
+    <None Include="Assets\Item\Usable.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

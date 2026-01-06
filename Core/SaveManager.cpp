@@ -26,7 +26,7 @@ bool SaveManager::LoadAscii(const std::wstring& name, std::wstring& buf) {
 
 bool SaveManager::LoadItems(const std::wstring& name, std::vector<std::vector<std::wstring>>& out) {
 	out.clear();
-	std::wifstream file(L"Assets\\Item\\" + name);
+	std::wifstream file(L"Assets\\Item\\" + name+L".csv");
 	if (file.is_open()) {
 		file.imbue(std::locale(file.getloc(), new std::codecvt_utf8<wchar_t>));
 		std::wstring line;

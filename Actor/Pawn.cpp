@@ -1,19 +1,26 @@
 ﻿#include "Pawn.h"
 #include "GameManager.h"
 #include "Buff.h"
-std::wstring Pawn::EmotionToString(EMotion motion) {
-	switch (motion)
+#include "Utilities.h"
+std::wstring Pawn::EActionToString(EAction action) {
+	switch (action)
 	{
-	case Pawn::EMotion::IDLE1:
+	case Pawn::EAction::IDLE1:
 		return L"Idle1";
-	case Pawn::EMotion::IDLE2:
+	case Pawn::EAction::IDLE2:
 		return L"Idle2";
-	case Pawn::EMotion::ATTACK:
+	case Pawn::EAction::ATTACK:
 		return L"Attack";
-	case Pawn::EMotion::DIE:
+	case Pawn::EAction::DIE:
 		return L"Die";
-	case Pawn::EMotion::DEFENSE:
+	case Pawn::EAction::DEFENSE:
 		return L"Defense";
+	case Pawn::EAction::HIT:
+		return L"Hit";
+	case Pawn::EAction::USEITEM:
+		return L"Item_Use";
+	case Pawn::EAction::EQUIP:
+		return L"Equipment";
 	default:
 		break;
 	}
@@ -77,8 +84,12 @@ void Pawn::Attack(Pawn& target) {
 	isAttacking = true;
 	target.TakeDamage(GetDamage());
 	GM::GetDisplay().WriteString(GetName() + L" -> " + target.GetName());
+	PlayAudio(EAction::ATTACK);
 	attackTimer = 0.0f;
 }
+
+
+
 
 bool Pawn::IsDead() const {
 	return isDead;
@@ -101,7 +112,6 @@ void Pawn::TakeDamage(int damage) {
 	{
 		return;
 	}
-
 	float damageMultiplier = 100.0f / (100.0f + (float)def);
 	int finalDamage = (int)(damage * damageMultiplier);
 
@@ -116,6 +126,10 @@ void Pawn::TakeDamage(int damage) {
 	{
 		health = 0;
 		isDead = true;
+		PlayAudio(EAction::DIE);
+	}
+	else {
+		PlayAudio(EAction::HIT);
 	}
 }
 
@@ -149,6 +163,7 @@ void Pawn::UseItem(std::wstring _name, int _turn, const std::vector<std::pair<ST
 	else {//buff
 		AddBuff(_name, _turn, _effects);
 	}
+	PlayAudio(EAction::USEITEM);
 
 }
 
