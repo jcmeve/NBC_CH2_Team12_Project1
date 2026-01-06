@@ -7,7 +7,8 @@ class Pawn;
 class StatWidget;
 enum class BattleState
 {
-	BS_FIGHT, //전투 시작 전 OR 턴 사이 대기
+	BS_FIGHT, 
+	BS_WAIT,//예전에 있던 wate랑 다름 현재는 QTE 전용
 	BS_FINISH_DELAY,
 	BS_VICTORY, //플레이어 승리 (보상)
 	BS_DEFEAT, //플레이어 패배 (게임오버)
@@ -27,6 +28,7 @@ private:
 	BattleState currentState;
 
 	float finishTimer = 0.0f;
+	float waitTimer = 0.0f;
 
 public:
 	BattleManager(std::wstring name);

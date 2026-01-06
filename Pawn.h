@@ -54,6 +54,7 @@ public:
 	float GetAttackSpeed() const;
 
 	void InitAttackTimer();
+	void UpdateAttackTimer(float deltaTime);
 
 	bool IsDead() const;
 	bool CanAttack(Pawn* target);

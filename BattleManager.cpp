@@ -62,6 +62,8 @@ void BattleManager::Tick(float deltaTime)
 
 	if (currentState == BattleState::BS_VICTORY || currentState == BattleState::BS_DEFEAT)
 	{
+		player->UpdateAttackTimer(deltaTime);
+		monster->UpdateAttackTimer(deltaTime);
 		if (GM::GetInput().IsKeyDown(VK_SPACE))
 		{
 			currentState = BattleState::BS_END;
@@ -70,6 +72,8 @@ void BattleManager::Tick(float deltaTime)
 
 	if (currentState == BattleState::BS_FINISH_DELAY)
 	{
+		player->UpdateAttackTimer(deltaTime);
+		monster->UpdateAttackTimer(deltaTime);
 		//승패 확인 전 딜레이
 		finishTimer -= deltaTime;
 		if (finishTimer <= 0.0f)
@@ -78,9 +82,17 @@ void BattleManager::Tick(float deltaTime)
 			else if (monster->IsDead()) ProcessVictory();
 		}
 	}
+	if (currentState == BattleState::BS_WAIT) {
+		waitTimer -= deltaTime;
+		if (waitTimer <= 0) {
+			currentState = BattleState::BS_FIGHT;
+		}
+	}
 
 	if (currentState == BattleState::BS_FIGHT)
 	{
+		player->UpdateAttackTimer(deltaTime);
+		monster->UpdateAttackTimer(deltaTime);
 		if (player->CanAttack(monster)) {
 			ProcessPlayerTurn();
 		}
@@ -122,9 +134,15 @@ void BattleManager::ProcessPlayerTurn()
 
 void BattleManager::ProcessMonsterTurn()
 {
-	QTE* qte = GM::CreateActor<QTE>(L"TESTQTE");
-	qte->Init(player, 1);
-	//QTE TEST
+	{
+		//QTE TEST
+		QTE* qte = GM::CreateActor<QTE>(L"TESTQTE");
+		qte->Init(player, 3);
+		waitTimer = 3.2f;
+		currentState = BattleState::BS_WAIT;
+		//실패 시 시도하던 공격은 QTE 없이 진행 될 수 있도록 해야함 Pawn이나 Monster에서 QTE 발행 여부를 체크하고 발행해야할듯
+		//return;
+	}
 
 	int hpBefore = player->GetHealth();
 	monster->Attack(*player);
