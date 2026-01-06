@@ -12,6 +12,7 @@ enum class GameState
 	STORY, // 스토리 진행
 	BATTLE, // 전투중
 	SHOP, // 상점
+	EQUIPMENT, // 장비 교체
 	STATUS, // 스탯 및 인벤토리 확인
 	BOSS_BATTLE, // 레벨 10 달성 시 보스전
 	ENDING // 엔딩
@@ -54,6 +55,7 @@ private:
 	void UpdateTitle();
 	void UpdateCreateCharacter();
 	void UpdateStory();
+	void UpdateEquipment(float deltaTime);
 	void UpdateBattle();
 	void UpdateBossBattle();
 	void UpdateShop(float deltaTime);

@@ -47,6 +47,9 @@ void TextRPG::Tick(float deltaTime) {
 	case GameState::STORY:
 		UpdateStory();
 		break;
+	case GameState::EQUIPMENT:
+		UpdateEquipment(deltaTime);
+		break;
 	case GameState::BATTLE:
 		UpdateBattle();
 		break;
@@ -127,6 +130,11 @@ void TextRPG::EnterState(GameState state)
 		}
 		break;
 
+	case GameState::EQUIPMENT:
+		GM::GetLogger().Log(L"현재 착용 중인 장비를 확인하고 교체합니다.");
+		GM::GetLogger().Log(L"[ESC] 나가기");
+		break;
+
 	case GameState::BATTLE:
 		GM::GetSound().PlayAudio(L"Battle_Sequence", true);
 		break;
@@ -178,6 +186,9 @@ void TextRPG::ExitState(GameState state)
 			GM::GetSound().StopAudio(L"Story_Zone3_BGM");
 		}
 
+		break;
+
+	case GameState::EQUIPMENT:
 		break;
 
 	case GameState::BATTLE:
@@ -292,21 +303,8 @@ void TextRPG::UpdateStory()
 		ChangeState(GameState::CREATE_CHARACTER);
 		return;
 	}
-	GM::GetDisplay().ClearTextArea();
-	GM::GetLogger().Log(L"========================================");
-	GM::GetLogger().Log(L"현재 구역 진행도: 전투 " + std::to_wstring(currentBattleCount)
-		+ L" / " + std::to_wstring(GetRequiredBattleCount()));
-	GM::GetLogger().Log(L"[B] 전투");
-	GM::GetLogger().Log(L"[I] 상태창");
-
-	if (canUseShop)
-	{
-		GM::GetLogger().Log(L"[S] 상점");
-	}
-
 
 	// 게임 진행
-
 	if (!isMenuPrinted)
 	{
 		GM::GetDisplay().ClearTextArea();
@@ -318,6 +316,7 @@ void TextRPG::UpdateStory()
 		GM::GetLogger().Log(L"----------------------------------------");
 		GM::GetLogger().Log(L"[B] 전투 시작");
 		GM::GetLogger().Log(L"[I] 상태창 확인");
+		GM::GetLogger().Log(L"[C] 장비 교체");
 
 		if (canUseShop)
 		{
@@ -354,6 +353,11 @@ void TextRPG::UpdateStory()
 		}
 		canUseShop = false;
 	}
+	else if (GM::GetInput().IsKeyDown('C'))
+	{
+		GM::GetSound().PlayAudio(L"Select1");
+		ChangeState(GameState::EQUIPMENT);
+	}
 	else if (canUseShop && GM::GetInput().IsKeyDown('S'))
 	{
 		GM::GetSound().PlayAudio(L"Select1");
@@ -363,6 +367,14 @@ void TextRPG::UpdateStory()
 	{
 		GM::GetSound().PlayAudio(L"Select1");
 		ChangeState(GameState::STATUS);
+	}
+}
+
+void TextRPG::UpdateEquipment(float deltaTime)
+{
+	if (GM::GetInput().IsKeyDown(VK_ESCAPE))
+	{
+		ChangeState(GameState::STORY);
 	}
 }
 
