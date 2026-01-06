@@ -13,6 +13,7 @@
 #include "Utilities.h"
 #include "StoryManager.h"
 #include "SoundManager.h"
+#include "PrepareBattle.h"
 
 //   QTE* qte = GM::CreateActor<QTE>(L"QTE TEST");
 //   qte->Init(nullptr, 3);
@@ -20,6 +21,7 @@
 TextRPG::TextRPG(std::wstring name) : Actor(name)
 {
 	shop = new Shop();
+	prepare = new PrepareBattle();
 
 	gameProgress = 0;
 	currentBattleCount = 0;
@@ -33,6 +35,8 @@ TextRPG::TextRPG(std::wstring name) : Actor(name)
 TextRPG::~TextRPG() {
 	shop->Exit();
 	delete shop;
+	prepare->Exit();
+	delete prepare;
 }
 
 void TextRPG::Tick(float deltaTime) {
@@ -132,7 +136,7 @@ void TextRPG::EnterState(GameState state)
 
 	case GameState::EQUIPMENT:
 		GM::GetLogger().Log(L"현재 착용 중인 장비를 확인하고 교체합니다.");
-		GM::GetLogger().Log(L"[ESC] 나가기");
+		prepare->Enter(player);
 		break;
 
 	case GameState::BATTLE:
@@ -189,6 +193,8 @@ void TextRPG::ExitState(GameState state)
 		break;
 
 	case GameState::EQUIPMENT:
+//		GM::GetSound().StopAudio(L"Shop_BGM");
+		prepare->Exit();
 		break;
 
 	case GameState::BATTLE:
@@ -374,8 +380,12 @@ void TextRPG::UpdateEquipment(float deltaTime)
 {
 	if (GM::GetInput().IsKeyDown(VK_ESCAPE))
 	{
+		GM::GetSound().PlayAudio(L"Select1");
 		ChangeState(GameState::STORY);
 	}
+
+	prepare->Tick(deltaTime);
+
 }
 
 void TextRPG::UpdateBattle()

@@ -31,6 +31,7 @@
     <ClCompile Include="Core\Utilities.cpp" />
     <ClCompile Include="Actor\Widget\VectorWidget.cpp" />
     <ClCompile Include="Actor\Widget\Widget.cpp" />
+    <ClCompile Include="TextRPG\PrepareBattle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\AchievementManager.h" />
@@ -64,6 +65,7 @@
     <ClInclude Include="Core\Utilities.h" />
     <ClInclude Include="Actor\Widget\VectorWidget.h" />
     <ClInclude Include="Actor\Widget\Widget.h" />
+    <ClInclude Include="TextRPG\PrepareBattle.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Ascii\Arts\Act1.txt" />

@@ -57,7 +57,7 @@ void PrepareBattle::TryEquip() {
     else if (mode == MODE::UNEQUIP) {
         const Equipment* item = player->GetCurrentEquipment(idx);
         if (!item) {
-            GM::GetLogger().ErrorLog(L"TryEquip");
+            return;
         }
         player->Unequip(idx);
 
@@ -77,12 +77,15 @@ void PrepareBattle::IdxUpdate(int _idx) {
         if (size == 0)return;
         idx = (_idx + size) % size;
         InventoryEquipmentsWidget->SetHighlight(idx);
+        EquipmentsWidget->SetHighlight(-1);
+
     }
     else if (mode == MODE::UNEQUIP) {
         int size = player->GetCurrentEquipmentSize();
         if (size == 0)return;
         idx = (_idx + size) % size;
         EquipmentsWidget->SetHighlight(idx);
+        InventoryEquipmentsWidget->SetHighlight(-1);
     }
 
     GM::GetDisplay().ClearTextArea();
@@ -96,7 +99,9 @@ void PrepareBattle::IdxUpdate(int _idx) {
     else if (mode == MODE::UNEQUIP) {
         item = player->GetCurrentEquipment(idx);
     }
-
+    if (!item) {
+        return;
+    }
     std::wstring resultText = item->GetDesc();
 
     int hp = 0, dmg = 0, def = 0;
@@ -116,6 +121,16 @@ void PrepareBattle::IdxUpdate(int _idx) {
     if (def) resultText += L" 방어력 증가 : " + std::to_wstring(def);
 
     GM::GetLogger().Log(resultText);
+
+    if (mode == MODE::EQUIP) {
+        InventoryEquipmentsWidget->SetHighlight(idx);
+        EquipmentsWidget->SetHighlight(-1);
+    }
+    else if (mode == MODE::UNEQUIP) {
+        EquipmentsWidget->SetHighlight(idx);
+        InventoryEquipmentsWidget->SetHighlight(-1);
+    }
+
 
 }
 
@@ -146,14 +161,20 @@ void PrepareBattle::ReloadItems() {
 
         for (int i = 0; i < player->GetCurrentEquipmentSize(); ++i) {
             const Equipment* item = player->GetCurrentEquipment(i);
-            texts.push_back(item->GetName() + L" : " + std::to_wstring(item->GetPrice()) + L"G");
+            if (item) {
+                texts.push_back(item->GetName() + L" : " + std::to_wstring(item->GetPrice()) + L"G");
+            }
+            else {
+                texts.push_back(L" ");
+
+            }
         }
         EquipmentsWidget->SetTexts(texts);
         EquipmentsWidget->SetName(L"장착중인 장비");
     }
     
     {
-        InventoryEquipmentsWidget->Init(80, 5, 80, 50);
+        InventoryEquipmentsWidget->Init(100, 5, 80, 50);
         std::vector<std::wstring> texts;
 
         int i = 0;
@@ -165,5 +186,15 @@ void PrepareBattle::ReloadItems() {
         
         InventoryEquipmentsWidget->SetTexts(texts);
         InventoryEquipmentsWidget->SetName(L"소유중인 장비");
+    }
+
+
+    if (mode == MODE::EQUIP) {
+        InventoryEquipmentsWidget->SetHighlight(idx);
+        EquipmentsWidget->SetHighlight(-1);
+    }
+    else if (mode == MODE::UNEQUIP) {
+        EquipmentsWidget->SetHighlight(idx);
+        InventoryEquipmentsWidget->SetHighlight(-1);
     }
 }

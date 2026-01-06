@@ -5,6 +5,7 @@ class Character;
 class Monster;
 class BattleManager;
 class Shop;
+class PrepareBattle;
 enum class GameState
 {
 	TITLE, // 게임 시작 화면
@@ -28,7 +29,7 @@ private:
 	Monster* currentMonster = nullptr;
 	BattleManager* battleManager = nullptr;
 	Shop* shop;
-
+	PrepareBattle* prepare;
 	std::wstring inputName = L"";
 
 	bool isInitialized = false;

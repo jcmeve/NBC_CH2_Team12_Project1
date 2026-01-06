@@ -160,14 +160,13 @@ DisplayManager::DisplayManager(short _width, short _height) :width(_width), heig
 
 void DisplayManager::DrawSectors() {
 	for (int x = 0; x < width; x++) {
-
-
-		drawBuffer[currBufferIdx][width * borderline + x].Char.UnicodeChar = L'─';
-		drawBuffer[currBufferIdx][width * borderline + x].Attributes = FOREGROUND_WHITE | COMMON_LVB_LEADING_BYTE;
-		if (x + 1 < width) {
-			drawBuffer[currBufferIdx][width * borderline + x + 1].Char.UnicodeChar = L' ';
-			//        drawBuffer[currBufferIdx][width * borderline + x + 1].Attributes = FOREGROUND_WHITE | COMMON_LVB_TRAILING_BYTE;
-		}
+		DrawWcharAtPosition(x, borderline, L'─', FOREGROUND_WHITE);
+		//drawBuffer[currBufferIdx][width * borderline + x].Char.UnicodeChar = L'─';
+		//drawBuffer[currBufferIdx][width * borderline + x].Attributes = FOREGROUND_WHITE | COMMON_LVB_LEADING_BYTE;
+		//if (x + 1 < width) {
+		//	drawBuffer[currBufferIdx][width * borderline + x + 1].Char.UnicodeChar = L' ';
+		//	//        drawBuffer[currBufferIdx][width * borderline + x + 1].Attributes = FOREGROUND_WHITE | COMMON_LVB_TRAILING_BYTE;
+		//}
 	}
 }
 

@@ -127,7 +127,7 @@
   <ItemGroup>
     <ClInclude Include="Core\AchievementManager.h" />
     <ClInclude Include="Actor\Actor.h" />
-    <ClInclude Include="PrepareBattle.h" />
+    <ClInclude Include="TextRPG\PrepareBattle.h" />
     <ClInclude Include="TextRPG\Artifact.h" />
     <ClInclude Include="TextRPG\BattleManager.h" />
     <ClInclude Include="Actor\Boss.h" />
@@ -161,7 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Core\AchievementManager.cpp" />
     <ClCompile Include="Actor\Actor.cpp" />
-    <ClCompile Include="PrepareBattle.cpp" />
+    <ClCompile Include="TextRPG\PrepareBattle.cpp" />
     <ClCompile Include="TextRPG\Artifact.cpp" />
     <ClCompile Include="TextRPG\BattleManager.cpp" />
     <ClCompile Include="Actor\Boss.cpp" />

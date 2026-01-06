@@ -37,7 +37,8 @@ void QTE::Tick(float deltaTime) {
     }
     if (currTime >= limitTime) {
         //QTE FAIL
-        qteTarget->AddBuff(L"QTE FAIL", 1.5f, { {STATS::DEF,-50 } });
+        if(qteTarget)
+            qteTarget->AddBuff(L"QTE FAIL", 1.5f, { {STATS::DEF,-50 } });
 
         fail = true;
         isEnd = true;
