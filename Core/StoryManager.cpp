@@ -206,7 +206,7 @@ void StoryManager::ParseCSV(std::wstring filePath)
 		return;
 	}
 
-	wstring line;
+	string line;
 	bool isFirstLine = true;
 
 
