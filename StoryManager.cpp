@@ -213,26 +213,42 @@ void StoryManager::ParseCSV(std::wstring filePath)
 	}
 
 	string line;
+	bool isFirstLine = true;
+
 
 	while (getline(file, line))
 	{
-		if (line.empty())
+		if (line.empty()) continue;
+
+		// UTF-8 BOM(Byte Order Mark) 제거
+		if (isFirstLine)
 		{
-			continue;
+			if (line.size() >= 3 &&
+				(unsigned char)line[0] == 0xEF &&
+				(unsigned char)line[1] == 0xBB &&
+				(unsigned char)line[2] == 0xBF)
+			{
+				line = line.substr(3);
+			}
+			isFirstLine = false;
 		}
 
 		if (!line.empty() && line.back() == '\r') {
 			line.pop_back();
 		}
-
 		wstring wLine = StringToWString(line);
 		vector<wstring> parts = Split(wLine, L'|');
 
-		// ID | ASCII File | Speaker | Text | Duration
 		if (parts.size() >= 5)
 		{
 			StoryLine sLine;
-			sLine.id = stoi(parts[0]);
+			try {
+				sLine.id = stoi(parts[0]);
+			}
+			catch (...) {
+				continue;
+			}
+
 			sLine.asciiFileName = parts[1];
 			sLine.speaker = parts[2];
 			sLine.text = parts[3];
@@ -259,9 +275,12 @@ std::vector<std::wstring> StoryManager::Split(const std::wstring& str, wchar_t d
 
 std::wstring StoryManager::StringToWString(const std::string& str)
 {
-	int len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), NULL, 0);
+	int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), NULL, 0);
 	std::wstring wstr;
-	wstr.resize(len);
-	MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), &wstr[0], len);
+	if (len > 0)
+	{
+		wstr.resize(len);
+		MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), &wstr[0], len);
+	}
 	return wstr;
 }
