@@ -14,6 +14,7 @@ private:
 public:
     bool LoadAscii(const std::wstring& name, std::wstring& buf);
     bool LoadItems(const std::wstring& name, std::vector<std::vector<std::wstring>>& out);
+    bool LoadAudios(std::vector<std::vector<std::wstring>>& out);
     bool SaveGame(Character* player);
     bool LoadGame(Character* player);
 

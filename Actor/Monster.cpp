@@ -26,6 +26,8 @@ void Monster::Init(int playerLevel)
 	def = originDef;
 
 	this->attackSpeed = 0.4f; //나중에 매개변수로 수정
+	qteTimer = (float)Utilities::GenerateRandomValue(0, 9);
+	qteTime = 10.0f;
 }
 
 bool Monster::LoadAscii(std::wstring fileName) {
@@ -47,9 +49,17 @@ void Monster::TakeDamage(int damage)
 	Pawn::TakeDamage(damage);
 }
 
+bool Monster::CanQTE() const {
+	return qteTimer>qteTime;
+}
+
+void Monster::ResetQTETimer() {
+	qteTimer = 0.0f;
+}
+
 void Monster::Tick(float deltaTime) {
 	Pawn::Tick(deltaTime);
-
+	qteTimer += deltaTime;
 
 	if (!isVisible) {
 		return;

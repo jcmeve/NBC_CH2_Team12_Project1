@@ -37,6 +37,8 @@ void QTE::Tick(float deltaTime) {
     }
     if (currTime >= limitTime) {
         //QTE FAIL
+        qteTarget->AddBuff(L"QTE FAIL", 1.5f, { {STATS::DEF,-50 } });
+
         fail = true;
         isEnd = true;
         currTime = 0;
@@ -45,14 +47,11 @@ void QTE::Tick(float deltaTime) {
     }
     if (GM::GetInput().IsKeyDown(VK_SPACE)) {//다른 키를 누른다고 실패하지는 않음
         //QTE SUCCESS
-        qteTarget->AddBuff(L"QTE FAIL", 1, { {STATS::DEF,50 } });
         isEnd = true;
         currTime = 0;
         limitTime = 1.0f; // QTE 후처리 시간
         return;
     }
-
-    GM::GetDisplay().DrawWidget(100, 20, 10, 10, L"QTE CHECKING", L"QTE 체크중!", FOREGROUND_RED, FOREGROUND_GREEN, FOREGROUND_BLUE);
 }
 
 void QTE::DrawQTE() {

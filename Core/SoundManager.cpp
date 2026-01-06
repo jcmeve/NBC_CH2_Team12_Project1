@@ -2,12 +2,21 @@
 #include <Windows.h>
 #include <mmsystem.h>
 #include "SoundManager.h"
-
+#include "GameManager.h"
+#include "vector"
 #pragma comment(lib,"winmm.lib")
 SoundManager::SoundManager() {
+	
 	//LoadAudio(L"test");
 	//SetVolume(L"test", 100);
 	//PlayAudio(L"test");
+}
+void SoundManager::Init() {
+	std::vector<std::vector<std::wstring>> ret;
+	GM::GetSave().LoadAudios(ret);
+	for (auto row : ret) {
+		LoadAudio(row[0], row[1]);
+	}
 }
 
 SoundManager::~SoundManager() {
@@ -19,9 +28,9 @@ SoundManager::~SoundManager() {
 	audioFiles.clear();
 }
 
-void SoundManager::LoadAudio(const std::wstring& name) {
+void SoundManager::LoadAudio(const std::wstring& filePath, const std::wstring& name) {
 	CloseAudio(name);
-	std::wstring cmd = L"open \"Assets\\Audio\\" + name + L".wav\" type mpegvideo alias " + name;
+	std::wstring cmd = L"open \"Assets\\Audio\\" + filePath + L"\" type mpegvideo alias " + name;
 	mciSendStringW(cmd.c_str(), nullptr, 0, nullptr);
 	audioFiles.insert(name);
 }

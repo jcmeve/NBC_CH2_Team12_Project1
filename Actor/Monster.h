@@ -14,7 +14,13 @@ public:
 	int dropGold();
 	void TakeDamage(int damage) override;
 
-private:
+	bool CanQTE()const;
+	void ResetQTETimer();
 	// Actor을(를) 통해 상속됨
 	void Tick(float deltaTime) override;
+private:
+	float qteTime;
+	float qteTimer;
+
+
 };

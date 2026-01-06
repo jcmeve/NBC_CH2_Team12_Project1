@@ -48,6 +48,27 @@ bool SaveManager::LoadItems(const std::wstring& name, std::vector<std::vector<st
 	return false;
 }
 
+bool SaveManager::LoadAudios(std::vector<std::vector<std::wstring>>& out) {
+	out.clear();
+	std::wifstream file(L"Assets\\Audio\\AudioList.csv");
+	if (file.is_open()) {
+		file.imbue(std::locale(file.getloc(), new std::codecvt_utf8<wchar_t>));
+		std::wstring line;
+		std::getline(file, line);
+
+		while (std::getline(file, line)) {
+			out.push_back(std::vector<std::wstring>());
+			std::wstringstream wss(line);
+			std::wstring temp;
+			while (std::getline(wss, temp, L',')) {
+				out[out.size() - 1].push_back(temp);
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
 bool SaveManager::SaveGame(Character* player) {
 	return false;
 }

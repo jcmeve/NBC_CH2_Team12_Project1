@@ -20,6 +20,7 @@ void GameManager::RemoveActor(Actor* actor) {
 }
 void GameManager::Init() {
 	item.Init();
+	sound.Init();
 	achievement.init();
 }
 

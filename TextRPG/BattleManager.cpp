@@ -135,14 +135,16 @@ void BattleManager::ProcessPlayerTurn()
 
 void BattleManager::ProcessMonsterTurn()
 {
+	if(monster->CanQTE())
 	{
 		//QTE TEST
 		QTE* qte = GM::CreateActor<QTE>(L"TESTQTE");
-		qte->Init(player, 3);
-		waitTimer = 3.2f;
+		qte->Init(player, 1);
+		waitTimer = 1.2f;
 		currentState = BattleState::BS_WAIT;
 		//실패 시 시도하던 공격은 QTE 없이 진행 될 수 있도록 해야함 Pawn이나 Monster에서 QTE 발행 여부를 체크하고 발행해야할듯
-		//return;
+		monster->ResetQTETimer();
+		return;
 	}
 
 	int hpBefore = player->GetHealth();
