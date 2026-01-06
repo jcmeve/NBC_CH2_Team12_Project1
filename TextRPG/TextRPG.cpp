@@ -159,7 +159,7 @@ void TextRPG::EnterState(GameState state)
 
 	case GameState::ENDING:
 		GM::GetSound().PlayAudio(L"Ending_Credit_BGM", false);
-		GM::GetLogger().Log(L"게임을 클리어했습니다.");
+		LoadStoryForCurrentProgress();
 		break;
 	}
 }
@@ -193,7 +193,7 @@ void TextRPG::ExitState(GameState state)
 		break;
 
 	case GameState::EQUIPMENT:
-//		GM::GetSound().StopAudio(L"Shop_BGM");
+		//		GM::GetSound().StopAudio(L"Shop_BGM");
 		prepare->Exit();
 		break;
 
