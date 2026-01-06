@@ -30,7 +30,7 @@ protected:
 	int idleMotionIdx;
 	
 	bool isDead;
-
+	bool isVisible = true;
 
 
 	short posX;
@@ -70,6 +70,8 @@ public:
 	virtual void ReCalc();
 	
 	void SetPos(short x, short y, bool reverse);
+
+	void SetVisible(bool _isVisible);
 
 	// Actor을(를) 통해 상속됨
 	void Tick(float deltaTime) override;

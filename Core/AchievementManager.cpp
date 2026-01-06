@@ -74,7 +74,7 @@ void AchievementManager::Unlock(AchievementID id)
 	LifeTimeWidget* widget = GM::CreateActor<LifeTimeWidget>(achievements[index].fakeTitle);
 	widget->Init(10, 40, 41, 10, 5);
 	widget->SetText(text);
-	widget == nullptr;
+	widget = nullptr;
 
 	//GM::GetDisplay().DrawWidget(10, 40, 20, 10, achievements[index].fakeTitle, text);
 }

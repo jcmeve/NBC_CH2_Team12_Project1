@@ -49,6 +49,12 @@ void Monster::TakeDamage(int damage)
 
 void Monster::Tick(float deltaTime) {
 	Pawn::Tick(deltaTime);
+
+
+	if (!isVisible) {
+		return;
+	}
+
 	if (IsDead()) {
 		GM::GetDisplay().DrawAscii(ascii[EMotion::DIE][0], posX, posY);
 		return;

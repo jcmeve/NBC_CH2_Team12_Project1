@@ -222,6 +222,7 @@ void TextRPG::UpdateCreateCharacter()
 		{
 			player = GM::CreateActor<Character>(inputName);
 			player->Init();
+			player->SetVisible(false);
 			GM::GetLogger().Log(L"캐릭터 생성 완료!");
 			GM::GetStory().SetPlayer(player); // StoryManager 등록
 

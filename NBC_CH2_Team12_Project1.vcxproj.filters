@@ -1,200 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Core\AchievementManager.cpp" />
+    <ClCompile Include="Actor\Actor.cpp" />
+    <ClCompile Include="TextRPG\Artifact.cpp" />
+    <ClCompile Include="TextRPG\BattleManager.cpp" />
+    <ClCompile Include="Actor\Boss.cpp" />
+    <ClCompile Include="TextRPG\Buff.cpp" />
+    <ClCompile Include="Actor\Character.cpp" />
+    <ClCompile Include="Core\DisplayManager.cpp" />
+    <ClCompile Include="TextRPG\Equipment.cpp" />
+    <ClCompile Include="TextRPG\GameLoop.cpp" />
+    <ClCompile Include="Core\GameManager.cpp" />
+    <ClCompile Include="Core\InputManager.cpp" />
+    <ClCompile Include="TextRPG\Inventory.cpp" />
+    <ClCompile Include="TextRPG\Item.cpp" />
+    <ClCompile Include="Core\ItemManager.cpp" />
+    <ClCompile Include="Actor\Widget\LifeTimeWidget.cpp" />
+    <ClCompile Include="Core\Logger.cpp" />
+    <ClCompile Include="Actor\Monster.cpp" />
+    <ClCompile Include="Actor\Pawn.cpp" />
+    <ClCompile Include="TextRPG\QTE.cpp" />
+    <ClCompile Include="Core\SaveManager.cpp" />
+    <ClCompile Include="TextRPG\Shop.cpp" />
+    <ClCompile Include="Core\SoundManager.cpp" />
+    <ClCompile Include="Actor\Widget\StatWidget.cpp" />
+    <ClCompile Include="Core\StoryManager.cpp" />
+    <ClCompile Include="TextRPG\TextRPG.cpp" />
+    <ClCompile Include="TextRPG\UsableItem.cpp" />
+    <ClCompile Include="Core\Utilities.cpp" />
+    <ClCompile Include="Actor\Widget\VectorWidget.cpp" />
+    <ClCompile Include="Actor\Widget\Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Shop.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SaveManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplayManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLoop.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="AchievementManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Pawn.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRPG.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Widget.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="QTE.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Buff.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Enums.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="VectorWidget.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="UsableItem.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Equipment.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Artifact.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="StatWidget.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LifeTimeWidget.h">
-    <ClInclude Include="StoryManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Actor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Inventory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Shop.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SaveManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DisplayManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLoop.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="AchievementManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Pawn.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRPG.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="QTE.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Buff.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="VectorWidget.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="UsableItem.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Equipment.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Artifact.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="StatWidget.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="LifeTimeWidget.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
+    <ClInclude Include="Core\AchievementManager.h" />
+    <ClInclude Include="Actor\Actor.h" />
+    <ClInclude Include="TextRPG\Artifact.h" />
+    <ClInclude Include="TextRPG\BattleManager.h" />
+    <ClInclude Include="Actor\Boss.h" />
+    <ClInclude Include="TextRPG\Buff.h" />
+    <ClInclude Include="Actor\Character.h" />
+    <ClInclude Include="Core\DisplayManager.h" />
+    <ClInclude Include="TextRPG\Enums.h" />
+    <ClInclude Include="TextRPG\Equipment.h" />
+    <ClInclude Include="TextRPG\GameLoop.h" />
+    <ClInclude Include="Core\GameManager.h" />
+    <ClInclude Include="Core\InputManager.h" />
+    <ClInclude Include="TextRPG\Inventory.h" />
+    <ClInclude Include="TextRPG\Item.h" />
+    <ClInclude Include="Core\ItemManager.h" />
+    <ClInclude Include="Actor\Widget\LifeTimeWidget.h" />
+    <ClInclude Include="Core\Logger.h" />
+    <ClInclude Include="Actor\Monster.h" />
+    <ClInclude Include="Actor\Pawn.h" />
+    <ClInclude Include="TextRPG\QTE.h" />
+    <ClInclude Include="Core\SaveManager.h" />
+    <ClInclude Include="TextRPG\Shop.h" />
+    <ClInclude Include="Core\SoundManager.h" />
+    <ClInclude Include="Actor\Widget\StatWidget.h" />
+    <ClInclude Include="Core\StoryManager.h" />
+    <ClInclude Include="TextRPG\TextRPG.h" />
+    <ClInclude Include="TextRPG\UsableItem.h" />
+    <ClInclude Include="Core\Utilities.h" />
+    <ClInclude Include="Actor\Widget\VectorWidget.h" />
+    <ClInclude Include="Actor\Widget\Widget.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Ascii\Arts\Act1.txt" />
@@ -260,8 +129,5 @@
     <Text Include="Assets\Ascii\Player\Player04_Defense.txt" />
     <Text Include="Assets\Ascii\Player\Player04_Idle1.txt" />
     <Text Include="Assets\Ascii\Player\Player04_Idle2.txt" />
-    <ClCompile Include="StoryManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

@@ -16,6 +16,9 @@ void BattleManager::Exit() {
 	playerStatWidget = nullptr;
 	GM::DestroyActor(monsterStatWidget);
 	monsterStatWidget = nullptr;
+	player->SetVisible(false);
+	monster->SetVisible(false);
+
 }
 
 void BattleManager::StartBattle(Character* p, Monster* m)
@@ -34,6 +37,9 @@ void BattleManager::StartBattle(Character* p, Monster* m)
 
 	player->InitAttackTimer();
 	monster->InitAttackTimer();
+
+	player->SetVisible(true);
+	monster->SetVisible(true);
 
 	playerStatWidget = GM::CreateActor<StatWidget>(player->GetName());
 	playerStatWidget->SetTarget(player);

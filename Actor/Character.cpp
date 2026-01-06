@@ -211,6 +211,10 @@ void Character::Tick(float deltaTime) {
 	else if (level < 10) chapter = 3;
 	else chapter = 4;
 
+
+	if (!isVisible) {
+		return;
+	}
 	if (isAttacking) {
 		GM::GetDisplay().DrawAscii(ascii[EMotion::ATTACK][chapter - 1], posX, posY);
 		return;

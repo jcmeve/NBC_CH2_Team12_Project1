@@ -21,6 +21,7 @@ std::wstring Pawn::EmotionToString(EMotion motion) {
 }
 Pawn::Pawn(std::wstring name, int health, int dmg, int def, float attackSpeed) :
 	Actor(name), maxHealth(health), health(health), originDmg(dmg), dmg(dmg), originDef(def), def(def), attackSpeed(attackSpeed), isDead(false) {
+	isVisible = true;
 }
 
 Pawn::~Pawn() {
@@ -29,6 +30,7 @@ Pawn::~Pawn() {
 
 void Pawn::Init()
 {
+	isVisible = true;
 	LoadAscii(name);
 	isDead = false;
 }
@@ -202,6 +204,10 @@ void Pawn::SetPos(short x, short y, bool reverse) {
 	posX = x;
 	posY = y;
 	isReverse = reverse;
+}
+
+void Pawn::SetVisible(bool _isVisible) {
+	isVisible = _isVisible;
 }
 
 void Pawn::Tick(float deltaTime) {
