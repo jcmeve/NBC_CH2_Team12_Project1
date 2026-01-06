@@ -278,8 +278,9 @@ void TextRPG::UpdateStory()
 			battleManager = GM::CreateActor<BattleManager>(L"BattleManager");
 			battleManager->StartBattle(player, currentMonster);
 
-		ChangeState(GameState::BATTLE);
+			ChangeState(GameState::BATTLE);
 
+		}
 		canUseShop = false;
 	}
 	else if (canUseShop && GM::GetInput().IsKeyDown('S'))
@@ -329,8 +330,6 @@ void TextRPG::UpdateBattle()
 
 		ChangeState(GameState::STORY);
 	}
-
-
 }
 
 
