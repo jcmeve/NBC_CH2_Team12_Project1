@@ -166,8 +166,6 @@ void BattleManager::ProcessMonsterTurn()
 
 void BattleManager::ProcessVictory()
 {
-	GM::GetLogger().Log(L"전투 승리! 몬스터를 처치했습니다.");
-
 	player->RecordKill(monster->GetName());
 
 	resultText.clear();
@@ -209,7 +207,6 @@ void BattleManager::ProcessVictory()
 void BattleManager::ProcessDefeat()
 {
 	GM::GetLogger().Log(L"전투에서 패배했습니다...");
-
 	currentState = BattleState::BS_RESULT;
 }
 
