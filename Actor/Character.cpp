@@ -25,7 +25,7 @@ void Character::Init()
 	this->def = 10; //기본 방어력 10, 레벨업마다 5 증가
 	this->attackSpeed = 0.5;
 	this->experience = 0;
-	this->gold = 1111110;
+	this->gold = 0;
 
 	equipmentSlot.assign(equipmentSlotSize, nullptr);
 
