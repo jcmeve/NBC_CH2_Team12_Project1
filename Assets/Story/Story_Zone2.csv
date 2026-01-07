@@ -1,10 +1,10 @@
-﻿1|Act2|Narration|[2구역: 도심 지역]|2
-2||Narration|무너진 빌딩들 사이로 길이 나 있습니다.|3
-3||Narration|곳곳에 "QUARANTINE" 표지판이 보입니다.|3
-4||System|오염 농도 상승. 주의하세요.|2.5
-5|Level5_EventQTE1|Narration|벽에 피로 쓰인 글자가 있습니다.|3
-6||Narration|당신은 괴...|2
-7||QTE|QTE 발동: X키를 2초 내에 누르세요!|2
-8||Narration|당신은 재빨리 고개를 돌립니다. 중요하지 않습니다.|3
-9|Level5_EventQTE2|Narration|당신은 괴물입니다.|3
-10||Narration|당신은 다시 정화를 위해 떠납니다.|2.5
+﻿1|Act2|Narration|[2구역: 도심 지역]|1.5
+2||Narration|무너진 빌딩들 사이로 길이 나 있다.|2.0
+3||Narration|곳곳에 "QUARANTINE" 표지판이 보인다.|2.0
+4||System| 오염 농도 상승. 주의하세요.|1.5
+5|Level5_EventQTE1|Narration|벽에 피로 쓰인 글자가 있다.|1.5
+6||Narration|당신은 괴...|1.0
+7||QTE|스페이스바를 누르세요! 제한 시간: {time}|2.0
+8||Narration|고개를 돌린다. 중요하지 않다.|1.5
+9|Level5_EventQTE2|Narration|당신은 괴물입니다.|1.5
+10||Narration|다시 정화를 위해 나아간다.|1.5

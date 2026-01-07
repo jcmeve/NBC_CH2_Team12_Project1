@@ -160,9 +160,8 @@ void TextRPG::EnterState(GameState state)
 	case GameState::ENDING:
 		GM::GetSound().PlayAudio(L"Ending_Credit_BGM", false);
 
+		GM::GetAchievement().NotifyGameClear();
 		achievementWidget = GM::CreateActor<Widget>(L"진실의 기록");
-
-
 		killRecordWidget = GM::CreateActor<Widget>(L"전투 통계");
 
 
