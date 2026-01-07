@@ -25,7 +25,7 @@ void Character::Init()
 	this->def = 10; //기본 방어력 10, 레벨업마다 5 증가
 	this->attackSpeed = 0.5;
 	this->experience = 0;
-	this->gold = 0;
+	this->gold = 1111110;
 
 	equipmentSlot.assign(equipmentSlotSize, nullptr);
 
@@ -204,6 +204,11 @@ void Character::ReCalc() {
 	for (const auto& pair : artifacts) {
 		pair.first->ReCalc(*this);
 	}
+	for (const auto& i : equipmentSlot) {
+		if(i)
+			i->ReCalc(*this);
+	}
+
 	if (health > maxHealth) {
 		health = maxHealth;
 	}
@@ -216,6 +221,7 @@ bool Character::Equip(const Equipment* equipment) {
 			equipmentSlot[i] = equipment;
 			inventory->RemoveItem(equipment);
 			PlayAudio(EAction::EQUIP);
+			ReCalc();
 			return true;
 		}
 	}
@@ -233,6 +239,8 @@ void Character::Unequip(int idx) {
 	PlayAudio(EAction::EQUIP);
 	inventory->AddItem(equipmentSlot[idx]);
 	equipmentSlot[idx] = nullptr;
+	ReCalc();
+
 }
 
 const Equipment* Character::GetCurrentEquipment(int idx) {

@@ -46,6 +46,12 @@ void SoundManager::StopAudio(const std::wstring& name) {
 	mciSendStringW(cmd.c_str(), nullptr, 0, nullptr);
 }
 
+void SoundManager::StopAllAudio() {
+	for (std::wstring name : audioFiles) {
+		StopAudio(name);
+	}
+}
+
 void SoundManager::CloseAudio(const std::wstring& name) {
 	std::wstring cmd = L"close " + name;
 	mciSendStringW(cmd.c_str(), nullptr, 0, nullptr);

@@ -94,6 +94,7 @@ void TextRPG::EnterState(GameState state)
 	switch (state)
 	{
 	case GameState::TITLE:
+		GM::GetSound().StopAllAudio();
 		GM::GetSound().PlayAudio(L"Main_Thema", true);
 		GM::GetLogger().Log(L"[Space bar] 게임 시작");
 		break;

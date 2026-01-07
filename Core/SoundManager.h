@@ -19,6 +19,7 @@ public:
     void LoadAudio(const std::wstring& filePath, const std::wstring& name);
     void PlayAudio(const std::wstring& name, bool loop = false);
     void StopAudio(const std::wstring& name);
+    void StopAllAudio();
     void CloseAudio(const std::wstring& name);
     void SetVolume(const std::wstring& name, int volume);
 
