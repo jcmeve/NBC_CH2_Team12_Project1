@@ -61,6 +61,9 @@ void StoryManager::Tick(float deltaTime)
 	if (isAutoNext)
 	{
 		lineTimer -= deltaTime;
+		if (GM::GetInput().IsPressed(VK_SPACE)) {
+			lineTimer -= 9 * deltaTime;
+		}
 		if (lineTimer <= 0.0f)
 		{
 			NextLine();
