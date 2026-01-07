@@ -26,7 +26,7 @@ void Character::Init()
 	this->attackSpeed = 0.5;
 	this->experience = 0;
 	this->gold = 123450;
-	
+
 	equipmentSlot.assign(equipmentSlotSize, nullptr);
 
 	this->inventory = std::make_unique<Inventory>();
@@ -142,10 +142,29 @@ void Character::PlayAudio(EAction action) {
 	if (action == EAction::ATTACK || action == EAction::HIT || action == EAction::USEITEM || action == EAction::EQUIP) {
 		GM::GetSound().PlayAudio(L"Player_" + EActionToString(action) + std::to_wstring(Utilities::GenerateRandomValue(1, 2)));
 	}
-    //else i{
-    //    GM::GetSound().PlayAudio(L"Player_" + EActionToString(action));
-    //}
+	//else i{
+	//    GM::GetSound().PlayAudio(L"Player_" + EActionToString(action));
+	//}
 
+}
+
+std::wstring Character::GetKillLogText() const
+{
+	if (killRecord.empty())
+	{
+		return L"기록된 전투가 없습니다.";
+	}
+
+	std::wstring text = L"";
+
+	for (auto const& pair : killRecord)
+	{
+		std::wstring monsterName = pair.first;
+		int killCount = pair.second;
+		text += monsterName + L" : " + std::to_wstring(killCount) + L" 마리\n";
+	}
+
+	return text;
 }
 
 void Character::RecordKill(std::wstring monsterName)
@@ -205,7 +224,7 @@ bool Character::Equip(const Equipment* equipment) {
 }
 
 void Character::Unequip(int idx) {
-	if (idx >= equipmentSlot.size() || idx<0) {
+	if (idx >= equipmentSlot.size() || idx < 0) {
 		return;
 	}
 	if (equipmentSlot[idx] == nullptr) {
@@ -252,12 +271,5 @@ void Character::Tick(float deltaTime) {
 			GM::GetDisplay().DrawAscii(ascii[EAction::IDLE2][chapter - 1], posX, posY);
 		}
 	}
-
-
-
-
-
-
-	//asdadad
 
 }

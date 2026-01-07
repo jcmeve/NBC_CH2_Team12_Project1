@@ -159,6 +159,13 @@ void TextRPG::EnterState(GameState state)
 
 	case GameState::ENDING:
 		GM::GetSound().PlayAudio(L"Ending_Credit_BGM", false);
+
+		achievementWidget = GM::CreateActor<Widget>(L"진실의 기록");
+
+
+		killRecordWidget = GM::CreateActor<Widget>(L"전투 통계");
+
+
 		LoadStoryForCurrentProgress();
 		break;
 	}
@@ -227,6 +234,11 @@ void TextRPG::ExitState(GameState state)
 	case GameState::SHOP:
 		GM::GetSound().StopAudio(L"Shop_BGM");
 		shop->Exit();
+		break;
+
+	case GameState::ENDING:
+		GM::DestroyActor(achievementWidget);
+		GM::DestroyActor(killRecordWidget);
 		break;
 	}
 }
@@ -482,10 +494,16 @@ void TextRPG::UpdateEnding()
 	if (!isMenuPrinted)
 	{
 		GM::GetDisplay().ClearTextArea();
+
 		GM::GetLogger().Log(L"플레이해주셔서 감사합니다.");
 		GM::GetLogger().Log(L"[ESC] 게임 종료 | [SPACE] 타이틀로");
 		isMenuPrinted = true;
 	}
+
+	achievementWidget->Init(60, 5, 50, 30);
+	achievementWidget->SetText(GM::GetAchievement().GetTrueEndingText());
+	killRecordWidget->Init(60, 40, 60, 5);
+	killRecordWidget->SetText(player->GetKillLogText());
 
 	if (GM::GetInput().IsKeyDown(VK_ESCAPE))
 	{
@@ -514,9 +532,7 @@ void TextRPG::LoadStoryForCurrentProgress()
 		return;
 	}
 
-	GM::GetLogger().Log(L"스토리 로드 시도: " + filename);
-
-	// 스토리 로드 실패 시 처리
+	//GM::GetLogger().Log(L"스토리 로드 시도: " + filename);
 	GM::GetStory().LoadChapter(filename);
 
 	/*catch (...) {

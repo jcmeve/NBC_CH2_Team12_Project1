@@ -122,6 +122,7 @@ void StoryManager::PlayLine(int index)
 	{
 		isAutoNext = true;
 		lineTimer = line.duration;
+		//lineTimer = 0;
 	}
 	else
 	{

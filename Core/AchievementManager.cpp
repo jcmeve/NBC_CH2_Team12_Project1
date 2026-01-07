@@ -37,6 +37,29 @@ const Achievement& AchievementManager::GetAchievement(AchievementID id) const
 	return achievements[(int)id];
 }
 
+std::wstring AchievementManager::GetTrueEndingText() const
+{
+	std::wstring text = L"";
+	int count = 0;
+
+	for (int i = 0; i < (int)AchievementID::MAX; ++i)
+	{
+		if (achievements[i].isUnlocked)
+		{
+			text += L"[" + achievements[i].trueTitle + L"]\n";
+			text += L"- " + achievements[i].unlockCondition + L"\n\n";
+			count++;
+		}
+		else
+		{
+			text += L"[ ??? ]\n- 아직 밝혀지지 않음\n\n";
+		}
+	}
+
+	if (count == 0) text = L"달성한 업적이 없습니다.";
+	return text;
+}
+
 void AchievementManager::Unlock(AchievementID id)
 {
 	int index = (int)id;
@@ -55,19 +78,11 @@ void AchievementManager::Unlock(AchievementID id)
 
 	std::wstring text;
 
-	//GM::GetLogger().Log(L"========================================");
-	//GM::GetLogger().Log(L"           업적을 달성했습니다!         ");
-	//GM::GetLogger().Log(L"========================================");
-
-	//GM::GetLogger().Log(L"[" + achievements[index].fakeTitle + L"] " + achievements[index].fakeDesc);
-	//GM::GetLogger().Log(achievements[index].unlockCondition);
-	//GM::GetLogger().Log(L"========================================");
-
 	text += L"========================================\n";
 	text += L"           업적을 달성했습니다!         \n";
 	text += L"========================================\n";
 	text += achievements[index].fakeDesc + L"\n";
-	text += achievements[index].unlockCondition+L"\n";
+	text += achievements[index].unlockCondition + L"\n";
 	text += L"========================================";
 
 	LifeTimeWidget* widget = GM::CreateActor<LifeTimeWidget>(achievements[index].fakeTitle);

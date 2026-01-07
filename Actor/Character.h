@@ -37,10 +37,10 @@ public:
 	bool addExperience(int exp);
 	void addGold(int amount);
 	void RemoveGold(int amount);
-	
+
 	void PlayAudio(EAction action) override;
 
-
+	std::wstring GetKillLogText() const;
 	void RecordKill(std::wstring monsterName);
 	void ShowKillLog();
 	virtual void ReCalc() override;

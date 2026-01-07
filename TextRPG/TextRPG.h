@@ -6,6 +6,8 @@ class Monster;
 class BattleManager;
 class Shop;
 class PrepareBattle;
+class Widget;
+
 enum class GameState
 {
 	TITLE, // 게임 시작 화면
@@ -32,8 +34,11 @@ private:
 	PrepareBattle* prepare;
 	std::wstring inputName = L"";
 
+	Widget* achievementWidget = nullptr;
+	Widget* killRecordWidget = nullptr;
+
 	bool isInitialized = false;
-	int gameProgress = 0; // 0: 프롤로그, 1: 1구역, 2: 2구역 ...
+	int gameProgress = 0; // 0: 프롤로그, 1: 1구역, 2: 2구역, 3: 3구역, 4: 보스전, 5: 엔딩
 	int currentBattleCount = 0; // 현재 구역에서 완료한 전투 횟수
 	bool canUseShop = false;
 	bool isMenuPrinted = false;

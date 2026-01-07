@@ -64,5 +64,7 @@ public:
 
 	const Achievement& GetAchievement(AchievementID id) const;
 	int GetCount() const { return (int)AchievementID::MAX; }
+
+	std::wstring GetTrueEndingText() const;
 };
 
