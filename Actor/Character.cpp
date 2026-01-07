@@ -25,7 +25,7 @@ void Character::Init()
 	this->def = 10; //기본 방어력 10, 레벨업마다 5 증가
 	this->attackSpeed = 0.5;
 	this->experience = 0;
-	this->gold = 123450;
+	this->gold = 0;
 
 	equipmentSlot.assign(equipmentSlotSize, nullptr);
 
@@ -109,13 +109,13 @@ int Character::getGold() const
 bool Character::addExperience(int exp)
 {
 	experience += exp;
-	GM::GetLogger().Log(L"경험치 +" + std::to_wstring(exp) + L" 획득! (현재: " + std::to_wstring(experience) + L"/100)");
+	//GM::GetLogger().Log(L"경험치 +" + std::to_wstring(exp) + L" 획득! (현재: " + std::to_wstring(experience) + L"/100)");
 
 	while (experience >= 100 && level < 10)
 	{
 		experience -= 100;
 		levelUp();
-		GM::GetLogger().Log(L"레벨 업! 현재 레벨: " + std::to_wstring(level));
+		//GM::GetLogger().Log(L"레벨 업! 현재 레벨: " + std::to_wstring(level));
 		return true;
 	}
 	return false;
@@ -124,7 +124,7 @@ bool Character::addExperience(int exp)
 void Character::addGold(int amount)
 {
 	gold += amount;
-	GM::GetLogger().Log(L"골드 " + std::to_wstring(amount) + L" 획득! (현재: " + std::to_wstring(gold) + L"G)");
+	//GM::GetLogger().Log(L"골드 " + std::to_wstring(amount) + L" 획득! (현재: " + std::to_wstring(gold) + L"G)");
 
 	GM::GetAchievement().NotifyGoldChange(gold);
 }

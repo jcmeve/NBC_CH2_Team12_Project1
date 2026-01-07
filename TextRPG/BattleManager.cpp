@@ -107,7 +107,7 @@ void BattleManager::Tick(float deltaTime)
 void BattleManager::ProcessPlayerTurn()
 {
 	// 1. 랜덤 아이템 사용 시도
-	int randomValue = Utilities::GenerateRandomValue(0, 50);
+	int randomValue = Utilities::GenerateRandomValue(0, 99);
 
 	if (randomValue < 50)
 	{
@@ -185,7 +185,7 @@ void BattleManager::ProcessVictory()
 
 	// 아이템 획득
 	int itemDropChance = Utilities::GenerateRandomValue(0, 99);
-	if (itemDropChance < 100) // 디버그용
+	if (itemDropChance < 30) // 디버그용
 	{
 		std::vector<Item*> allItems = GM::GetItemManager().GetAllItems();
 		if (!allItems.empty())

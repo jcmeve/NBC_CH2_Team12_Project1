@@ -90,6 +90,7 @@ void QTE::DrawQTE() {
 
     for (short y = 0; y < circleHeight; ++y){
         for (short x = 0; x < circleWidth; ++x) {
+//        for (short x = 0; x < circleWidth; x += 2) {
             float _y = -(y - centerY);
             float _x = x - centerX;
             float _angle = atan2f(_y, _x);
